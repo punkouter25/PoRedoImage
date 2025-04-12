@@ -32,6 +32,13 @@ builder.Services.AddMsalAuthentication(options =>
 builder.Services.AddRadzenComponents();
 
 // Add logging services
-builder.Services.AddLogging();
+builder.Services.AddLogging(logging => 
+{
+    // Set log level for authentication components to Debug for more details
+    logging.SetMinimumLevel(LogLevel.Debug); 
+    logging.AddFilter("Microsoft.AspNetCore.Components.WebAssembly.Authentication", LogLevel.Debug);
+    // Enable PII logging for detailed auth errors (DEBUG ONLY)
+    Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true; 
+});
 
 await builder.Build().RunAsync();

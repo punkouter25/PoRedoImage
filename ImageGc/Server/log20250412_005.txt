@@ -74,3 +74,13 @@ System.IO.IOException: Failed to bind to address http://127.0.0.1:5257: address 
 2025-04-12 15:58:03.966 -04:00 [INF] API health check requested by anonymous, authenticated: false
 2025-04-12 15:58:03.975 -04:00 [INF] Executing CheckAzureServices action.
 2025-04-12 15:58:03.975 -04:00 [INF] Azure services health check requested
+2025-04-12 16:49:09.036 -04:00 [INF] Starting application
+2025-04-12 16:49:09.279 -04:00 [WRN] Overriding address(es) 'http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-04-12 16:54:20.191 -04:00 [INF] Executing CheckHealth action.
+2025-04-12 16:54:20.194 -04:00 [INF] API health check requested by anonymous, authenticated: false
+2025-04-12 16:54:20.264 -04:00 [INF] Executing CheckAzureServices action.
+2025-04-12 16:54:20.265 -04:00 [INF] Azure services health check requested
+2025-04-12 16:58:57.056 -04:00 [INF] Starting application
+2025-04-12 16:58:57.251 -04:00 [WRN] Overriding address(es) 'http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-04-12 17:32:38.091 -04:00 [INF] Starting application
+2025-04-12 17:32:38.285 -04:00 [WRN] Overriding address(es) 'http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.

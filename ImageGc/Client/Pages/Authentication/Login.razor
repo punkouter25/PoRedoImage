@@ -10,7 +10,7 @@
                 <h3 class="text-center">Sign In</h3>
             </div>
             <div class="card-body">
-                <RemoteAuthenticatorView Action="@Action">
+                <RemoteAuthenticatorView Action="@("login")">
                     <LoggingIn>
                         <div class="d-flex justify-content-center">
                             <div class="spinner-border text-primary" role="status">
@@ -34,6 +34,7 @@
 </div>
 
 @code {
-    [Parameter]
-    public string? Action { get; set; }
+    // No longer need the Action parameter here as it's hardcoded above
+    // [Parameter]
+    // public string? Action { get; set; } 
 }

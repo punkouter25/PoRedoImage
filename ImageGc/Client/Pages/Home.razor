@@ -1,0 +1,402 @@
+﻿@page "/"
+@using Microsoft.AspNetCore.Components.Forms
+@using System.Text.Json
+@using ImageGc.Shared.Models
+@using Client.Services
+@using Microsoft.AspNetCore.Authorization
+@inject ApiService Api
+@inject HttpClient Http
+@inject IJSRuntime JSRuntime
+@inject ILogger<Home> Logger
+@attribute [Authorize]
+
+<PageTitle>Image Translation & Regeneration</PageTitle>
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="display-4 text-center">Image Translation & Regeneration</h1>
+            <p class="lead text-center">Upload an image, get a detailed description, and see how AI regenerates it.</p>
+        </div>
+    </div>
+
+    @if (!isProcessing && !isComplete)
+    {
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Upload Image</h5>
+                    </div>
+                    <div class="card-body">
+                        <InputFile OnChange="@LoadFile" class="form-control mb-3" accept=".jpg,.jpeg,.png" />
+                        
+                        @if (!string.IsNullOrEmpty(errorMessage))
+                        {
+                            <div class="alert alert-danger">
+                                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                                @errorMessage
+                            </div>
+                        }
+                        
+                        @if (imagePreviewUrl != null)
+                        {
+                            <div class="text-center mb-3">
+                                <img src="@imagePreviewUrl" class="img-fluid preview-image" alt="Preview" />
+                            </div>
+                        }
+                        
+                        <div class="mb-3">
+                            <label for="descriptionLength" class="form-label">
+                                Description Length: <strong>@descriptionLength words</strong>
+                            </label>
+                            <input type="range" class="form-range" min="200" max="500" step="10" 
+                                  @bind="descriptionLength" id="descriptionLength" />
+                        </div>
+                        
+                        <button class="btn btn-primary w-100" @onclick="ProcessImage" disabled="@(!canProcessImage)">
+                            <i class="bi bi-cpu me-2"></i>Process Image
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    
+    @if (isProcessing)
+    {
+        <div class="row justify-content-center mb-4">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Processing...</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="progress mb-3">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                                 role="progressbar" style="width: @(progressPercentage)%" 
+                                 aria-valuenow="@progressPercentage" aria-valuemin="0" aria-valuemax="100">
+                                @progressPercentage%
+                            </div>
+                        </div>
+                        <p class="text-center">@progressMessage</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    
+    @if (isComplete)
+    {
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h5 class="mb-0">Original Image</h5>
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <div class="text-center mb-3 flex-grow-1">
+                            <img src="@imagePreviewUrl" class="img-fluid result-image" alt="Original" />
+                        </div>
+                        <button class="btn btn-outline-primary" @onclick="DownloadOriginal">
+                            <i class="bi bi-download me-2"></i>Download Original
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h5 class="mb-0">Regenerated Image</h5>
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <div class="text-center mb-3 flex-grow-1">
+                            @if (regeneratedImageUrl != null)
+                            {
+                                <img src="@regeneratedImageUrl" class="img-fluid result-image" alt="Regenerated" />
+                            }
+                            else
+                            {
+                                <div class="d-flex justify-content-center align-items-center h-100">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                        @if (regeneratedImageUrl != null)
+                        {
+                            <button class="btn btn-outline-primary" @onclick="DownloadRegenerated">
+                                <i class="bi bi-download me-2"></i>Download Regenerated
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Image Description</h5>
+                        @if (analysisResult?.Metrics != null)
+                        {
+                            <span class="badge bg-info text-dark">
+                                Processing time: @(analysisResult.Metrics.TotalProcessingTimeMs / 1000.0)s
+                            </span>
+                        }
+                    </div>
+                    <div class="card-body">
+                        <p class="description-text">@imageDescription</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="text-muted">@(string.IsNullOrEmpty(imageDescription) ? 0 : imageDescription.Split(' ').Length) words</span>
+                            <div>
+                                @if (analysisResult?.Tags != null && analysisResult.Tags.Any())
+                                {
+                                    <div class="mb-2">
+                                        @foreach (var tag in analysisResult.Tags.Take(8))
+                                        {
+                                            <span class="badge bg-secondary me-1 mb-1">@tag</span>
+                                        }
+                                    </div>
+                                }
+                                <button class="btn btn-outline-secondary btn-sm" @onclick="() => CopyToClipboard(imageDescription)">
+                                    <i class="bi bi-clipboard me-1"></i>Copy
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mb-4">
+            <div class="col-12 d-flex justify-content-between">
+                <button class="btn btn-primary" @onclick="DownloadSideBySide">
+                    <i class="bi bi-download me-2"></i>Download Side-by-Side Comparison
+                </button>
+                <button class="btn btn-outline-primary" @onclick="StartOver">
+                    <i class="bi bi-arrow-repeat me-2"></i>Start New
+                </button>
+            </div>
+        </div>
+    }
+</div>
+
+@code {
+    private IBrowserFile? selectedFile;
+    private string? imagePreviewUrl;
+    private string? regeneratedImageUrl;
+    private string? imageDescription;
+    private string? errorMessage;
+    private bool isProcessing = false;
+    private bool isComplete = false;
+    private bool canProcessImage => selectedFile != null && string.IsNullOrEmpty(errorMessage);
+    private int progressPercentage = 0;
+    private string progressMessage = "";
+    private int descriptionLength = 200;
+    private const int MaxFileSize = 20 * 1024 * 1024; // 20MB
+    private ImageAnalysisResult? analysisResult;
+    
+    private async Task LoadFile(InputFileChangeEventArgs e)
+    {
+        try
+        {
+            selectedFile = e.File;
+            errorMessage = null;
+            
+            // Validate file type
+            var fileType = Path.GetExtension(selectedFile.Name).ToLower();
+            if (fileType != ".jpg" && fileType != ".jpeg" && fileType != ".png")
+            {
+                errorMessage = "Only JPG and PNG files are supported.";
+                selectedFile = null;
+                return;
+            }
+            
+            // Validate file size
+            if (selectedFile.Size > MaxFileSize)
+            {
+                errorMessage = $"File size exceeds the maximum allowed (20MB). Current size: {Math.Round(selectedFile.Size / 1024.0 / 1024.0, 2)}MB";
+                selectedFile = null;
+                return;
+            }
+            
+            // Create preview
+            var imageStream = selectedFile.OpenReadStream(MaxFileSize);
+            var buffer = new byte[selectedFile.Size];
+            await imageStream.ReadAsync(buffer);
+            
+            var base64Image = Convert.ToBase64String(buffer);
+            var fileType2 = selectedFile.ContentType;
+            imagePreviewUrl = $"data:{fileType2};base64,{base64Image}";
+            
+            Logger.LogInformation("Image loaded successfully: {FileName}, {FileSize}KB", 
+                selectedFile.Name, Math.Round(selectedFile.Size / 1024.0, 2));
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error loading image: {ex.Message}";
+            Logger.LogError(ex, "Error loading image");
+        }
+    }
+    
+    private async Task ProcessImage()
+    {
+        if (selectedFile == null || imagePreviewUrl == null) return;
+        
+        try
+        {
+            isProcessing = true;
+            errorMessage = null;
+            
+            // Step 1: Prepare the request
+            await UpdateProgress(10, "Preparing image for analysis...");
+            
+            // Create the request model
+            var request = new ImageAnalysisRequest
+            {
+                ImageData = imagePreviewUrl,
+                ContentType = selectedFile.ContentType,
+                FileName = selectedFile.Name,
+                DescriptionLength = descriptionLength
+            };
+            
+            // Step 2: Send to API with authenticated service
+            await UpdateProgress(30, "Analyzing image with Azure Computer Vision...");
+            
+            try
+            {
+                // Call the API using authenticated service
+                analysisResult = await Api.PostAsync<ImageAnalysisRequest, ImageAnalysisResult>(
+                    "api/ImageAnalysis/analyze", request);
+                
+                if (analysisResult == null)
+                {
+                    throw new Exception("Failed to process image analysis. No response received from API.");
+                }
+                
+                // Update progress based on which steps completed successfully
+                if (!string.IsNullOrEmpty(analysisResult.Description))
+                {
+                    await UpdateProgress(60, "Description generated successfully...");
+                    imageDescription = analysisResult.Description;
+                }
+                
+                if (!string.IsNullOrEmpty(analysisResult.RegeneratedImageData))
+                {
+                    await UpdateProgress(90, "Image regenerated successfully...");
+                    regeneratedImageUrl = $"data:{analysisResult.RegeneratedImageContentType};base64,{analysisResult.RegeneratedImageData}";
+                }
+                else
+                {
+                    await UpdateProgress(90, "Image regeneration failed. See error details...");
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Error calling API");
+                errorMessage = $"Error processing image: {ex.Message}";
+                imageDescription = "API processing failed. Please try again.";
+            }
+            
+            await UpdateProgress(100, "Processing complete!");
+            isProcessing = false;
+            isComplete = true;
+            
+            Logger.LogInformation("Image processing completed successfully");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error processing image: {ex.Message}";
+            isProcessing = false;
+            Logger.LogError(ex, "Error processing image");
+        }
+    }
+    
+    private async Task UpdateProgress(int percentage, string message)
+    {
+        progressPercentage = percentage;
+        progressMessage = message;
+        Logger.LogInformation("Progress update: {Percentage}% - {Message}", percentage, message);
+        await Task.Delay(100); // Allow UI to update
+    }
+    
+    private async Task CopyToClipboard(string text)
+    {
+        if (string.IsNullOrEmpty(text)) return;
+        
+        await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", text);
+        Logger.LogInformation("Description copied to clipboard");
+    }
+    
+    private async Task DownloadOriginal()
+    {
+        if (imagePreviewUrl == null) return;
+        
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("downloadImage", imagePreviewUrl, 
+                selectedFile?.Name ?? "original-image.jpg");
+            Logger.LogInformation("Original image download initiated");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error downloading original image: {ex.Message}";
+            Logger.LogError(ex, "Error downloading original image");
+        }
+    }
+    
+    private async Task DownloadRegenerated()
+    {
+        if (regeneratedImageUrl == null) return;
+        
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("downloadImage", regeneratedImageUrl, 
+                "regenerated-" + (selectedFile?.Name ?? "image.png"));
+            Logger.LogInformation("Regenerated image download initiated");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error downloading regenerated image: {ex.Message}";
+            Logger.LogError(ex, "Error downloading regenerated image");
+        }
+    }
+    
+    private async Task DownloadSideBySide()
+    {
+        if (imagePreviewUrl == null || regeneratedImageUrl == null) return;
+        
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("createSideBySideComparison", 
+                imagePreviewUrl, regeneratedImageUrl, 
+                "comparison-" + (selectedFile?.Name ?? "image.png"));
+            Logger.LogInformation("Side-by-side comparison download initiated");
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error creating comparison image: {ex.Message}";
+            Logger.LogError(ex, "Error creating comparison image");
+        }
+    }
+    
+    private void StartOver()
+    {
+        selectedFile = null;
+        imagePreviewUrl = null;
+        regeneratedImageUrl = null;
+        imageDescription = null;
+        errorMessage = null;
+        isProcessing = false;
+        isComplete = false;
+        progressPercentage = 0;
+        progressMessage = "";
+        analysisResult = null;
+        
+        Logger.LogInformation("Process reset - starting over");
+    }
+}

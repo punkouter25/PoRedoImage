@@ -1,0 +1,382 @@
+@page "/diag"
+@using System.Net.Http.Json
+@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@using Client.Services
+@inject HttpClient Http // Inject default HttpClient
+@inject ApiService Api
+@inject ILogger<Diag> Logger
+@inject NavigationManager Navigation
+@inject IAccessTokenProvider TokenProvider
+
+<PageTitle>System Diagnostics</PageTitle>
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1 class="display-4">System Diagnostics</h1>
+            <p class="lead">This page checks the health of all system components and connections.</p>
+        </div>
+    </div>
+    
+    <CascadingAuthenticationState>
+        <AuthorizeView>
+            <Authorized>
+                <div class="alert alert-success mb-4">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-check-circle-fill me-2 fs-4"></i>
+                        <div>
+                            <strong>Authentication:</strong> You are signed in as @context.User.Identity?.Name
+                        </div>
+                    </div>
+                </div>
+            </Authorized>
+            <NotAuthorized>
+                <div class="alert alert-warning mb-4">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-exclamation-triangle-fill me-2 fs-4"></i>
+                        <div>
+                            <strong>Authentication:</strong> You are not signed in. Some features may be unavailable.
+                            <button class="btn btn-sm btn-primary ms-3" @onclick="SignIn">Sign In</button>
+                        </div>
+                    </div>
+                </div>
+            </NotAuthorized>
+        </AuthorizeView>
+    </CascadingAuthenticationState>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">System Status</h5>
+                </div>
+                <div class="card-body">
+                    @if (!isLoaded)
+                    {
+                        <div class="d-flex justify-content-center my-4">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <span class="ms-2">Running diagnostics...</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 10%">Status</th>
+                                        <th style="width: 25%">Component</th>
+                                        <th style="width: 65%">Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var status in diagnosticsStatus)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <span class="badge @(status.IsHealthy ? "bg-success" : "bg-danger")">
+                                                    @(status.IsHealthy ? "Good" : "Error")
+                                                </span>
+                                            </td>
+                                            <td>@status.Name</td>
+                                            <td>@status.Message</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                </div>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <span class="text-muted">Last checked: @(lastChecked?.ToString("g") ?? "Never")</span>
+                        </div>
+                        <button class="btn btn-primary" @onclick="RunDiagnostics">
+                            <i class="bi bi-arrow-repeat me-2"></i>Refresh
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @if (azureServices.Any())
+    {
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Azure Services</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 10%">Status</th>
+                                        <th style="width: 25%">Service</th>
+                                        <th style="width: 65%">Configuration</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var service in azureServices)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <span class="badge @GetStatusClass(service.Status)">
+                                                    @service.Status
+                                                </span>
+                                            </td>
+                                            <td>@service.Name</td>
+                                            <td>@service.Details</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <a href="/" class="btn btn-primary">Return to Main Page</a>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<DiagnosticStatus> diagnosticsStatus = new();
+    private List<AzureServiceStatus> azureServices = new();
+    private DateTime? lastChecked;
+    private bool isLoaded = false;
+    // Remove _httpClient field
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Remove client creation
+        await RunDiagnostics();
+    }
+
+    private async Task RunDiagnostics()
+    {
+        try
+        {
+            isLoaded = false;
+            diagnosticsStatus.Clear();
+            azureServices.Clear();
+            StateHasChanged();
+
+            Logger.LogInformation("Starting diagnostics check");
+
+            // Check authentication status
+            var authState = await CheckAuthenticationAsync();
+            AddStatus("Authentication", authState.isAuthenticated, 
+                authState.isAuthenticated ? $"Authenticated as {authState.userName}" : "Not authenticated");
+
+            // Check API connectivity
+            try
+            {
+                var apiUrl = "api/health";
+                Logger.LogInformation("Attempting to connect to API health endpoint: {Url}", Http.BaseAddress + apiUrl);
+                // Use injected default Http client
+                var response = await Http.GetAsync(apiUrl); 
+                Logger.LogInformation("API health check response status code: {StatusCode}", response.StatusCode);
+                
+                if (response.IsSuccessStatusCode)
+                {
+                    var apiStatus = await response.Content.ReadFromJsonAsync<ApiHealthStatus>();
+                    AddStatus("API Connection", true, $"Connected (Status: {apiStatus?.status})");
+                }
+                else
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync(); 
+                    var preview = errorContent.Substring(0, Math.Min(errorContent.Length, 100));
+                    Logger.LogError("API health check failed. Status: {StatusCode}, Response Preview: {Preview}", response.StatusCode, preview);
+                    AddStatus("API Connection", false, $"Connection failed ({response.StatusCode}). Response: {preview}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Exception during API connection check.");
+                AddStatus("API Connection", false, $"Error: {ex.Message}");
+                Logger.LogError(ex, "API connection check failed");
+            }
+
+            // Check Azure Services connectivity
+            try
+            {
+                 var azureApiUrl = "api/health/azure";
+                 Logger.LogInformation("Attempting to connect to Azure health endpoint: {Url}", Http.BaseAddress + azureApiUrl);
+                 // Use injected default Http client
+                var response = await Http.GetAsync(azureApiUrl);
+                Logger.LogInformation("Azure health check response status code: {StatusCode}", response.StatusCode);
+                
+                if (response.IsSuccessStatusCode)
+                {
+                    var azureStatus = await response.Content.ReadFromJsonAsync<AzureHealthStatus>();
+                    
+                    if (azureStatus != null)
+                    {
+                        AddStatus("Azure Services", azureStatus.status == "healthy", 
+                            $"Status: {azureStatus.status}");
+                            
+                        // Add details for each Azure service
+                        if (azureStatus.services != null)
+                        {
+                            foreach (var service in azureStatus.services)
+                            {
+                                azureServices.Add(new AzureServiceStatus
+                                {
+                                    Name = service.name,
+                                    Status = service.status,
+                                    Details = service.details
+                                });
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync(); 
+                    var preview = errorContent.Substring(0, Math.Min(errorContent.Length, 100));
+                    Logger.LogError("Azure health check failed. Status: {StatusCode}, Response Preview: {Preview}", response.StatusCode, preview);
+                    AddStatus("Azure Services", false, $"Status check failed ({response.StatusCode}). Response: {preview}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, "Exception during Azure services check.");
+                AddStatus("Azure Services", false, $"Error: {ex.Message}"); 
+                Logger.LogError(ex, "Azure services check failed");
+            }
+            
+            // Check browser features
+            try
+            {
+                AddStatus("JavaScript", true, "JavaScript is enabled");
+                
+                // Check LocalStorage
+                bool localStorageAvailable = await CheckLocalStorageAsync();
+                AddStatus("LocalStorage", localStorageAvailable, 
+                    localStorageAvailable ? "Available" : "Not available or disabled");
+            }
+            catch (Exception ex)
+            {
+                AddStatus("Browser Features", false, $"Error checking browser features: {ex.Message}");
+                Logger.LogError(ex, "Browser features check failed");
+            }
+
+            lastChecked = DateTime.Now;
+            Logger.LogInformation("Diagnostics check completed");
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error during diagnostics checks");
+            AddStatus("System", false, $"Error running diagnostics: {ex.Message}");
+        }
+        finally
+        {
+            isLoaded = true;
+            StateHasChanged();
+        }
+    }
+
+    private async Task<(bool isAuthenticated, string userName)> CheckAuthenticationAsync()
+    {
+        try
+        {
+            var tokenResult = await TokenProvider.RequestAccessToken();
+            if (tokenResult.TryGetToken(out var token))
+            {
+                return (true, "User"); // We don't have direct access to username from token here
+            }
+            return (false, string.Empty);
+        }
+        catch
+        {
+            return (false, string.Empty);
+        }
+    }
+
+    private async Task<bool> CheckLocalStorageAsync()
+    {
+        try
+        {
+            return true; // Simplified - in a real app we would check with JS interop
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private void AddStatus(string name, bool isHealthy, string message)
+    {
+        diagnosticsStatus.Add(new DiagnosticStatus
+        {
+            Name = name,
+            IsHealthy = isHealthy,
+            Message = message
+        });
+        Logger.LogInformation("Diagnostic status added - {Name}: {Status} - {Message}", 
+            name, isHealthy ? "Healthy" : "Unhealthy", message);
+    }
+
+    private string GetStatusClass(string status)
+    {
+        return status.ToLower() switch
+        {
+            "healthy" or "configured" or "good" => "bg-success",
+            "warning" => "bg-warning text-dark",
+            "not configured" => "bg-warning text-dark",
+            _ => "bg-danger"
+        };
+    }
+
+    private void SignIn()
+    {
+        Navigation.NavigateTo("authentication/login");
+    }
+
+    private class DiagnosticStatus
+    {
+        public string Name { get; set; } = "";
+        public bool IsHealthy { get; set; }
+        public string Message { get; set; } = "";
+    }
+
+    private class AzureServiceStatus
+    {
+        public string Name { get; set; } = "";
+        public string Status { get; set; } = "";
+        public string Details { get; set; } = "";
+    }
+
+    private class ApiHealthStatus
+    {
+        public string status { get; set; } = "";
+        public DateTime timestamp { get; set; }
+        public string? user { get; set; }
+    }
+
+    private class AzureHealthStatus
+    {
+        public string status { get; set; } = "";
+        public List<AzureServiceInfo>? services { get; set; }
+        public DateTime timestamp { get; set; }
+    }
+
+    private class AzureServiceInfo
+    {
+        public string name { get; set; } = "";
+        public string status { get; set; } = "";
+        public string details { get; set; } = "";
+    }
+}

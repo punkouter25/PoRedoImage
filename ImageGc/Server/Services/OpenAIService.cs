@@ -37,7 +37,8 @@ public class OpenAIService : IOpenAIService
     private readonly TelemetryClient _telemetryClient;
     private readonly string _endpoint;
     private readonly string _key;
-    private readonly string _deploymentName;
+    private readonly string _textDeploymentName; // Renamed for clarity
+    private readonly string _imageDeploymentName; // Added for DALL-E
     
     public OpenAIService(
         IConfiguration configuration,
@@ -49,12 +50,14 @@ public class OpenAIService : IOpenAIService
         
         _endpoint = configuration["AzureOpenAI:Endpoint"] ?? 
             throw new ArgumentNullException("OpenAI Endpoint is not configured");
-        _key = configuration["AzureOpenAI:Key"] ?? 
+        _key = configuration["AzureOpenAI:Key"] ??
             throw new ArgumentNullException("OpenAI Key is not configured");
-        _deploymentName = configuration["AzureOpenAI:DeploymentName"] ?? 
-            throw new ArgumentNullException("OpenAI DeploymentName is not configured");
+        _textDeploymentName = configuration["AzureOpenAI:DeploymentName"] ?? // Keep original key for text model
+            throw new ArgumentNullException("OpenAI DeploymentName (for text) is not configured");
+        _imageDeploymentName = configuration["AzureOpenAI:ImageDeploymentName"] ?? // New key for image model
+            throw new ArgumentNullException("OpenAI ImageDeploymentName (for DALL-E) is not configured");
     }
-    
+
     /// <summary>
     /// Enhances a basic image description to be more detailed using OpenAI
     /// </summary>
@@ -85,7 +88,7 @@ Enhanced description:";
             // Configure the chat completion options
             var chatCompletionsOptions = new ChatCompletionsOptions
             {
-                DeploymentName = _deploymentName,
+                DeploymentName = _textDeploymentName, // Use text deployment
                 Messages =
                 {
                     new ChatRequestSystemMessage(@"You are an expert image description enhancer. Your task is to take basic image descriptions and tags and expand them into detailed, vivid descriptions suitable for image generation."),
@@ -144,7 +147,7 @@ Enhanced description:";
             // Configure the image generation options
             var imageGenerationOptions = new ImageGenerationOptions
             {
-                DeploymentName = _deploymentName,
+                DeploymentName = _imageDeploymentName, // Use image deployment
                 Prompt = description,
                 Size = ImageSize.Size1024x1024,
                 Quality = ImageGenerationQuality.Standard,

@@ -4,11 +4,12 @@
 @using ImageGc.Shared.Models
 @using Client.Services
 @using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
 @inject ApiService Api
 @inject HttpClient Http
 @inject IJSRuntime JSRuntime
 @inject ILogger<Home> Logger
-@attribute [Authorize]
+@inject NavigationManager NavigationManager
 
 <PageTitle>Image Translation & Regeneration</PageTitle>
 
@@ -19,6 +20,20 @@
             <p class="lead text-center">Upload an image, get a detailed description, and see how AI regenerates it.</p>
         </div>
     </div>
+
+    <AuthorizeView>
+        <Authorized>
+            <div class="alert alert-success mb-4">
+                <i class="bi bi-person-check me-2"></i>Welcome, @context.User.Identity?.Name! You're signed in and have full access to all features.
+            </div>
+        </Authorized>
+        <NotAuthorized>
+            <div class="alert alert-info mb-4">
+                <i class="bi bi-info-circle me-2"></i>You're using the app anonymously. 
+                <a href="authentication/login" class="alert-link">Sign in</a> for additional features and to save your history.
+            </div>
+        </NotAuthorized>
+    </AuthorizeView>
 
     @if (!isProcessing && !isComplete)
     {
@@ -398,5 +413,10 @@
         analysisResult = null;
         
         Logger.LogInformation("Process reset - starting over");
+    }
+    
+    private void RedirectToLogin()
+    {
+        NavigationManager.NavigateTo("authentication/login", true);
     }
 }

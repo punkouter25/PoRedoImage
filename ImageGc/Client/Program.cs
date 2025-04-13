@@ -10,14 +10,14 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 // Configure regular HttpClient for public/anonymous endpoints
-// Explicitly set the BaseAddress to the server's URL
-builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7147") });
+// Use relative URL when hosted by the server
+var baseAddress = builder.HostEnvironment.BaseAddress;
+builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(baseAddress) });
 
 // Configure authenticated HttpClient for API access
-// Use the same explicit BaseAddress for consistency
 builder.Services.AddScoped<ApiService>();
 builder.Services.AddHttpClient("ServerAPI", 
-    client => client.BaseAddress = new Uri("https://localhost:7147")) 
+    client => client.BaseAddress = new Uri(baseAddress)) 
     .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
 
 // Add Microsoft authentication support

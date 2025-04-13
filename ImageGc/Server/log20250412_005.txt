@@ -84,3 +84,9 @@ System.IO.IOException: Failed to bind to address http://127.0.0.1:5257: address 
 2025-04-12 16:58:57.251 -04:00 [WRN] Overriding address(es) 'http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
 2025-04-12 17:32:38.091 -04:00 [INF] Starting application
 2025-04-12 17:32:38.285 -04:00 [WRN] Overriding address(es) 'http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-04-12 18:52:03.068 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-12 18:52:03.234 -04:00 [WRN] Overriding address(es) 'http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-04-12 19:00:16.517 -04:00 [INF] Executing CheckHealth action.
+2025-04-12 19:00:16.520 -04:00 [INF] API health check requested by anonymous, authenticated: false
+2025-04-12 19:00:16.582 -04:00 [INF] Executing CheckAzureServices action.
+2025-04-12 19:00:16.584 -04:00 [INF] Azure services health check requested

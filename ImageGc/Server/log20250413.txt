@@ -1,0 +1,242 @@
+2025-04-13 10:30:40.177 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-13 10:30:40.789 -04:00 [WRN] Overriding address(es) 'http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-04-13 11:04:58.619 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-13 11:04:58.779 -04:00 [WRN] Overriding address(es) 'http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-04-13 11:05:12.713 -04:00 [INF] Image analysis request received from user anonymous (unknown). File: 491341000_24083839214550362_9002647528688308614_n.jpg, Description Length: 200 words
+2025-04-13 11:05:12.740 -04:00 [INF] Successfully converted image data: 392027 bytes
+2025-04-13 11:05:12.742 -04:00 [INF] Step 1: Analyzing image with Computer Vision
+2025-04-13 11:05:12.745 -04:00 [INF] Starting image analysis with Azure Computer Vision
+2025-04-13 11:05:14.137 -04:00 [ERR] Error analyzing image with Azure Computer Vision after 1390ms
+Azure.RequestFailedException: The feature 'Caption' is not supported in this region.
+Status: 400 (Bad Request)
+ErrorCode: InvalidRequest
+
+Content:
+{"error":{"code":"InvalidRequest","message":"The feature 'Caption' is not supported in this region."}}
+
+Headers:
+request-id: 34ef3e15-6f1b-48e6-8d5d-78118b2a4109
+x-ms-request-id: 34ef3e15-6f1b-48e6-8d5d-78118b2a4109
+x-ms-error-code: REDACTED
+api-supported-versions: REDACTED
+x-envoy-upstream-service-time: REDACTED
+CSP-Billing-Usage: REDACTED
+apim-request-id: REDACTED
+Strict-Transport-Security: REDACTED
+X-Content-Type-Options: REDACTED
+x-ms-region: REDACTED
+Date: Sun, 13 Apr 2025 15:05:11 GMT
+Content-Length: 102
+Content-Type: application/json; charset=utf-8
+
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.Vision.ImageAnalysis.ImageAnalysisClient.AnalyzeFromBufferAsync(IEnumerable`1 visualFeatures, RequestContent content, String language, Nullable`1 genderNeutralCaption, IEnumerable`1 smartCropsAspectRatios, String modelVersion, RequestContext context)
+   at Azure.AI.Vision.ImageAnalysis.ImageAnalysisClient.AnalyzeFromBufferAsync(IEnumerable`1 visualFeatures, BinaryData imageContent, String language, Nullable`1 genderNeutralCaption, IEnumerable`1 smartCropsAspectRatios, String modelVersion, CancellationToken cancellationToken)
+   at Server.Services.ComputerVisionService.AnalyzeImageAsync(Byte[] imageData) in C:\Users\punko\OneDrive\Documents\PoRedoImageGc\ImageGc\Server\Services\ComputerVisionService.cs:line 65
+2025-04-13 11:05:14.203 -04:00 [ERR] Error during Computer Vision analysis
+Azure.RequestFailedException: The feature 'Caption' is not supported in this region.
+Status: 400 (Bad Request)
+ErrorCode: InvalidRequest
+
+Content:
+{"error":{"code":"InvalidRequest","message":"The feature 'Caption' is not supported in this region."}}
+
+Headers:
+request-id: 34ef3e15-6f1b-48e6-8d5d-78118b2a4109
+x-ms-request-id: 34ef3e15-6f1b-48e6-8d5d-78118b2a4109
+x-ms-error-code: REDACTED
+api-supported-versions: REDACTED
+x-envoy-upstream-service-time: REDACTED
+CSP-Billing-Usage: REDACTED
+apim-request-id: REDACTED
+Strict-Transport-Security: REDACTED
+X-Content-Type-Options: REDACTED
+x-ms-region: REDACTED
+Date: Sun, 13 Apr 2025 15:05:11 GMT
+Content-Length: 102
+Content-Type: application/json; charset=utf-8
+
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.Vision.ImageAnalysis.ImageAnalysisClient.AnalyzeFromBufferAsync(IEnumerable`1 visualFeatures, RequestContent content, String language, Nullable`1 genderNeutralCaption, IEnumerable`1 smartCropsAspectRatios, String modelVersion, RequestContext context)
+   at Azure.AI.Vision.ImageAnalysis.ImageAnalysisClient.AnalyzeFromBufferAsync(IEnumerable`1 visualFeatures, BinaryData imageContent, String language, Nullable`1 genderNeutralCaption, IEnumerable`1 smartCropsAspectRatios, String modelVersion, CancellationToken cancellationToken)
+   at Server.Services.ComputerVisionService.AnalyzeImageAsync(Byte[] imageData) in C:\Users\punko\OneDrive\Documents\PoRedoImageGc\ImageGc\Server\Services\ComputerVisionService.cs:line 65
+   at Server.Controllers.ImageAnalysisController.AnalyzeImage(ImageAnalysisRequest request) in C:\Users\punko\OneDrive\Documents\PoRedoImageGc\ImageGc\Server\Controllers\ImageAnalysisController.cs:line 84
+2025-04-13 11:09:53.965 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-13 11:09:54.135 -04:00 [WRN] Overriding address(es) 'http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-04-13 11:11:15.122 -04:00 [INF] Image analysis request received from user anonymous (unknown). File: IMG_20250316_155009.jpg, Description Length: 200 words
+2025-04-13 11:11:15.170 -04:00 [INF] Successfully converted image data: 5075837 bytes
+2025-04-13 11:11:15.172 -04:00 [INF] Step 1: Analyzing image with Computer Vision
+2025-04-13 11:11:15.174 -04:00 [INF] Starting image analysis with Azure Computer Vision
+2025-04-13 11:11:15.774 -04:00 [ERR] Error analyzing image with Azure Computer Vision after 599ms
+Azure.RequestFailedException: Access denied due to invalid subscription key or wrong API endpoint. Make sure to provide a valid key for an active subscription and use a correct regional API endpoint for your resource.
+Status: 401 (PermissionDenied)
+ErrorCode: 401
+
+Content:
+{"error":{"code":"401","message":"Access denied due to invalid subscription key or wrong API endpoint. Make sure to provide a valid key for an active subscription and use a correct regional API endpoint for your resource."}}
+
+Headers:
+apim-request-id: REDACTED
+Date: Sun, 13 Apr 2025 15:11:12 GMT
+Content-Length: 224
+Content-Type: application/json
+
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.Vision.ImageAnalysis.ImageAnalysisClient.AnalyzeFromBufferAsync(IEnumerable`1 visualFeatures, RequestContent content, String language, Nullable`1 genderNeutralCaption, IEnumerable`1 smartCropsAspectRatios, String modelVersion, RequestContext context)
+   at Azure.AI.Vision.ImageAnalysis.ImageAnalysisClient.AnalyzeFromBufferAsync(IEnumerable`1 visualFeatures, BinaryData imageContent, String language, Nullable`1 genderNeutralCaption, IEnumerable`1 smartCropsAspectRatios, String modelVersion, CancellationToken cancellationToken)
+   at Server.Services.ComputerVisionService.AnalyzeImageAsync(Byte[] imageData) in C:\Users\punko\OneDrive\Documents\PoRedoImageGc\ImageGc\Server\Services\ComputerVisionService.cs:line 65
+2025-04-13 11:11:15.797 -04:00 [ERR] Error during Computer Vision analysis
+Azure.RequestFailedException: Access denied due to invalid subscription key or wrong API endpoint. Make sure to provide a valid key for an active subscription and use a correct regional API endpoint for your resource.
+Status: 401 (PermissionDenied)
+ErrorCode: 401
+
+Content:
+{"error":{"code":"401","message":"Access denied due to invalid subscription key or wrong API endpoint. Make sure to provide a valid key for an active subscription and use a correct regional API endpoint for your resource."}}
+
+Headers:
+apim-request-id: REDACTED
+Date: Sun, 13 Apr 2025 15:11:12 GMT
+Content-Length: 224
+Content-Type: application/json
+
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.Vision.ImageAnalysis.ImageAnalysisClient.AnalyzeFromBufferAsync(IEnumerable`1 visualFeatures, RequestContent content, String language, Nullable`1 genderNeutralCaption, IEnumerable`1 smartCropsAspectRatios, String modelVersion, RequestContext context)
+   at Azure.AI.Vision.ImageAnalysis.ImageAnalysisClient.AnalyzeFromBufferAsync(IEnumerable`1 visualFeatures, BinaryData imageContent, String language, Nullable`1 genderNeutralCaption, IEnumerable`1 smartCropsAspectRatios, String modelVersion, CancellationToken cancellationToken)
+   at Server.Services.ComputerVisionService.AnalyzeImageAsync(Byte[] imageData) in C:\Users\punko\OneDrive\Documents\PoRedoImageGc\ImageGc\Server\Services\ComputerVisionService.cs:line 65
+   at Server.Controllers.ImageAnalysisController.AnalyzeImage(ImageAnalysisRequest request) in C:\Users\punko\OneDrive\Documents\PoRedoImageGc\ImageGc\Server\Controllers\ImageAnalysisController.cs:line 84
+2025-04-13 12:06:00.506 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-13 12:06:00.675 -04:00 [WRN] Overriding address(es) 'http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-04-13 12:06:18.804 -04:00 [INF] Image analysis request received from user anonymous (unknown). File: IMG_20250316_183329.jpg, Description Length: 200 words
+2025-04-13 12:06:18.848 -04:00 [INF] Successfully converted image data: 4090627 bytes
+2025-04-13 12:06:18.849 -04:00 [INF] Step 1: Analyzing image with Computer Vision
+2025-04-13 12:06:18.851 -04:00 [INF] Starting image analysis with Azure Computer Vision
+2025-04-13 12:06:23.813 -04:00 [ERR] Error analyzing image with Azure Computer Vision after 4961ms
+Azure.RequestFailedException: The feature 'Caption' is not supported in this region.
+Status: 400 (Bad Request)
+ErrorCode: InvalidRequest
+
+Content:
+{"error":{"code":"InvalidRequest","message":"The feature 'Caption' is not supported in this region."}}
+
+Headers:
+request-id: d1d49a15-bb6d-41a7-b75e-1f58d0bfbc04
+x-ms-request-id: d1d49a15-bb6d-41a7-b75e-1f58d0bfbc04
+x-ms-error-code: REDACTED
+api-supported-versions: REDACTED
+CSP-Billing-Usage: REDACTED
+apim-request-id: REDACTED
+Strict-Transport-Security: REDACTED
+X-Content-Type-Options: REDACTED
+x-ms-region: REDACTED
+Date: Sun, 13 Apr 2025 16:06:21 GMT
+Content-Length: 102
+Content-Type: application/json; charset=utf-8
+
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.Vision.ImageAnalysis.ImageAnalysisClient.AnalyzeFromBufferAsync(IEnumerable`1 visualFeatures, RequestContent content, String language, Nullable`1 genderNeutralCaption, IEnumerable`1 smartCropsAspectRatios, String modelVersion, RequestContext context)
+   at Azure.AI.Vision.ImageAnalysis.ImageAnalysisClient.AnalyzeFromBufferAsync(IEnumerable`1 visualFeatures, BinaryData imageContent, String language, Nullable`1 genderNeutralCaption, IEnumerable`1 smartCropsAspectRatios, String modelVersion, CancellationToken cancellationToken)
+   at Server.Services.ComputerVisionService.AnalyzeImageAsync(Byte[] imageData) in C:\Users\punko\OneDrive\Documents\PoRedoImageGc\ImageGc\Server\Services\ComputerVisionService.cs:line 65
+2025-04-13 12:06:23.845 -04:00 [ERR] Error during Computer Vision analysis
+Azure.RequestFailedException: The feature 'Caption' is not supported in this region.
+Status: 400 (Bad Request)
+ErrorCode: InvalidRequest
+
+Content:
+{"error":{"code":"InvalidRequest","message":"The feature 'Caption' is not supported in this region."}}
+
+Headers:
+request-id: d1d49a15-bb6d-41a7-b75e-1f58d0bfbc04
+x-ms-request-id: d1d49a15-bb6d-41a7-b75e-1f58d0bfbc04
+x-ms-error-code: REDACTED
+api-supported-versions: REDACTED
+CSP-Billing-Usage: REDACTED
+apim-request-id: REDACTED
+Strict-Transport-Security: REDACTED
+X-Content-Type-Options: REDACTED
+x-ms-region: REDACTED
+Date: Sun, 13 Apr 2025 16:06:21 GMT
+Content-Length: 102
+Content-Type: application/json; charset=utf-8
+
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.Vision.ImageAnalysis.ImageAnalysisClient.AnalyzeFromBufferAsync(IEnumerable`1 visualFeatures, RequestContent content, String language, Nullable`1 genderNeutralCaption, IEnumerable`1 smartCropsAspectRatios, String modelVersion, RequestContext context)
+   at Azure.AI.Vision.ImageAnalysis.ImageAnalysisClient.AnalyzeFromBufferAsync(IEnumerable`1 visualFeatures, BinaryData imageContent, String language, Nullable`1 genderNeutralCaption, IEnumerable`1 smartCropsAspectRatios, String modelVersion, CancellationToken cancellationToken)
+   at Server.Services.ComputerVisionService.AnalyzeImageAsync(Byte[] imageData) in C:\Users\punko\OneDrive\Documents\PoRedoImageGc\ImageGc\Server\Services\ComputerVisionService.cs:line 65
+   at Server.Controllers.ImageAnalysisController.AnalyzeImage(ImageAnalysisRequest request) in C:\Users\punko\OneDrive\Documents\PoRedoImageGc\ImageGc\Server\Controllers\ImageAnalysisController.cs:line 84
+2025-04-13 12:30:12.324 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-13 12:30:12.514 -04:00 [WRN] Overriding address(es) 'http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-04-13 12:30:26.772 -04:00 [INF] Image analysis request received from user anonymous (unknown). File: IMG_20250316_183325 (1).jpg, Description Length: 200 words
+2025-04-13 12:30:26.792 -04:00 [INF] Successfully converted image data: 1563785 bytes
+2025-04-13 12:30:26.806 -04:00 [INF] Step 1: Analyzing image with Computer Vision
+2025-04-13 12:30:26.809 -04:00 [INF] Starting image analysis with Azure Computer Vision
+2025-04-13 12:30:28.699 -04:00 [INF] Image analysis completed in 1879ms, confidence: 0.9249561
+2025-04-13 12:30:28.720 -04:00 [INF] Computer Vision analysis completed. Description: 22 characters, Tags: 11
+2025-04-13 12:30:28.721 -04:00 [INF] Step 2: Enhancing description with OpenAI
+2025-04-13 12:30:28.726 -04:00 [INF] Enhancing description with Azure OpenAI. Target length: 200 words
+2025-04-13 12:30:32.154 -04:00 [INF] Description enhancement completed in 3423ms, tokens used: 392
+2025-04-13 12:30:32.156 -04:00 [INF] Description enhancement completed. Length: 1167 characters, Tokens: 392
+2025-04-13 12:30:32.156 -04:00 [INF] Step 3: Generating image with DALL-E
+2025-04-13 12:30:32.159 -04:00 [INF] Generating image with DALL-E based on description
+2025-04-13 12:30:32.223 -04:00 [ERR] Error generating image with DALL-E after 60ms
+Azure.RequestFailedException: The imageGenerations operation does not work with the specified model, gpt-4o. Please choose different model and try again. You can learn more about which models can be used with each operation here: https://go.microsoft.com/fwlink/?linkid=2197993.
+Status: 400 (Bad Request)
+ErrorCode: OperationNotSupported
+
+Content:
+{"error":{"code":"OperationNotSupported","message":"The imageGenerations operation does not work with the specified model, gpt-4o. Please choose different model and try again. You can learn more about which models can be used with each operation here: https://go.microsoft.com/fwlink/?linkid=2197993."}}
+
+Headers:
+apim-request-id: REDACTED
+x-ms-client-request-id: 5f3a1dbf-a90d-4122-bc4d-b0f1b9296a96
+x-ms-deployment-name: REDACTED
+Strict-Transport-Security: REDACTED
+X-Content-Type-Options: REDACTED
+x-ms-region: REDACTED
+Date: Sun, 13 Apr 2025 16:30:28 GMT
+Content-Length: 303
+Content-Type: application/json
+
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.OpenAI.OpenAIClient.GetImageGenerationsAsync(ImageGenerationOptions imageGenerationOptions, CancellationToken cancellationToken)
+   at Server.Services.OpenAIService.GenerateImageAsync(String description) in C:\Users\punko\OneDrive\Documents\PoRedoImageGc\ImageGc\Server\Services\OpenAIService.cs:line 156
+2025-04-13 12:30:32.289 -04:00 [ERR] Error during image generation
+Azure.RequestFailedException: The imageGenerations operation does not work with the specified model, gpt-4o. Please choose different model and try again. You can learn more about which models can be used with each operation here: https://go.microsoft.com/fwlink/?linkid=2197993.
+Status: 400 (Bad Request)
+ErrorCode: OperationNotSupported
+
+Content:
+{"error":{"code":"OperationNotSupported","message":"The imageGenerations operation does not work with the specified model, gpt-4o. Please choose different model and try again. You can learn more about which models can be used with each operation here: https://go.microsoft.com/fwlink/?linkid=2197993."}}
+
+Headers:
+apim-request-id: REDACTED
+x-ms-client-request-id: 5f3a1dbf-a90d-4122-bc4d-b0f1b9296a96
+x-ms-deployment-name: REDACTED
+Strict-Transport-Security: REDACTED
+X-Content-Type-Options: REDACTED
+x-ms-region: REDACTED
+Date: Sun, 13 Apr 2025 16:30:28 GMT
+Content-Length: 303
+Content-Type: application/json
+
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.OpenAI.OpenAIClient.GetImageGenerationsAsync(ImageGenerationOptions imageGenerationOptions, CancellationToken cancellationToken)
+   at Server.Services.OpenAIService.GenerateImageAsync(String description) in C:\Users\punko\OneDrive\Documents\PoRedoImageGc\ImageGc\Server\Services\OpenAIService.cs:line 156
+   at Server.Controllers.ImageAnalysisController.AnalyzeImage(ImageAnalysisRequest request) in C:\Users\punko\OneDrive\Documents\PoRedoImageGc\ImageGc\Server\Controllers\ImageAnalysisController.cs:line 129
+2025-04-13 12:30:32.305 -04:00 [INF] Image analysis completed in 5528ms for user unknown
+2025-04-13 12:41:59.716 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-13 12:41:59.919 -04:00 [WRN] Overriding address(es) 'http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-04-13 12:48:58.911 -04:00 [INF] Image analysis request received from user anonymous (unknown). File: 491341000_24083839214550362_9002647528688308614_n.jpg, Description Length: 200 words
+2025-04-13 12:48:58.932 -04:00 [INF] Successfully converted image data: 392027 bytes
+2025-04-13 12:48:58.935 -04:00 [INF] Step 1: Analyzing image with Computer Vision
+2025-04-13 12:48:58.939 -04:00 [INF] Starting image analysis with Azure Computer Vision
+2025-04-13 12:49:18.143 -04:00 [INF] Image analysis completed in 19202ms, confidence: 0.74531496
+2025-04-13 12:49:18.161 -04:00 [INF] Computer Vision analysis completed. Description: 38 characters, Tags: 10
+2025-04-13 12:49:18.163 -04:00 [INF] Step 2: Enhancing description with OpenAI
+2025-04-13 12:49:18.166 -04:00 [INF] Enhancing description with Azure OpenAI. Target length: 200 words
+2025-04-13 12:49:21.665 -04:00 [INF] Description enhancement completed in 3493ms, tokens used: 381
+2025-04-13 12:49:21.670 -04:00 [INF] Description enhancement completed. Length: 1156 characters, Tokens: 381
+2025-04-13 12:49:21.672 -04:00 [INF] Step 3: Generating image with DALL-E
+2025-04-13 12:49:21.678 -04:00 [INF] Generating image with DALL-E based on description
+2025-04-13 12:49:38.376 -04:00 [INF] Image generation completed in 16694ms, estimated tokens: 289
+2025-04-13 12:49:38.393 -04:00 [INF] Image generation completed. Size: 3163260 bytes, Tokens: 289
+2025-04-13 12:49:38.395 -04:00 [INF] Image analysis completed in 39478ms for user unknown

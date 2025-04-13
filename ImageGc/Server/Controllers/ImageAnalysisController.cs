@@ -10,7 +10,6 @@ namespace Server.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-[Authorize]
 public class ImageAnalysisController : ControllerBase
 {
     private readonly ILogger<ImageAnalysisController> _logger;

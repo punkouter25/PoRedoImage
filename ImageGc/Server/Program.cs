@@ -4,11 +4,21 @@ using Microsoft.Identity.Web;
 using Serilog;
 using Serilog.Events;
 using Server.Services;
-using System.Net; // Add this using directive
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure Serilog
+var telemetryConfig = new TelemetryConfiguration();
+if (!string.IsNullOrEmpty(builder.Configuration["ApplicationInsights:ConnectionString"]))
+{
+    telemetryConfig.ConnectionString = builder.Configuration["ApplicationInsights:ConnectionString"];
+}
+else if (!string.IsNullOrEmpty(builder.Configuration["ApplicationInsights:InstrumentationKey"]))
+{
+    telemetryConfig.InstrumentationKey = builder.Configuration["ApplicationInsights:InstrumentationKey"];
+}
+
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Information()
     .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
@@ -16,7 +26,7 @@ Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .WriteTo.File("log.txt", rollingInterval: RollingInterval.Day)
     .WriteTo.ApplicationInsights(
-        new TelemetryConfiguration { InstrumentationKey = builder.Configuration["ApplicationInsights:InstrumentationKey"] },
+        telemetryConfig,
         TelemetryConverter.Traces)
     .CreateLogger();
 
@@ -38,6 +48,12 @@ builder.Services.AddApplicationInsightsTelemetry();
 // Add authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+
+// Make authentication optional by default
+builder.Services.AddAuthorization(options =>
+{
+    options.FallbackPolicy = null; // Remove the default requirement for authentication
+});
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
@@ -73,7 +89,7 @@ else
 }
 
 app.UseHttpsRedirection();
-app.UseBlazorFrameworkFiles();
+app.UseBlazorFrameworkFiles(); // Serve Blazor WebAssembly static files
 app.UseStaticFiles();
 
 app.UseRouting();
@@ -83,6 +99,7 @@ app.UseAuthorization();
 
 app.MapRazorPages();
 app.MapControllers();
+// This ensures any routes not matched by controllers or Razor pages are handled by the Blazor app
 app.MapFallbackToFile("index.html");
 
 // Create log.txt if it doesn't exist
@@ -94,7 +111,7 @@ if (!File.Exists("log.txt"))
 
 try
 {
-    Log.Information("Starting application");
+    Log.Information("Starting application - Server hosting Blazor WebAssembly Client");
     await app.RunAsync();
 }
 catch (Exception ex)

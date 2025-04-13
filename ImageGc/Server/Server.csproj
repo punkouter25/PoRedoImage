@@ -4,6 +4,8 @@
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <SpaRoot>..\Client\</SpaRoot>
+    <SpaProxyLaunchCommand>dotnet run</SpaProxyLaunchCommand>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,5 +26,24 @@
     <ProjectReference Include="..\Client\Client.csproj" />
     <ProjectReference Include="..\ImageGc.Shared\ImageGc.Shared.csproj" />
   </ItemGroup>
+
+  <!-- Ensure Blazor WebAssembly Client is built and published with the Server -->
+  <ItemGroup>
+    <Content Update="wwwroot\**" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+    <!-- As a part of publishing, ensure the JS resources are freshly built -->
+    <Exec WorkingDirectory="$(SpaRoot)" Command="dotnet publish -c $(Configuration) -o $(PublishDir)wwwroot" />
+    
+    <!-- Include the newly-built files in the publish output -->
+    <ItemGroup>
+      <DistFiles Include="$(SpaRoot)bin\$(Configuration)\**\publish\wwwroot\**" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>wwwroot\%(RecursiveDir)%(FileName)%(Extension)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
 
 </Project>

@@ -1,6 +1,5 @@
-﻿@using Microsoft.AspNetCore.Components.Authorization
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-@using Microsoft.AspNetCore.Authorization
+﻿﻿@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication // Keep this one
 
 <CascadingAuthenticationState>
     <Router AppAssembly="@typeof(App).Assembly">
@@ -8,9 +7,9 @@
             <AuthorizeRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)">
                 <NotAuthorized>
                     @{
+                        // Original logic for anonymous access
                         var pagePath = routeData.PageType.Name;
-                        // Allow anonymous access to Home.razor and Diag.razor
-                        if (pagePath == "Home" || pagePath == "Diag")
+                        if (pagePath == "Home" || pagePath == "Diag") // Keep Diag check for now, though link is removed
                         {
                             <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
                         }
@@ -22,7 +21,7 @@
                     }
                 </NotAuthorized>
                 <Authorizing>
-                    <p>Authentication in progress...</p>
+                    <p>Authentication in progress...</p> @* Original message *@
                 </Authorizing>
             </AuthorizeRouteView>
             <FocusOnNavigate RouteData="@routeData" Selector="h1" />
@@ -36,7 +35,4 @@
     </Router>
 </CascadingAuthenticationState>
 
-@code {
-    [Inject]
-    private NavigationManager Navigation { get; set; } = default!;
-}
+@* No code block needed *@

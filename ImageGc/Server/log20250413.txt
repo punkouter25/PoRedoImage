@@ -240,3 +240,85 @@ Content-Type: application/json
 2025-04-13 12:49:38.376 -04:00 [INF] Image generation completed in 16694ms, estimated tokens: 289
 2025-04-13 12:49:38.393 -04:00 [INF] Image generation completed. Size: 3163260 bytes, Tokens: 289
 2025-04-13 12:49:38.395 -04:00 [INF] Image analysis completed in 39478ms for user unknown
+2025-04-13 12:52:24.294 -04:00 [INF] Executing CheckHealth action.
+2025-04-13 12:52:24.296 -04:00 [INF] API health check requested by anonymous, authenticated: false
+2025-04-13 12:52:24.336 -04:00 [INF] Executing CheckAzureServices action.
+2025-04-13 12:52:24.337 -04:00 [INF] Azure services health check requested
+2025-04-13 13:17:14.800 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-13 13:17:15.059 -04:00 [WRN] Overriding address(es) 'http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-04-13 13:31:47.102 -04:00 [INF] Image analysis request received from user anonymous (unknown). File: IMG_20250316_155009.jpg, Description Length: 200 words
+2025-04-13 13:31:47.158 -04:00 [INF] Successfully converted image data: 5075837 bytes
+2025-04-13 13:31:47.161 -04:00 [INF] Step 1: Analyzing image with Computer Vision
+2025-04-13 13:31:47.165 -04:00 [INF] Starting image analysis with Azure Computer Vision
+2025-04-13 13:31:49.101 -04:00 [INF] Image analysis completed in 1935ms, confidence: 0.83252907
+2025-04-13 13:31:49.120 -04:00 [INF] Computer Vision analysis completed. Description: 34 characters, Tags: 9
+2025-04-13 13:31:49.121 -04:00 [INF] Step 2: Enhancing description with OpenAI
+2025-04-13 13:31:49.125 -04:00 [INF] Enhancing description with Azure OpenAI. Target length: 200 words
+2025-04-13 13:31:51.984 -04:00 [INF] Description enhancement completed in 2852ms, tokens used: 384
+2025-04-13 13:31:51.988 -04:00 [INF] Description enhancement completed. Length: 1208 characters, Tokens: 384
+2025-04-13 13:31:51.990 -04:00 [INF] Step 3: Generating image with DALL-E
+2025-04-13 13:31:52.002 -04:00 [INF] Generating image with DALL-E based on description
+2025-04-13 13:32:10.148 -04:00 [INF] Image generation completed in 18144ms, estimated tokens: 302
+2025-04-13 13:32:10.166 -04:00 [INF] Image generation completed. Size: 3163260 bytes, Tokens: 302
+2025-04-13 13:32:10.170 -04:00 [INF] Image analysis completed in 23062ms for user unknown
+2025-04-13 13:35:35.608 -04:00 [INF] Executing CheckHealth action.
+2025-04-13 13:35:35.610 -04:00 [INF] API health check requested by anonymous, authenticated: false
+2025-04-13 13:35:38.203 -04:00 [INF] Executing CheckAzureServices action.
+2025-04-13 13:35:38.205 -04:00 [INF] Azure services health check requested
+2025-04-13 13:35:57.474 -04:00 [INF] Executing CheckHealth action.
+2025-04-13 13:35:57.476 -04:00 [INF] API health check requested by anonymous, authenticated: false
+2025-04-13 13:35:57.525 -04:00 [INF] Executing CheckAzureServices action.
+2025-04-13 13:35:57.525 -04:00 [INF] Azure services health check requested
+2025-04-13 13:53:17.815 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-13 13:53:17.987 -04:00 [WRN] Overriding address(es) 'http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-04-13 13:54:48.344 -04:00 [INF] Image analysis request received from user anonymous (unknown). File: PXL_20250322_223249197.BURST-01.COVER.jpg, Description Length: 200 words
+2025-04-13 13:54:48.394 -04:00 [INF] Successfully converted image data: 3886626 bytes
+2025-04-13 13:54:48.396 -04:00 [INF] Step 1: Analyzing image with Computer Vision
+2025-04-13 13:54:48.402 -04:00 [INF] Starting image analysis with Azure Computer Vision
+2025-04-13 13:54:51.192 -04:00 [INF] Image analysis completed in 2787ms, confidence: 0.8409058
+2025-04-13 13:54:51.212 -04:00 [INF] Computer Vision analysis completed. Description: 43 characters, Tags: 19
+2025-04-13 13:54:51.218 -04:00 [INF] Step 2: Enhancing description with OpenAI
+2025-04-13 13:54:51.222 -04:00 [INF] Enhancing description with Azure OpenAI. Target length: 200 words
+2025-04-13 13:54:58.825 -04:00 [INF] Description enhancement completed in 7601ms, tokens used: 400
+2025-04-13 13:54:58.828 -04:00 [INF] Description enhancement completed. Length: 1186 characters, Tokens: 400
+2025-04-13 13:54:58.829 -04:00 [INF] Step 3: Generating image with DALL-E
+2025-04-13 13:54:58.833 -04:00 [INF] Generating image with DALL-E based on description
+2025-04-13 13:55:11.938 -04:00 [INF] Image generation completed in 13103ms, estimated tokens: 296
+2025-04-13 13:55:11.957 -04:00 [INF] Image generation completed. Size: 3163261 bytes, Tokens: 296
+2025-04-13 13:55:11.959 -04:00 [INF] Image analysis completed in 23607ms for user unknown
+2025-04-13 13:59:09.807 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-13 13:59:09.973 -04:00 [WRN] Overriding address(es) 'http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-04-13 14:07:25.631 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-13 14:07:25.809 -04:00 [WRN] Overriding address(es) 'http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-04-13 14:08:21.592 -04:00 [INF] Image analysis request received from user anonymous (unknown). File: PXL_20250404_185228025.jpg, Description Length: 200 words
+2025-04-13 14:08:21.628 -04:00 [INF] Successfully converted image data: 1407516 bytes
+2025-04-13 14:08:21.630 -04:00 [INF] Step 1: Analyzing image with Computer Vision
+2025-04-13 14:08:21.634 -04:00 [INF] Starting image analysis with Azure Computer Vision
+2025-04-13 14:08:23.319 -04:00 [INF] Image analysis completed in 1681ms, confidence: 0.7688758
+2025-04-13 14:08:23.352 -04:00 [INF] Computer Vision analysis completed. Description: 29 characters, Tags: 6
+2025-04-13 14:08:23.355 -04:00 [INF] Step 2: Enhancing description with OpenAI
+2025-04-13 14:08:23.361 -04:00 [INF] Enhancing description with Azure OpenAI. Target length: 200 words
+2025-04-13 14:08:27.066 -04:00 [INF] Description enhancement completed in 3700ms, tokens used: 374
+2025-04-13 14:08:27.069 -04:00 [INF] Description enhancement completed. Length: 1214 characters, Tokens: 374
+2025-04-13 14:08:27.074 -04:00 [INF] Step 3: Generating image with DALL-E
+2025-04-13 14:08:27.083 -04:00 [INF] Generating image with DALL-E based on description
+2025-04-13 14:08:44.008 -04:00 [INF] Image generation completed in 16915ms, estimated tokens: 303
+2025-04-13 14:08:44.017 -04:00 [INF] Image generation completed. Size: 3163261 bytes, Tokens: 303
+2025-04-13 14:08:44.019 -04:00 [INF] Image analysis completed in 22417ms for user unknown
+2025-04-13 14:26:13.327 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-13 14:26:13.511 -04:00 [WRN] Overriding address(es) 'http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-04-13 14:29:21.953 -04:00 [INF] Image analysis request received from user anonymous (unknown). File: IMG_20250408_181142.jpg, Description Length: 200 words
+2025-04-13 14:29:22.023 -04:00 [INF] Successfully converted image data: 4476093 bytes
+2025-04-13 14:29:22.024 -04:00 [INF] Step 1: Analyzing image with Computer Vision
+2025-04-13 14:29:22.028 -04:00 [INF] Starting image analysis with Azure Computer Vision
+2025-04-13 14:29:23.887 -04:00 [INF] Image analysis completed in 1858ms, confidence: 0.72184974
+2025-04-13 14:29:23.928 -04:00 [INF] Computer Vision analysis completed. Description: 44 characters, Tags: 6
+2025-04-13 14:29:23.929 -04:00 [INF] Step 2: Enhancing description with OpenAI
+2025-04-13 14:29:23.933 -04:00 [INF] Enhancing description with Azure OpenAI. Target length: 200 words
+2025-04-13 14:29:27.043 -04:00 [INF] Description enhancement completed in 3106ms, tokens used: 377
+2025-04-13 14:29:27.049 -04:00 [INF] Description enhancement completed. Length: 1267 characters, Tokens: 377
+2025-04-13 14:29:27.055 -04:00 [INF] Step 3: Generating image with DALL-E
+2025-04-13 14:29:27.063 -04:00 [INF] Generating image with DALL-E based on description
+2025-04-13 14:29:40.157 -04:00 [INF] Image generation completed in 13091ms, estimated tokens: 316
+2025-04-13 14:29:40.174 -04:00 [INF] Image generation completed. Size: 3163260 bytes, Tokens: 316
+2025-04-13 14:29:40.181 -04:00 [INF] Image analysis completed in 18220ms for user unknown

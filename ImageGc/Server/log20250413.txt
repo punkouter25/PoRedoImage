@@ -322,3 +322,5 @@ Content-Type: application/json
 2025-04-13 14:29:40.157 -04:00 [INF] Image generation completed in 13091ms, estimated tokens: 316
 2025-04-13 14:29:40.174 -04:00 [INF] Image generation completed. Size: 3163260 bytes, Tokens: 316
 2025-04-13 14:29:40.181 -04:00 [INF] Image analysis completed in 18220ms for user unknown
+2025-04-13 14:52:16.232 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-13 14:52:16.418 -04:00 [WRN] Overriding address(es) 'http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.

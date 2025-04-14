@@ -32,17 +32,8 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
-// Explicitly configure Kestrel endpoints
-builder.WebHost.ConfigureKestrel(serverOptions =>
-{
-    serverOptions.Listen(IPAddress.Loopback, 5257); // HTTP
-    serverOptions.Listen(IPAddress.Loopback, 7147, listenOptions => // HTTPS
-    {
-        listenOptions.UseHttps(); // Use default dev cert
-    });
-});
-
 // Add services to the container.
+// Kestrel endpoints will be configured automatically based on environment variables (e.g., PORT in Azure App Service)
 builder.Services.AddApplicationInsightsTelemetry();
 
 // Add authentication

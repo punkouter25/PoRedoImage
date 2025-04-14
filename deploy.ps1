@@ -40,7 +40,7 @@ $openAIResourceName         = "poRedoImage-openai"
 $appInsightsResourceName    = "PoRedoImageAppInsights"
 
 # Deployment Details
-$dotNetVersion              = "DOTNET|9.0" # Target .NET runtime for App Service
+$linuxFxVersion             = "DOTNETCORE`|9.0" # Target .NET runtime stack for Linux App Service (escape pipe for PowerShell)
 $solutionPath               = "ImageGc/ImageGc.sln"
 $serverProjectPath          = "ImageGc/Server/Server.csproj"
 $publishFolder              = "publish"
@@ -93,9 +93,15 @@ if ($null -eq $plan) {
 Write-Host "`n[4/6] Ensuring Web App '$webAppName' exists..."
 $webApp = Get-AzWebApp -ResourceGroupName $resourceGroupName -Name $webAppName -ErrorAction SilentlyContinue
 if ($null -eq $webApp) {
-    Write-Host "Web App not found. Creating..."
-    New-AzWebApp -ResourceGroupName $resourceGroupName -Name $webAppName -Location $location -AppServicePlan $appServicePlanName -Runtime $dotNetVersion
-    Write-Host "Web App created successfully."
+    Write-Host "Web App not found. Creating using Azure CLI..."
+    # Use Azure CLI 'az webapp create' as New-AzWebApp parameters can vary by module version
+    # Hardcode the runtime string to avoid PowerShell interpretation issues
+    az webapp create --resource-group $resourceGroupName --plan $appServicePlanName --name $webAppName --runtime "DOTNETCORE:9.0" --deployment-local-git # Adding --deployment-local-git might help initialize some settings
+    if ($LASTEXITCODE -ne 0) {
+        Write-Error "az webapp create failed!"
+        exit 1
+    }
+    Write-Host "Web App created successfully via Azure CLI."
 } else {
     Write-Host "Web App already exists."
 }
@@ -135,13 +141,32 @@ $appSettings = @{
     "ASPNETCORE_ENVIRONMENT"                = "Production" # Set environment to Production
 }
 
-Write-Host "Updating settings in Azure..."
-Set-AzWebApp -ResourceGroupName $resourceGroupName -Name $webAppName -AppSettings $appSettings
+Write-Host "Updating settings in Azure using Azure CLI..."
+# Construct settings string for Azure CLI (key=value pairs, use double underscore for nesting)
+$cliAppSettings = @(
+    "APPLICATIONINSIGHTS_CONNECTION_STRING=$appInsightsConnectionString"
+    "AzureComputerVision__Endpoint=$cvEndpoint"
+    "AzureComputerVision__Key=$cvKey"
+    "AzureOpenAI__Endpoint=$openAIEndpoint"
+    "AzureOpenAI__Key=$openAIKey"
+    "AzureOpenAI__DeploymentName=$openAITextDeploymentName"
+    "AzureOpenAI__ImageDeploymentName=$openAIImageDeploymentName"
+    "ASPNETCORE_ENVIRONMENT=Production"
+) -join " "
 
-# Enable Web Sockets (often needed for Blazor Server/WASM interop)
-$webAppConfig = Get-AzWebApp -ResourceGroupName $resourceGroupName -Name $webAppName
-$webAppConfig.SiteConfig.WebSocketsEnabled = $true
-Set-AzWebApp -ResourceGroupName $resourceGroupName -Name $webAppName -WebApp $webAppConfig
+az webapp config appsettings set --resource-group $resourceGroupName --name $webAppName --settings $cliAppSettings
+if ($LASTEXITCODE -ne 0) {
+    Write-Error "az webapp config appsettings set failed!"
+    exit 1
+}
+
+# Enable Web Sockets using Azure CLI
+Write-Host "Enabling Web Sockets using Azure CLI..."
+az webapp config set --resource-group $resourceGroupName --name $webAppName --web-sockets-enabled true
+if ($LASTEXITCODE -ne 0) {
+    # Decide if this is critical enough to exit, maybe just warn? For now, let's warn.
+    Write-Warning "Failed to enable Web Sockets using Azure CLI. Deployment will continue."
+}
 
 Write-Host "Application settings configured successfully."
 

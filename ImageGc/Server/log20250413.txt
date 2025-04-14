@@ -1,3 +1,76 @@
 2025-04-13 16:21:19.119 -04:00 [INF] Log file created
 2025-04-13 16:21:19.214 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
 2025-04-13 16:21:20.438 -04:00 [WRN] Overriding address(es) 'https://localhost:7147, http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-04-13 16:27:02.537 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-13 16:27:03.022 -04:00 [WRN] Overriding address(es) 'https://localhost:7147, http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-04-13 16:28:10.640 -04:00 [INF] Image analysis request received from user anonymous (unknown). File: PXL_20250323_215725402.BURST-01.COVER.jpg, Description Length: 500 words
+2025-04-13 16:28:10.676 -04:00 [INF] Successfully converted image data: 5304672 bytes
+2025-04-13 16:28:10.680 -04:00 [INF] Step 1: Analyzing image with Computer Vision
+2025-04-13 16:28:10.684 -04:00 [INF] Starting image analysis with Azure Computer Vision
+2025-04-13 16:28:14.315 -04:00 [INF] Image analysis completed in 3628ms, confidence: 0.7781
+2025-04-13 16:28:14.326 -04:00 [INF] Computer Vision analysis completed. Description: 41 characters, Tags: 13
+2025-04-13 16:28:14.329 -04:00 [INF] Step 2: Enhancing description with OpenAI
+2025-04-13 16:28:14.336 -04:00 [INF] Enhancing description with Azure OpenAI. Target length: 500 words
+2025-04-13 16:28:23.602 -04:00 [INF] Description enhancement completed in 9262ms, tokens used: 773
+2025-04-13 16:28:23.617 -04:00 [INF] Description enhancement completed. Length: 3065 characters, Tokens: 773
+2025-04-13 16:28:23.622 -04:00 [INF] Step 3: Generating image with DALL-E
+2025-04-13 16:28:23.629 -04:00 [INF] Generating image with DALL-E based on description
+2025-04-13 16:28:37.845 -04:00 [INF] Image generation completed in 14212ms, estimated tokens: 766
+2025-04-13 16:28:37.864 -04:00 [INF] Image generation completed. Size: 3163261 bytes, Tokens: 766
+2025-04-13 16:28:37.870 -04:00 [INF] Image analysis completed in 27224ms for user unknown
+2025-04-13 17:08:08.520 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-13 17:08:08.921 -04:00 [WRN] Overriding address(es) 'https://localhost:7147, http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-04-13 17:22:13.084 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-13 17:22:13.374 -04:00 [WRN] Overriding address(es) 'http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-04-13 17:23:59.326 -04:00 [ERR] Microsoft.IdentityModel Version: 8.8.0.0. Date 04/13/2025 21:23:59. PII logging is OFF. See https://aka.ms/IdentityModel/PII for details. 
+IDX10511: Signature validation failed. Keys tried: 'Microsoft.IdentityModel.Tokens.X509SecurityKey, KeyId: 'CNv0OI3RwqlHFEVnaoMAshCH2XE', InternalId: 'CNv0OI3RwqlHFEVnaoMAshCH2XE'. , KeyId: CNv0OI3RwqlHFEVnaoMAshCH2XE
+'. 
+Number of keys in TokenValidationParameters: '0'. 
+Number of keys in Configuration: '10'. 
+Matched key was in 'Configuration'. 
+kid: 'CNv0OI3RwqlHFEVnaoMAshCH2XE'. 
+Exceptions caught:
+ '[PII of type 'System.String' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'.
+token: '[PII of type 'Microsoft.IdentityModel.JsonWebTokens.JsonWebToken' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'. See https://aka.ms/IDX10511 for details.
+2025-04-13 17:23:59.506 -04:00 [ERR] IDX10511: Signature validation failed. Keys tried: 'Microsoft.IdentityModel.Tokens.X509SecurityKey, KeyId: 'CNv0OI3RwqlHFEVnaoMAshCH2XE', InternalId: 'CNv0OI3RwqlHFEVnaoMAshCH2XE'. , KeyId: CNv0OI3RwqlHFEVnaoMAshCH2XE
+'. 
+Number of keys in TokenValidationParameters: '0'. 
+Number of keys in Configuration: '8'. 
+Matched key was in 'Configuration'. 
+kid: 'CNv0OI3RwqlHFEVnaoMAshCH2XE'. 
+Exceptions caught:
+ '[PII of type 'System.String' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'.
+token: '[PII of type 'Microsoft.IdentityModel.JsonWebTokens.JsonWebToken' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]'. See https://aka.ms/IDX10511 for details.
+2025-04-13 17:26:35.435 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-13 17:26:35.589 -04:00 [WRN] Overriding address(es) 'http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-04-13 17:28:26.071 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-13 17:28:26.211 -04:00 [WRN] Overriding address(es) 'http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-04-13 17:31:07.656 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-13 17:31:07.795 -04:00 [WRN] Overriding address(es) 'http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-04-13 17:45:20.973 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-13 17:45:21.195 -04:00 [WRN] Overriding address(es) 'http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-04-13 18:02:40.718 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-13 18:02:40.865 -04:00 [WRN] Overriding address(es) 'http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-04-13 21:35:05.265 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-13 21:35:05.622 -04:00 [WRN] Overriding address(es) 'http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-04-13 21:43:21.857 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-13 21:43:22.021 -04:00 [WRN] Overriding address(es) 'http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-04-13 21:43:38.477 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-13 21:43:38.630 -04:00 [WRN] Overriding address(es) 'http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-04-13 21:44:48.397 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-13 21:44:48.574 -04:00 [WRN] Overriding address(es) 'http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-04-13 21:45:09.725 -04:00 [INF] Image analysis request received from user anonymous (unknown). File: OLD_MeMikeBrian.jpg, Description Length: 200 words
+2025-04-13 21:45:09.743 -04:00 [INF] Successfully converted image data: 149961 bytes
+2025-04-13 21:45:09.746 -04:00 [INF] Step 1: Analyzing image with Computer Vision
+2025-04-13 21:45:09.749 -04:00 [INF] Starting image analysis with Azure Computer Vision
+2025-04-13 21:45:10.269 -04:00 [INF] Image analysis completed in 518ms, confidence: 0.81355685
+2025-04-13 21:45:10.287 -04:00 [INF] Computer Vision analysis completed. Description: 35 characters, Tags: 11
+2025-04-13 21:45:10.288 -04:00 [INF] Step 2: Enhancing description with OpenAI
+2025-04-13 21:45:10.297 -04:00 [INF] Enhancing description with Azure OpenAI. Target length: 200 words
+2025-04-13 21:45:14.238 -04:00 [INF] Description enhancement completed in 3936ms, tokens used: 394
+2025-04-13 21:45:14.242 -04:00 [INF] Description enhancement completed. Length: 1261 characters, Tokens: 394
+2025-04-13 21:45:14.244 -04:00 [INF] Step 3: Generating image with DALL-E
+2025-04-13 21:45:14.258 -04:00 [INF] Generating image with DALL-E based on description
+2025-04-13 21:45:30.488 -04:00 [INF] Image generation completed in 16228ms, estimated tokens: 315
+2025-04-13 21:45:30.504 -04:00 [INF] Image generation completed. Size: 3163261 bytes, Tokens: 315
+2025-04-13 21:45:30.509 -04:00 [INF] Image analysis completed in 20776ms for user unknown

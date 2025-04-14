@@ -1,0 +1,17 @@
+2025-04-14 09:06:44.306 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-14 09:06:44.655 -04:00 [WRN] Overriding address(es) 'http://localhost:5257'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+2025-04-14 09:08:32.940 -04:00 [INF] Image analysis request received from user anonymous (unknown). File: OLD_MeFootball.jpg, Description Length: 200 words
+2025-04-14 09:08:32.988 -04:00 [INF] Successfully converted image data: 2118954 bytes
+2025-04-14 09:08:32.989 -04:00 [INF] Step 1: Analyzing image with Computer Vision
+2025-04-14 09:08:32.992 -04:00 [INF] Starting image analysis with Azure Computer Vision
+2025-04-14 09:08:34.490 -04:00 [INF] Image analysis completed in 1496ms, confidence: 0.83788174
+2025-04-14 09:08:34.526 -04:00 [INF] Computer Vision analysis completed. Description: 44 characters, Tags: 7
+2025-04-14 09:08:34.527 -04:00 [INF] Step 2: Enhancing description with OpenAI
+2025-04-14 09:08:34.531 -04:00 [INF] Enhancing description with Azure OpenAI. Target length: 200 words
+2025-04-14 09:08:39.462 -04:00 [INF] Description enhancement completed in 4926ms, tokens used: 396
+2025-04-14 09:08:39.464 -04:00 [INF] Description enhancement completed. Length: 1318 characters, Tokens: 396
+2025-04-14 09:08:39.464 -04:00 [INF] Step 3: Generating image with DALL-E
+2025-04-14 09:08:39.470 -04:00 [INF] Generating image with DALL-E based on description
+2025-04-14 09:08:57.359 -04:00 [INF] Image generation completed in 17888ms, estimated tokens: 329
+2025-04-14 09:08:57.372 -04:00 [INF] Image generation completed. Size: 3163260 bytes, Tokens: 329
+2025-04-14 09:08:57.384 -04:00 [INF] Image analysis completed in 24434ms for user unknown

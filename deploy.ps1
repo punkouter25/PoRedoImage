@@ -93,15 +93,14 @@ if ($null -eq $plan) {
 Write-Host "`n[4/6] Ensuring Web App '$webAppName' exists..."
 $webApp = Get-AzWebApp -ResourceGroupName $resourceGroupName -Name $webAppName -ErrorAction SilentlyContinue
 if ($null -eq $webApp) {
-    Write-Host "Web App not found. Creating using Azure CLI..."
-    # Use Azure CLI 'az webapp create' as New-AzWebApp parameters can vary by module version
-    # Hardcode the runtime string to avoid PowerShell interpretation issues
-    az webapp create --resource-group $resourceGroupName --plan $appServicePlanName --name $webAppName --runtime "DOTNETCORE:9.0" --deployment-local-git # Adding --deployment-local-git might help initialize some settings
+    Write-Host "Web App not found. Creating..."
+    # Use Azure CLI as it's more consistent across versions for setting runtime
+    az webapp create --resource-group $resourceGroupName --plan $appServicePlanName --name $webAppName --runtime "DOTNETCORE:9.0"
     if ($LASTEXITCODE -ne 0) {
         Write-Error "az webapp create failed!"
         exit 1
     }
-    Write-Host "Web App created successfully via Azure CLI."
+    Write-Host "Web App created successfully."
 } else {
     Write-Host "Web App already exists."
 }

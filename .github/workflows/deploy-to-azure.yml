@@ -21,13 +21,16 @@ jobs:
         dotnet-version: 9.0.x
     
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore ImageGc.sln # Restore the solution
+      working-directory: ./ImageGc
     
     - name: Build
-      run: dotnet build --configuration Release --no-restore
+      run: dotnet build Server/Server.csproj --configuration Release --no-restore # Build the Server project
+      working-directory: ./ImageGc
     
     - name: Publish
-      run: dotnet publish --configuration Release --no-build --output ./publish
+      run: dotnet publish Server/Server.csproj --configuration Release --no-build --output ../publish # Publish Server project to root publish dir
+      working-directory: ./ImageGc
     
     - name: Login to Azure
       uses: azure/login@v1
@@ -38,4 +41,4 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
-        package: ./publish
+        package: ./publish # The output path is relative to the root now

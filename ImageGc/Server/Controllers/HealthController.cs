@@ -68,7 +68,7 @@ public class HealthController : ControllerBase
 
     [HttpGet("azure")]
     [AllowAnonymous]
-    public async Task<IActionResult> CheckAzureServices()
+    public IActionResult CheckAzureServices() // Removed async Task<>
     {
         _logger.LogInformation("Executing CheckAzureServices action."); // Add log here
         try

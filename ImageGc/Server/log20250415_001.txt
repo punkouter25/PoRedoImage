@@ -56,3 +56,14 @@ System.IO.IOException: Failed to bind to address http://127.0.0.1:5257: address 
 2025-04-15 10:34:58.843 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
 2025-04-15 10:36:21.682 -04:00 [WRN] Failed to determine the https port for redirect.
 2025-04-15 10:51:46.073 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-15 11:50:51.354 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-15 11:56:51.280 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-15 12:00:51.718 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-15 12:04:48.900 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-15 12:49:20.178 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-04-15 12:49:55.978 -04:00 [WRN] Failed to determine the https port for redirect.
+2025-04-15 12:50:03.767 -04:00 [INF] Image analysis request received from user anonymous (unknown). File: OLD_MeMikeBrian.jpg, Description Length: 200 words
+2025-04-15 12:50:03.789 -04:00 [INF] Successfully converted image data: 149961 bytes
+2025-04-15 12:50:03.791 -04:00 [INF] Step 1: Analyzing image with Computer Vision
+2025-04-15 12:50:03.794 -04:00 [INF] Starting image analysis with Azure Computer Vision
+2025-04-15 12:50:04.255 -04:00 [INF] Image analysis completed in 460ms, confidence: 0.81355685

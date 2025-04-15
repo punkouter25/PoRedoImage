@@ -339,7 +339,7 @@
         await Task.Delay(100); // Allow UI to update
     }
     
-    private async Task CopyToClipboard(string text)
+    private async Task CopyToClipboard(string? text) // Changed to nullable string
     {
         if (string.IsNullOrEmpty(text)) return;
         

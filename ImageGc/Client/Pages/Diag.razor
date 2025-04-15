@@ -305,15 +305,15 @@
         }
     }
 
-    private async Task<bool> CheckLocalStorageAsync()
+    private Task<bool> CheckLocalStorageAsync() // Removed async
     {
         try
         {
-            return true; // Simplified - in a real app we would check with JS interop
+            return Task.FromResult(true); // Simplified - in a real app we would check with JS interop
         }
         catch
         {
-            return false;
+            return Task.FromResult(false); // Return Task<bool>
         }
     }
 

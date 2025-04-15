@@ -14,23 +14,20 @@ if (!string.IsNullOrEmpty(builder.Configuration["ApplicationInsights:ConnectionS
 {
     telemetryConfig.ConnectionString = builder.Configuration["ApplicationInsights:ConnectionString"];
 }
-else if (!string.IsNullOrEmpty(builder.Configuration["ApplicationInsights:InstrumentationKey"]))
-{
-    telemetryConfig.InstrumentationKey = builder.Configuration["ApplicationInsights:InstrumentationKey"];
-}
+// Removed obsolete InstrumentationKey fallback
 
-Log.Logger = new LoggerConfiguration()
+Log.Logger = new LoggerConfiguration() // Uncommented Serilog setup
     .MinimumLevel.Information()
     .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
-    .Enrich.FromLogContext()
-    .WriteTo.Console()
-    .WriteTo.File("log.txt", rollingInterval: RollingInterval.Day)
-    .WriteTo.ApplicationInsights(
+    .Enrich.FromLogContext() // Uncommented
+    .WriteTo.Console() // Uncommented
+    .WriteTo.File("log.txt", rollingInterval: RollingInterval.Day) // Uncommented
+    .WriteTo.ApplicationInsights( // Uncommented
         telemetryConfig,
         TelemetryConverter.Traces)
     .CreateLogger();
 
-builder.Host.UseSerilog();
+builder.Host.UseSerilog(); // Uncommented Serilog host integration
 
 // Add services to the container.
 // Kestrel endpoints will be configured automatically based on environment variables (e.g., PORT in Azure App Service)
@@ -62,8 +59,8 @@ builder.Services.AddCors(options =>
 
 // Register Azure services
 builder.Services.AddHttpClient();
-builder.Services.AddScoped<IComputerVisionService, ComputerVisionService>();
-builder.Services.AddScoped<IOpenAIService, OpenAIService>();
+builder.Services.AddScoped<IComputerVisionService, ComputerVisionService>(); // Uncommented
+builder.Services.AddScoped<IOpenAIService, OpenAIService>(); // Uncommented
 
 var app = builder.Build();
 
@@ -71,7 +68,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
-    app.UseCors("AllowAll");
+    // app.UseCors("AllowAll"); // Temporarily commented out
 }
 else
 {
@@ -79,14 +76,14 @@ else
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+app.UseHttpsRedirection(); // Uncommented
 app.UseBlazorFrameworkFiles(); // Serve Blazor WebAssembly static files
 app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication();
-app.UseAuthorization();
+// app.UseAuthentication(); // Temporarily commented out
+// app.UseAuthorization(); // Temporarily commented out
 
 app.MapRazorPages();
 app.MapControllers();
@@ -97,19 +94,21 @@ app.MapFallbackToFile("index.html");
 if (!File.Exists("log.txt"))
 {
     File.Create("log.txt").Dispose();
-    Log.Information("Log file created");
+    // Log.Information("Log file created"); // Keep commented
 }
 
-try
+try // Uncommented final try/catch/finally
 {
-    Log.Information("Starting application - Server hosting Blazor WebAssembly Client");
+    Log.Information("Starting application - Server hosting Blazor WebAssembly Client"); // Uncommented Serilog log
+    // Console.WriteLine("Starting application - Server hosting Blazor WebAssembly Client (Console Log)"); // Remove console log
     await app.RunAsync();
 }
 catch (Exception ex)
 {
-    Log.Fatal(ex, "Application terminated unexpectedly");
+    Log.Fatal(ex, "Application terminated unexpectedly"); // Uncommented Serilog log
+    // Console.WriteLine($"FATAL ERROR: {ex}"); // Remove console log
 }
 finally
 {
-    Log.CloseAndFlush();
+    Log.CloseAndFlush(); // Uncommented Serilog log
 }

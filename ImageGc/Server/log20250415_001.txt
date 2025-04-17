@@ -67,3 +67,13 @@ System.IO.IOException: Failed to bind to address http://127.0.0.1:5257: address 
 2025-04-15 12:50:03.791 -04:00 [INF] Step 1: Analyzing image with Computer Vision
 2025-04-15 12:50:03.794 -04:00 [INF] Starting image analysis with Azure Computer Vision
 2025-04-15 12:50:04.255 -04:00 [INF] Image analysis completed in 460ms, confidence: 0.81355685
+2025-04-15 12:50:04.266 -04:00 [INF] Computer Vision analysis completed. Description: 35 characters, Tags: 11
+2025-04-15 12:50:04.269 -04:00 [INF] Step 2: Enhancing description with OpenAI
+2025-04-15 12:50:04.273 -04:00 [INF] Enhancing description with Azure OpenAI. Target length: 200 words
+2025-04-15 12:50:06.662 -04:00 [INF] Description enhancement completed in 2387ms, tokens used: 380
+2025-04-15 12:50:06.666 -04:00 [INF] Description enhancement completed. Length: 1247 characters, Tokens: 380
+2025-04-15 12:50:06.666 -04:00 [INF] Step 3: Generating image with DALL-E
+2025-04-15 12:50:06.669 -04:00 [INF] Generating image with DALL-E based on description
+2025-04-15 12:50:21.307 -04:00 [INF] Image generation completed in 14636ms, estimated tokens: 311
+2025-04-15 12:50:21.346 -04:00 [INF] Image generation completed. Size: 3163260 bytes, Tokens: 311
+2025-04-15 12:50:21.349 -04:00 [INF] Image analysis completed in 17573ms for user unknown

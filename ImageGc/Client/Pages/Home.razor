@@ -4,12 +4,15 @@
 @using ImageGc.Shared.Models
 @using Client.Services
 @using Microsoft.AspNetCore.Authorization
+@using System.Security.Claims
 @using Microsoft.AspNetCore.Components.Authorization
 @inject ApiService Api
 @inject HttpClient Http
 @inject IJSRuntime JSRuntime
+@using Microsoft.AspNetCore.SignalR.Client
 @inject ILogger<Home> Logger
 @inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <PageTitle>Image Translation & Regeneration</PageTitle>
 
@@ -214,6 +217,44 @@
     private int descriptionLength = 200;
     private const int MaxFileSize = 20 * 1024 * 1024; // 20MB
     private ImageAnalysisResult? analysisResult;
+    private HubConnection? hubConnection;
+    private string? userId;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        userId = authState.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "anonymous";
+
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(NavigationManager.ToAbsoluteUri("/progresshub"))
+            .Build();
+
+        hubConnection.On<int, string>("ReceiveProgressUpdate", (percentage, message) =>
+        {
+            progressPercentage = percentage;
+            progressMessage = message;
+            StateHasChanged(); // Notify Blazor that the state has changed
+        });
+
+        try
+        {
+            await hubConnection.StartAsync();
+            Logger.LogInformation("SignalR connection started successfully.");
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Error starting SignalR connection.");
+            // Handle connection error, maybe display a message to the user
+        }
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+        {
+            await hubConnection.DisposeAsync();
+        }
+    }
     
     private async Task LoadFile(InputFileChangeEventArgs e)
     {
@@ -267,8 +308,25 @@
             isProcessing = true;
             errorMessage = null;
             
-            // Step 1: Prepare the request
-            await UpdateProgress(10, "Preparing image for analysis...");
+            // Ensure SignalR connection is started before processing
+            if (hubConnection?.State != HubConnectionState.Connected)
+            {
+                try
+                {
+                    await hubConnection!.StartAsync();
+                    Logger.LogInformation("SignalR connection started successfully before processing.");
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogError(ex, "Error starting SignalR connection before processing.");
+                    errorMessage = $"Could not connect to the progress service: {ex.Message}";
+                    isProcessing = false;
+                    return;
+                }
+            }
+
+            // Step 1: Prepare the request (progress update sent from server)
+            // await UpdateProgress(10, "Preparing image for analysis..."); // Progress now sent from server
             
             // Create the request model
             var request = new ImageAnalysisRequest
@@ -279,8 +337,8 @@
                 DescriptionLength = descriptionLength
             };
             
-            // Step 2: Send to API with authenticated service
-            await UpdateProgress(30, "Analyzing image with Azure Computer Vision...");
+            // Step 2: Send to API with authenticated service (progress updates sent from server)
+            // await UpdateProgress(30, "Analyzing image with Azure Computer Vision..."); // Progress now sent from server
             
             try
             {
@@ -293,21 +351,11 @@
                     throw new Exception("Failed to process image analysis. No response received from API.");
                 }
                 
-                // Update progress based on which steps completed successfully
-                if (!string.IsNullOrEmpty(analysisResult.Description))
-                {
-                    await UpdateProgress(60, "Description generated successfully...");
-                    imageDescription = analysisResult.Description;
-                }
-                
+                // Update UI based on the final result received from the API
+                imageDescription = analysisResult.Description;
                 if (!string.IsNullOrEmpty(analysisResult.RegeneratedImageData))
                 {
-                    await UpdateProgress(90, "Image regenerated successfully...");
                     regeneratedImageUrl = $"data:{analysisResult.RegeneratedImageContentType};base64,{analysisResult.RegeneratedImageData}";
-                }
-                else
-                {
-                    await UpdateProgress(90, "Image regeneration failed. See error details...");
                 }
             }
             catch (Exception ex)
@@ -316,12 +364,14 @@
                 errorMessage = $"Error processing image: {ex.Message}";
                 imageDescription = "API processing failed. Please try again.";
             }
-            
-            await UpdateProgress(100, "Processing complete!");
-            isProcessing = false;
-            isComplete = true;
-            
-            Logger.LogInformation("Image processing completed successfully");
+            finally
+            {
+                // await UpdateProgress(100, "Processing complete!"); // Final progress sent from server
+                isProcessing = false;
+                isComplete = true;
+                StateHasChanged(); // Ensure UI updates after processing
+                Logger.LogInformation("Image processing completed successfully");
+            }
         }
         catch (Exception ex)
         {
@@ -331,13 +381,14 @@
         }
     }
     
-    private async Task UpdateProgress(int percentage, string message)
-    {
-        progressPercentage = percentage;
-        progressMessage = message;
-        Logger.LogInformation("Progress update: {Percentage}% - {Message}", percentage, message);
-        await Task.Delay(100); // Allow UI to update
-    }
+    // Remove client-side UpdateProgress as updates come from SignalR
+    // private async Task UpdateProgress(int percentage, string message)
+    // {
+    //     progressPercentage = percentage;
+    //     progressMessage = message;
+    //     Logger.LogInformation("Progress update: {Percentage}% - {Message}", percentage, message);
+    //     await Task.Delay(100); // Allow UI to update
+    // }
     
     private async Task CopyToClipboard(string? text) // Changed to nullable string
     {

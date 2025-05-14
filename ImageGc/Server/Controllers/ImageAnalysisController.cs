@@ -5,6 +5,8 @@ using ImageGc.Shared.Models;
 using Server.Services;
 using System.Diagnostics;
 using System.Security.Claims;
+using Microsoft.AspNetCore.SignalR; // Add using directive for IHubContext
+using Server.Hubs; // Add using directive for ProgressHub
 
 namespace Server.Controllers;
 
@@ -16,17 +18,27 @@ public class ImageAnalysisController : ControllerBase
     private readonly TelemetryClient _telemetryClient;
     private readonly IComputerVisionService _computerVisionService;
     private readonly IOpenAIService _openAIService;
+    private readonly IHubContext<ProgressHub> _hubContext; // Inject SignalR hub context
     
     public ImageAnalysisController(
         ILogger<ImageAnalysisController> logger, 
         TelemetryClient telemetryClient,
         IComputerVisionService computerVisionService,
-        IOpenAIService openAIService)
+        IOpenAIService openAIService,
+        IHubContext<ProgressHub> hubContext) // Inject SignalR hub context
     {
         _logger = logger;
         _telemetryClient = telemetryClient;
         _computerVisionService = computerVisionService;
         _openAIService = openAIService;
+        _hubContext = hubContext; // Assign injected hub context
+    }
+
+    // Helper method to send progress updates via SignalR
+    private async Task SendProgressUpdate(string userId, int percentage, string message)
+    {
+        await _hubContext.Clients.User(userId).SendAsync("ReceiveProgressUpdate", percentage, message);
+        _logger.LogInformation("Sent progress update to user {UserId}: {Percentage}% - {Message}", userId, percentage, message);
     }
 
     [HttpPost("analyze")]
@@ -72,6 +84,20 @@ public class ImageAnalysisController : ControllerBase
             {
                 _logger.LogError(ex, "Failed to decode base64 image data");
                 return BadRequest(new { error = "Invalid image data format" });
+            }
+
+            // Server-side validation for file type and size
+            const int MaxFileSize = 20 * 1024 * 1024; // 20MB
+            if (imageBytes.Length > MaxFileSize)
+            {
+                _logger.LogWarning("Received image exceeds maximum size limit. Size: {Size} bytes", imageBytes.Length);
+                return BadRequest(new { error = $"File size exceeds the maximum allowed ({MaxFileSize / 1024 / 1024}MB)." });
+            }
+
+            if (request.ContentType != "image/jpeg" && request.ContentType != "image/png")
+            {
+                _logger.LogWarning("Received image with unsupported content type: {ContentType}", request.ContentType);
+                return BadRequest(new { error = "Only JPG and PNG files are supported." });
             }
             
             // Step 1: Analyze image with Computer Vision

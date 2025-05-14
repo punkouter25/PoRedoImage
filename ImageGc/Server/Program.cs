@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Identity.Web;
 using Serilog;
 using Serilog.Events;
+using Server.Hubs; // Add using directive for ProgressHub
 using Server.Services;
 using System.Net;
 
@@ -62,6 +63,9 @@ builder.Services.AddHttpClient();
 builder.Services.AddScoped<IComputerVisionService, ComputerVisionService>(); // Uncommented
 builder.Services.AddScoped<IOpenAIService, OpenAIService>(); // Uncommented
 
+// Add SignalR services
+builder.Services.AddSignalR();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -82,11 +86,13 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// app.UseAuthentication(); // Temporarily commented out
-// app.UseAuthorization(); // Temporarily commented out
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapRazorPages();
 app.MapControllers();
+// Map SignalR hub
+app.MapHub<ProgressHub>("/progresshub");
 // This ensures any routes not matched by controllers or Razor pages are handled by the Blazor app
 app.MapFallbackToFile("index.html");
 

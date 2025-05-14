@@ -179,4 +179,52 @@ code {
     .result-image {
         max-height: 200px;
     }
+
+    /* Adjust spacing and padding for smaller screens */
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .card {
+        margin-bottom: 1.5rem;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+
+    .mb-4 {
+        margin-bottom: 1rem !important;
+    }
+}
+
+/* Further adjustments for even smaller screens (e.g., phones) */
+@media (max-width: 576px) {
+    .display-4 {
+        font-size: 2rem;
+    }
+
+    .lead {
+        font-size: 1rem;
+    }
+
+    .preview-image,
+    .result-image {
+        max-height: 150px;
+    }
+
+    .description-text {
+        font-size: 0.9rem;
+    }
+
+    .status-item {
+        grid-template-columns: 24px 1fr; /* Stack status name and message */
+        gap: 0.5rem;
+        padding: 0.75rem;
+    }
+
+    .status-message {
+        grid-column: 2; /* Place message below name */
+    }
 }

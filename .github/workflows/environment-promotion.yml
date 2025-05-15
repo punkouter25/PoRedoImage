@@ -1,4 +1,4 @@
-name: Build and Deploy to Azure Staging
+name: Build and Deploy to Azure Web App
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    environment: staging
+    environment: staging # Reverted environment name back to staging
 
     steps:
       - name: Checkout code
@@ -42,16 +42,16 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-      - name: Deploy to Azure Staging
+      - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
-          app-name: ${{ secrets.AZURE_WEBAPP_NAME }}-staging
+          app-name: poredoimage-app-Ka4ojJ # Updated app name to the one in the resource group
           package: ./publish
 
       - name: Post-deployment health check
         run: |
           echo "Checking health of deployed application"
-          APP_URL="${{ secrets.APP_URL_PREFIX }}-staging${{ secrets.APP_URL_SUFFIX }}/health"
+          APP_URL="https://poredoimage-app-ka4ojj.azurewebsites.net/health" # Updated health check URL
           RETRY_COUNT=0
           MAX_RETRIES=10
 
@@ -73,5 +73,5 @@ jobs:
         run: |
           echo "## Deployment Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "✅ Successfully deployed to **staging** environment" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Successfully deployed to **Azure Web App**" >> $GITHUB_STEP_SUMMARY
           echo "📅 Deployment completed at: $(date)" >> $GITHUB_STEP_SUMMARY

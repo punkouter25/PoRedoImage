@@ -1,15 +1,16 @@
-﻿@page "/"
+@page "/"
 @using Microsoft.AspNetCore.Components.Forms
+@using Microsoft.AspNetCore.Components
 @using System.Text.Json
 @using ImageGc.Shared.Models
 @using Client.Services
 @using Microsoft.AspNetCore.Authorization
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.SignalR.Client
 @inject ApiService Api
 @inject HttpClient Http
 @inject IJSRuntime JSRuntime
-@using Microsoft.AspNetCore.SignalR.Client
 @inject ILogger<Home> Logger
 @inject NavigationManager NavigationManager
 @inject AuthenticationStateProvider AuthenticationStateProvider
@@ -20,7 +21,7 @@
     <div class="row mb-4">
         <div class="col-12">
             <h1 class="display-4 text-center">Image Translation & Regeneration</h1>
-            <p class="lead text-center">Upload an image, get a detailed description, and see how AI regenerates it.</p>
+            <p class="lead text-center">Upload an image to our advanced AI analysis engine, which will generate a comprehensive and detailed description of the visual elements present in your photograph. Then watch as our AI regenerates a new interpretation of your image based on that description, showcasing the fascinating capabilities of computer vision and generative AI working in tandem. This process demonstrates how machines understand and recreate visual content through textual descriptions, highlighting both the strengths and creative interpretations that emerge in AI-powered image processing workflows.</p>
         </div>
     </div>
 
@@ -63,10 +64,10 @@
                                 <img src="@imagePreviewUrl" class="img-fluid preview-image" alt="Preview" />
                             </div>
                         }
-                        
-                        <div class="mb-3">
+                          <div class="mb-3">
                             <label for="descriptionLength" class="form-label">
                                 Description Length: <strong>@descriptionLength words</strong>
+                                <span class="text-muted small fst-italic d-block">Longer descriptions (350+ words) generally produce better results</span>
                             </label>
                             <input type="range" class="form-range" min="200" max="500" step="10" 
                                   @bind="descriptionLength" id="descriptionLength" />
@@ -114,7 +115,8 @@
                     </div>
                     <div class="card-body d-flex flex-column">
                         <div class="text-center mb-3 flex-grow-1">
-                            <img src="@imagePreviewUrl" class="img-fluid result-image" alt="Original" />
+                            <img src="@imagePreviewUrl" class="img-fluid result-image" alt="Original" 
+                                 onload="this.classList.add('loaded')" />
                         </div>
                         <button class="btn btn-outline-primary" @onclick="DownloadOriginal">
                             <i class="bi bi-download me-2"></i>Download Original
@@ -131,15 +133,18 @@
                     <div class="card-body d-flex flex-column">
                         <div class="text-center mb-3 flex-grow-1">
                             @if (regeneratedImageUrl != null)
-                            {
-                                <img src="@regeneratedImageUrl" class="img-fluid result-image" alt="Regenerated" />
+                            {                                <img src="@regeneratedImageUrl" class="img-fluid result-image" alt="Regenerated" 
+                                     onload="this.classList.add('loaded')" 
+                                     onerror="this.onerror=null; this.src='images/image-error.png'; this.classList.add('error'); console.error('Failed to load regenerated image');" />
                             }
                             else
-                            {
-                                <div class="d-flex justify-content-center align-items-center h-100">
-                                    <div class="spinner-border text-primary" role="status">
+                            {                                <div class="d-flex justify-content-center align-items-center h-100 flex-column">
+                                    <div class="spinner-border text-primary mb-2" role="status">
                                         <span class="visually-hidden">Loading...</span>
                                     </div>
+                                    <p class="text-muted mb-1">Image generation in progress...</p>
+                                    <p class="text-muted small fst-italic">This process typically takes 45-90 seconds. Complex images may take longer.</p>
+                                    <p class="text-muted small">Your browser will automatically display the image when ready.</p>
                                 </div>
                             }
                         </div>
@@ -165,9 +170,8 @@
                                 Processing time: @(analysisResult.Metrics.TotalProcessingTimeMs / 1000.0)s
                             </span>
                         }
-                    </div>
-                    <div class="card-body">
-                        <p class="description-text">@imageDescription</p>
+                    </div>                    <div class="card-body">
+                        <p class="description-text">@((MarkupString)(string.IsNullOrEmpty(imageDescription) ? "" : System.Net.WebUtility.HtmlEncode(imageDescription).Replace("\n", "<br />")))</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <span class="text-muted">@(string.IsNullOrEmpty(imageDescription) ? 0 : imageDescription.Split(' ').Length) words</span>
                             <div>
@@ -210,11 +214,10 @@
     private string? imageDescription;
     private string? errorMessage;
     private bool isProcessing = false;
-    private bool isComplete = false;
-    private bool canProcessImage => selectedFile != null && string.IsNullOrEmpty(errorMessage);
+    private bool isComplete = false;    private bool canProcessImage => selectedFile != null && string.IsNullOrEmpty(errorMessage);
     private int progressPercentage = 0;
     private string progressMessage = "";
-    private int descriptionLength = 200;
+    private int descriptionLength = 350; // Default to 350 words for better image generation results
     private const int MaxFileSize = 20 * 1024 * 1024; // 20MB
     private ImageAnalysisResult? analysisResult;
     private HubConnection? hubConnection;
@@ -339,10 +342,12 @@
             
             // Step 2: Send to API with authenticated service (progress updates sent from server)
             // await UpdateProgress(30, "Analyzing image with Azure Computer Vision..."); // Progress now sent from server
-            
             try
             {
-                // Call the API using authenticated service
+                // Create a cancellation token with extended timeout (3 minutes)
+                using var cts = new CancellationTokenSource(TimeSpan.FromMinutes(3));
+                
+                // Call the API using authenticated service with timeout
                 analysisResult = await Api.PostAsync<ImageAnalysisRequest, ImageAnalysisResult>(
                     "api/ImageAnalysis/analyze", request);
                 
@@ -358,11 +363,36 @@
                     regeneratedImageUrl = $"data:{analysisResult.RegeneratedImageContentType};base64,{analysisResult.RegeneratedImageData}";
                 }
             }
+            catch (TimeoutException ex)
+            {
+                Logger.LogError(ex, "Request timed out");
+                errorMessage = "The image generation process took too long to complete. Please try again with a different image.";
+                imageDescription = "Image analysis timed out. The server took too long to process your request. This might be due to high server load or complexity of the image.";
+            }
+            catch (HttpRequestException ex) when ((int?)ex.StatusCode >= 500)
+            {
+                Logger.LogError(ex, "Server error occurred");
+                errorMessage = $"A server error occurred: {ex.Message}";
+                imageDescription = "The server encountered an error while processing your image. Our team has been notified and is working to resolve the issue.";
+            }
             catch (Exception ex)
             {
                 Logger.LogError(ex, "Error calling API");
                 errorMessage = $"Error processing image: {ex.Message}";
-                imageDescription = "API processing failed. Please try again.";
+                
+                // Provide more user-friendly error messages based on type of error
+                if (ex.Message.Contains("timeout") || ex.Message.Contains("timed out"))
+                {
+                    imageDescription = "The request took too long to complete. This could be due to high server load or complexity of the image. Please try again with a different image or at a later time.";
+                }
+                else if (ex.Message.Contains("connection"))
+                {
+                    imageDescription = "There was a problem connecting to the server. Please check your internet connection and try again.";
+                }
+                else
+                {
+                    imageDescription = "An unexpected error occurred during processing. Our team has been notified of the issue.";
+                }
             }
             finally
             {
@@ -404,9 +434,18 @@
         
         try
         {
-            await JSRuntime.InvokeVoidAsync("downloadImage", imagePreviewUrl, 
+            var success = await JSRuntime.InvokeAsync<bool>("downloadImage", imagePreviewUrl, 
                 selectedFile?.Name ?? "original-image.jpg");
-            Logger.LogInformation("Original image download initiated");
+                
+            if (success)
+            {
+                Logger.LogInformation("Original image download initiated");
+            }
+            else
+            {
+                errorMessage = "There was a problem downloading the image. Please try again.";
+                Logger.LogWarning("Download function returned false");
+            }
         }
         catch (Exception ex)
         {
@@ -421,9 +460,18 @@
         
         try
         {
-            await JSRuntime.InvokeVoidAsync("downloadImage", regeneratedImageUrl, 
+            var success = await JSRuntime.InvokeAsync<bool>("downloadImage", regeneratedImageUrl, 
                 "regenerated-" + (selectedFile?.Name ?? "image.png"));
-            Logger.LogInformation("Regenerated image download initiated");
+                
+            if (success)
+            {
+                Logger.LogInformation("Regenerated image download initiated");
+            }
+            else
+            {
+                errorMessage = "There was a problem downloading the regenerated image. Please try again.";
+                Logger.LogWarning("Download function returned false");
+            }
         }
         catch (Exception ex)
         {
@@ -438,9 +486,16 @@
         
         try
         {
+            // Show a temporary processing message
+            errorMessage = "Generating comparison image...";
+            
             await JSRuntime.InvokeVoidAsync("createSideBySideComparison", 
                 imagePreviewUrl, regeneratedImageUrl, 
                 "comparison-" + (selectedFile?.Name ?? "image.png"));
+                
+            // Clear the temporary message
+            errorMessage = null;
+            
             Logger.LogInformation("Side-by-side comparison download initiated");
         }
         catch (Exception ex)

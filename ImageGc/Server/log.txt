@@ -1,0 +1,109 @@
+2025-05-14 16:10:40.013 -04:00 [INF] Deleted old log file: log20250413.txt
+2025-05-14 16:10:40.049 -04:00 [INF] Deleted old log file: log20250414.txt
+2025-05-14 16:10:40.049 -04:00 [INF] Deleted old log file: log20250415.txt
+2025-05-14 16:10:40.051 -04:00 [INF] Deleted old log file: log20250415_001.txt
+2025-05-14 16:10:40.051 -04:00 [INF] Deleted old log file: log20250416.txt
+2025-05-14 16:10:40.052 -04:00 [INF] Deleted old log file: log20250514.txt
+2025-05-14 16:10:40.053 -04:00 [INF] Deleted old log file: log20250514_001.txt
+2025-05-14 16:10:40.053 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-05-14 16:36:14.866 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-05-14 16:36:21.351 -04:00 [WRN] Failed to determine the https port for redirect.
+2025-05-14 16:36:24.056 -04:00 [INF] Executing CheckHealth action.
+2025-05-14 16:36:24.057 -04:00 [INF] API health check requested by anonymous, authenticated: false
+2025-05-14 16:36:24.110 -04:00 [INF] Executing CheckAzureServices action.
+2025-05-14 16:36:24.110 -04:00 [INF] Azure services health check requested
+2025-05-14 16:36:24.151 -04:00 [INF] Checking individual service: Computer Vision
+2025-05-14 16:36:24.163 -04:00 [INF] Checking individual service: Azure OpenAI
+2025-05-14 16:40:22.859 -04:00 [INF] Image analysis request received from user anonymous (unknown). File: Screenshot (2).png, Description Length: 350 words
+2025-05-14 16:40:22.866 -04:00 [INF] Successfully converted image data: 1001921 bytes
+2025-05-14 16:40:22.867 -04:00 [INF] Step 1: Analyzing image with Computer Vision
+2025-05-14 16:40:22.868 -04:00 [INF] Starting image analysis with Azure Computer Vision
+2025-05-14 16:40:23.823 -04:00 [INF] Image analysis completed in 954ms, confidence: 0.81628096
+2025-05-14 16:40:23.830 -04:00 [INF] Computer Vision analysis completed. Description: 33 characters, Tags: 13
+2025-05-14 16:40:23.830 -04:00 [INF] Step 2: Enhancing description with OpenAI
+2025-05-14 16:40:23.833 -04:00 [INF] Enhancing description with Azure OpenAI. Target length: 350 words
+2025-05-14 16:40:23.905 -04:00 [ERR] Error enhancing description with Azure OpenAI after 72ms
+Azure.RequestFailedException: Unavailable model: gpt-4o
+Status: 400 (Bad Request)
+ErrorCode: unavailable_model
+
+Content:
+{"error":{"code":"unavailable_model","message":"Unavailable model: gpt-4o","details":"Unavailable model: gpt-4o"}}
+
+Headers:
+Transfer-Encoding: chunked
+apim-request-id: REDACTED
+request-context: REDACTED
+Strict-Transport-Security: REDACTED
+X-Content-Type-Options: REDACTED
+x-ms-region: REDACTED
+Date: Wed, 14 May 2025 20:40:20 GMT
+Content-Type: application/json; charset=utf-8
+
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.OpenAI.OpenAIClient.GetChatCompletionsAsync(ChatCompletionsOptions chatCompletionsOptions, CancellationToken cancellationToken)
+   at Server.Services.OpenAIService.EnhanceDescriptionAsync(String basicDescription, List`1 tags, Int32 targetLength) in C:\Users\punko\Downloads\PoRedoImage\ImageGc\Server\Services\OpenAIService.cs:line 103
+2025-05-14 16:40:23.953 -04:00 [ERR] Error during description enhancement
+Azure.RequestFailedException: Unavailable model: gpt-4o
+Status: 400 (Bad Request)
+ErrorCode: unavailable_model
+
+Content:
+{"error":{"code":"unavailable_model","message":"Unavailable model: gpt-4o","details":"Unavailable model: gpt-4o"}}
+
+Headers:
+Transfer-Encoding: chunked
+apim-request-id: REDACTED
+request-context: REDACTED
+Strict-Transport-Security: REDACTED
+X-Content-Type-Options: REDACTED
+x-ms-region: REDACTED
+Date: Wed, 14 May 2025 20:40:20 GMT
+Content-Type: application/json; charset=utf-8
+
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.OpenAI.OpenAIClient.GetChatCompletionsAsync(ChatCompletionsOptions chatCompletionsOptions, CancellationToken cancellationToken)
+   at Server.Services.OpenAIService.EnhanceDescriptionAsync(String basicDescription, List`1 tags, Int32 targetLength) in C:\Users\punko\Downloads\PoRedoImage\ImageGc\Server\Services\OpenAIService.cs:line 103
+   at Server.Controllers.ImageAnalysisController.AnalyzeImage(ImageAnalysisRequest request) in C:\Users\punko\Downloads\PoRedoImage\ImageGc\Server\Controllers\ImageAnalysisController.cs:line 133
+2025-05-14 16:40:23.956 -04:00 [INF] Step 3: Generating image with DALL-E
+2025-05-14 16:40:23.957 -04:00 [INF] Generating image with DALL-E based on description
+2025-05-14 16:40:29.385 -04:00 [ERR] Error generating image with DALL-E after 5427ms
+Azure.RequestFailedException: Internal server error
+Status: 500 (Internal Server Error)
+
+Content:
+{ "statusCode": 500, "message": "Internal server error", "activityId": "88bfa8ab-617b-4397-8bd4-3a1f3f2190ca" }
+
+Headers:
+apim-request-id: REDACTED
+Strict-Transport-Security: REDACTED
+X-Content-Type-Options: REDACTED
+x-ms-region: REDACTED
+Date: Wed, 14 May 2025 20:40:25 GMT
+Content-Length: 111
+Content-Type: application/json
+
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.OpenAI.OpenAIClient.GetImageGenerationsAsync(ImageGenerationOptions imageGenerationOptions, CancellationToken cancellationToken)
+   at Server.Services.OpenAIService.GenerateImageAsync(String description) in C:\Users\punko\Downloads\PoRedoImage\ImageGc\Server\Services\OpenAIService.cs:line 159
+2025-05-14 16:40:29.401 -04:00 [ERR] Error during image generation
+Azure.RequestFailedException: Internal server error
+Status: 500 (Internal Server Error)
+
+Content:
+{ "statusCode": 500, "message": "Internal server error", "activityId": "88bfa8ab-617b-4397-8bd4-3a1f3f2190ca" }
+
+Headers:
+apim-request-id: REDACTED
+Strict-Transport-Security: REDACTED
+X-Content-Type-Options: REDACTED
+x-ms-region: REDACTED
+Date: Wed, 14 May 2025 20:40:25 GMT
+Content-Length: 111
+Content-Type: application/json
+
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.OpenAI.OpenAIClient.GetImageGenerationsAsync(ImageGenerationOptions imageGenerationOptions, CancellationToken cancellationToken)
+   at Server.Services.OpenAIService.GenerateImageAsync(String description) in C:\Users\punko\Downloads\PoRedoImage\ImageGc\Server\Services\OpenAIService.cs:line 159
+   at Server.Controllers.ImageAnalysisController.AnalyzeImage(ImageAnalysisRequest request) in C:\Users\punko\Downloads\PoRedoImage\ImageGc\Server\Controllers\ImageAnalysisController.cs:line 155
+2025-05-14 16:40:29.415 -04:00 [INF] Image analysis completed in 6553ms for user unknown

@@ -22,7 +22,11 @@ Log.Logger = new LoggerConfiguration() // Uncommented Serilog setup
     .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
     .Enrich.FromLogContext() // Uncommented
     .WriteTo.Console() // Uncommented
-    .WriteTo.File("log.txt", rollingInterval: RollingInterval.Day) // Uncommented
+    .WriteTo.File("log.txt", 
+        fileSizeLimitBytes: 10_000_000,  // 10MB file size limit
+        rollOnFileSizeLimit: true,       // Create a new file when size limit is reached
+        retainedFileCountLimit: 1,       // Only keep the current log file
+        shared: true)                    // Allow multiple processes to write to the file
     .WriteTo.ApplicationInsights( // Uncommented
         telemetryConfig,
         TelemetryConverter.Traces)
@@ -95,6 +99,22 @@ app.MapControllers();
 app.MapHub<ProgressHub>("/progresshub");
 // This ensures any routes not matched by controllers or Razor pages are handled by the Blazor app
 app.MapFallbackToFile("index.html");
+
+// Clean up any existing log files except the main log.txt
+try
+{
+    var logFiles = Directory.GetFiles(Directory.GetCurrentDirectory(), "log*.txt")
+                            .Where(f => !f.EndsWith("log.txt"));
+    foreach (var file in logFiles)
+    {
+        File.Delete(file);
+        Log.Information($"Deleted old log file: {Path.GetFileName(file)}");
+    }
+}
+catch (Exception ex)
+{
+    Log.Warning(ex, "Error cleaning up old log files");
+}
 
 // Create log.txt if it doesn't exist
 if (!File.Exists("log.txt"))

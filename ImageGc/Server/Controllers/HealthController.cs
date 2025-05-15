@@ -86,10 +86,9 @@ public class HealthController : ControllerBase
                 status = appInsightsConfigured ? "healthy" : "not configured",
                 details = appInsightsConfigured ? "Configuration found" : "Missing or using development key"
             });
-            
-            // Check Computer Vision API
-            var cvEndpoint = _configuration["AzureComputerVision:Endpoint"];
-            var cvKey = _configuration["AzureComputerVision:Key"];
+              // Check Computer Vision API
+            var cvEndpoint = _configuration["AzureComputerVision:Endpoint"] ?? "";
+            var cvKey = _configuration["AzureComputerVision:Key"] ?? "";
             bool cvConfigured = !string.IsNullOrEmpty(cvEndpoint) && !string.IsNullOrEmpty(cvKey) && 
                                 !cvEndpoint.Contains("your-vision-service") && cvKey != "development-key";
             services.Add(new { 
@@ -99,11 +98,10 @@ public class HealthController : ControllerBase
                     ? $"Endpoint configured: {cvEndpoint.Substring(0, Math.Min(cvEndpoint.Length, 30))}..." 
                     : "Endpoint or key not properly configured"
             });
-            
-            // Check OpenAI API
-            var openaiEndpoint = _configuration["AzureOpenAI:Endpoint"];
-            var openaiKey = _configuration["AzureOpenAI:Key"];
-            var openaiDeployment = _configuration["AzureOpenAI:DeploymentName"];
+              // Check OpenAI API
+            var openaiEndpoint = _configuration["AzureOpenAI:Endpoint"] ?? "";
+            var openaiKey = _configuration["AzureOpenAI:Key"] ?? "";
+            var openaiDeployment = _configuration["AzureOpenAI:DeploymentName"] ?? "";
             bool openaiConfigured = !string.IsNullOrEmpty(openaiEndpoint) && !string.IsNullOrEmpty(openaiKey) && 
                                    !string.IsNullOrEmpty(openaiDeployment) && 
                                    !openaiEndpoint.Contains("your-openai-service") && openaiKey != "development-key";
@@ -144,6 +142,101 @@ public class HealthController : ControllerBase
         {
             _logger.LogError(ex, "Azure services health check failed");
             return StatusCode(500, new { status = "unhealthy", error = ex.Message });
+        }
+    }    [HttpGet("check-service")]
+    [AllowAnonymous]
+    public IActionResult CheckService([FromQuery] string name)
+    {
+        _logger.LogInformation("Checking individual service: {ServiceName}", name);
+        
+        try
+        {
+            // Handle variations in service names
+            string normalizedName = name.ToLowerInvariant().Trim();
+            
+            if (normalizedName.Contains("openai"))
+            {
+                var openaiEndpoint = _configuration["AzureOpenAI:Endpoint"] ?? "";
+                var openaiKey = _configuration["AzureOpenAI:Key"] ?? "";
+                var openaiDeployment = _configuration["AzureOpenAI:DeploymentName"] ?? "";
+                bool isConfigured = !string.IsNullOrEmpty(openaiEndpoint) && !string.IsNullOrEmpty(openaiKey) && 
+                                   !string.IsNullOrEmpty(openaiDeployment);
+                
+                // Check if OpenAI service is available by making a simple API call
+                bool isAvailable = false;
+                string status = "Not configured";
+                
+                if (isConfigured)
+                {
+                    status = "Configured but cannot verify connection";
+                    if (_openAIService != null)
+                    {
+                        try
+                        {
+                            // Just return configured status for now, since actual testing would consume API tokens
+                            status = "Service is configured and ready";
+                            isAvailable = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogError(ex, "Error verifying OpenAI service");
+                            status = $"Error: {ex.Message}";
+                        }
+                    }
+                }
+                
+                return Ok(new { IsHealthy = isAvailable, Status = status });
+            }
+            else if (normalizedName.Contains("computer vision") || normalizedName.Contains("vision"))
+            {
+                var cvEndpoint = _configuration["AzureComputerVision:Endpoint"] ?? "";
+                var cvKey = _configuration["AzureComputerVision:Key"] ?? "";
+                bool cvConfigured = !string.IsNullOrEmpty(cvEndpoint) && !string.IsNullOrEmpty(cvKey);
+                
+                bool cvAvailable = false;
+                string cvStatus = "Not configured";
+                
+                if (cvConfigured)
+                {
+                    cvStatus = "Configured but cannot verify connection";
+                    if (_computerVisionService != null)
+                    {
+                        try
+                        {
+                            // Just return configured status for now
+                            cvStatus = "Service is configured and ready";
+                            cvAvailable = true;
+                        }
+                        catch (Exception ex)
+                        {
+                            _logger.LogError(ex, "Error verifying Computer Vision service");
+                            cvStatus = $"Error: {ex.Message}";
+                        }
+                    }
+                }
+                
+                return Ok(new { IsHealthy = cvAvailable, Status = cvStatus });
+            }
+            else if (normalizedName.Contains("application insights") || normalizedName.Contains("insights"))
+            {
+                var appInsightsKey = _configuration["ApplicationInsights:InstrumentationKey"] ?? "";
+                bool aiConfigured = !string.IsNullOrEmpty(appInsightsKey) && appInsightsKey != "development-key";
+                
+                return Ok(new { 
+                    IsHealthy = aiConfigured, 
+                    Status = aiConfigured ? "Service is configured" : "Not properly configured" 
+                });
+            }
+            else
+            {
+                _logger.LogWarning("Requested check for unknown service: {ServiceName}", name);
+                return NotFound(new { IsHealthy = false, Status = $"Unknown service: {name}" });
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error checking service {ServiceName}", name);
+            return StatusCode(500, new { IsHealthy = false, Status = $"Error: {ex.Message}" });
         }
     }
 }

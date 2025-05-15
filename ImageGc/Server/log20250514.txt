@@ -1,1 +1,0 @@
-2025-05-14 11:57:56.958 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client

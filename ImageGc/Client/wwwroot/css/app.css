@@ -10,6 +10,28 @@ a, .btn-link {
     color: #0071c1;
 }
 
+/* Image loading and display styles */
+.result-image {
+    transition: opacity 0.6s ease, transform 0.3s ease;
+    opacity: 0.3;
+    max-height: 500px;
+    transform: scale(0.98);
+    object-fit: contain;
+    width: 100%;
+    border-radius: 4px;
+}
+
+.result-image.loaded {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.result-image.error {
+    opacity: 0.8;
+    border: 2px solid #ff6b6b;
+    background-color: #fff5f5;
+}
+
 .btn-primary {
     color: #fff;
     background-color: #1b6ec2;
@@ -100,6 +122,35 @@ a, .btn-link {
         content: var(--blazor-load-percentage-text, "Loading");
     }
 
+/* Description and analysis styles */
+.description-text {
+    line-height: 1.6;
+    font-size: 1.1rem;
+    text-align: justify;
+    max-height: 300px;
+    overflow-y: auto;
+    padding-right: 10px;
+    white-space: pre-line; /* This ensures line breaks are respected */
+}
+
+/* Preview image styles */
+.preview-image {
+    max-height: 300px;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Fade in animation for completed results */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
 code {
     color: #c02d76;
 }
@@ -158,18 +209,6 @@ code {
     border-radius: 4px;
 }
 
-.result-image {
-    max-height: 250px;
-    object-fit: contain;
-    border-radius: 4px;
-}
-
-.description-text {
-    white-space: pre-wrap;
-    font-size: 1rem;
-    line-height: 1.6;
-}
-
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .row.mb-4 .col-md-6 + .col-md-6 {
@@ -177,7 +216,7 @@ code {
     }
     
     .result-image {
-        max-height: 200px;
+        max-height: 300px; /* Adjusted for consistency */
     }
 
     /* Adjust spacing and padding for smaller screens */

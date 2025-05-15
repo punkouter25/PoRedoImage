@@ -45,13 +45,13 @@ jobs:
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
-          app-name: poredoimage-app-Ka4ojJ # Updated app name to the one in the resource group
+          app-name: imagegc-app # Corrected app name to the existing App Service
           package: ./publish
 
       - name: Post-deployment health check
         run: |
           echo "Checking health of deployed application"
-          APP_URL="https://poredoimage-app-ka4ojj.azurewebsites.net/health" # Updated health check URL
+          APP_URL="https://imagegc-app.azurewebsites.net/health" # Updated health check URL
           RETRY_COUNT=0
           MAX_RETRIES=10
 

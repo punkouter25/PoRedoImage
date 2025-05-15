@@ -7,7 +7,6 @@ An intelligent image analysis application that uses Azure AI services to analyze
 [![Build and Test](https://github.com/punkouter25/PoRedoImage/actions/workflows/build-and-test.yml/badge.svg)](https://github.com/punkouter25/PoRedoImage/actions/workflows/build-and-test.yml)
 [![Deploy to Azure](https://github.com/punkouter25/PoRedoImage/actions/workflows/deploy-to-azure.yml/badge.svg)](https://github.com/punkouter25/PoRedoImage/actions/workflows/deploy-to-azure.yml)
 [![Security Scan](https://github.com/punkouter25/PoRedoImage/actions/workflows/security-scan.yml/badge.svg)](https://github.com/punkouter25/PoRedoImage/actions/workflows/security-scan.yml)
-[![CI/CD Pipeline](https://github.com/punkouter25/PoRedoImage/actions/workflows/ci-cd-pipeline.yml/badge.svg)](https://github.com/punkouter25/PoRedoImage/actions/workflows/ci-cd-pipeline.yml)
 
 ## Features
 
@@ -16,7 +15,6 @@ An intelligent image analysis application that uses Azure AI services to analyze
 - Image generation with DALL-E
 - Blazor WebAssembly client with responsive UI
 - ASP.NET Core backend API
-- Real-time progress updates with SignalR
 
 ## Architecture
 
@@ -39,13 +37,6 @@ The project uses GitHub Actions for continuous integration and deployment:
 2. **Deploy to Azure**: Deploys the application to Azure App Service
 3. **Docker Build**: Builds and pushes Docker images to GitHub Container Registry
 4. **Security Scan**: Performs security scanning and vulnerability checks
-
-## Automatic Model Fallback
-
-The application is configured to automatically fall back to alternative AI models when the primary model is unavailable:
-
-- ChatGPT models: Falls back from newer models (like GPT-4o) to GPT-3.5 Turbo when needed
-- DALL-E: Handles service unavailability gracefully
 
 ## Getting Started
 

@@ -1,0 +1,32 @@
+version: 2
+updates:
+# Maintain dependencies for GitHub Actions
+- package-ecosystem: "github-actions"
+  directory: "/"
+  schedule:
+    interval: "weekly"
+  open-pull-requests-limit: 10
+
+# Maintain dependencies for .NET
+- package-ecosystem: "nuget"
+  directory: "/ImageGc"
+  schedule:
+    interval: "weekly"
+  open-pull-requests-limit: 10
+  groups:
+    aspnet-core:
+      patterns:
+      - "Microsoft.AspNetCore.*"
+    azure-ai:
+      patterns:
+      - "Azure.AI.*"
+    serilog:
+      patterns:
+      - "Serilog.*"
+
+# Maintain dependencies for Docker
+- package-ecosystem: "docker"
+  directory: "/ImageGc"
+  schedule:
+    interval: "monthly"
+  open-pull-requests-limit: 5

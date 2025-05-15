@@ -1,0 +1,878 @@
+2025-05-14 16:10:40.013 -04:00 [INF] Deleted old log file: log20250413.txt
+2025-05-14 16:10:40.049 -04:00 [INF] Deleted old log file: log20250414.txt
+2025-05-14 16:10:40.049 -04:00 [INF] Deleted old log file: log20250415.txt
+2025-05-14 16:10:40.051 -04:00 [INF] Deleted old log file: log20250415_001.txt
+2025-05-14 16:10:40.051 -04:00 [INF] Deleted old log file: log20250416.txt
+2025-05-14 16:10:40.052 -04:00 [INF] Deleted old log file: log20250514.txt
+2025-05-14 16:10:40.053 -04:00 [INF] Deleted old log file: log20250514_001.txt
+2025-05-14 16:10:40.053 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-05-14 16:36:14.866 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-05-14 16:36:21.351 -04:00 [WRN] Failed to determine the https port for redirect.
+2025-05-14 16:36:24.056 -04:00 [INF] Executing CheckHealth action.
+2025-05-14 16:36:24.057 -04:00 [INF] API health check requested by anonymous, authenticated: false
+2025-05-14 16:36:24.110 -04:00 [INF] Executing CheckAzureServices action.
+2025-05-14 16:36:24.110 -04:00 [INF] Azure services health check requested
+2025-05-14 16:36:24.151 -04:00 [INF] Checking individual service: Computer Vision
+2025-05-14 16:36:24.163 -04:00 [INF] Checking individual service: Azure OpenAI
+2025-05-14 16:40:22.859 -04:00 [INF] Image analysis request received from user anonymous (unknown). File: Screenshot (2).png, Description Length: 350 words
+2025-05-14 16:40:22.866 -04:00 [INF] Successfully converted image data: 1001921 bytes
+2025-05-14 16:40:22.867 -04:00 [INF] Step 1: Analyzing image with Computer Vision
+2025-05-14 16:40:22.868 -04:00 [INF] Starting image analysis with Azure Computer Vision
+2025-05-14 16:40:23.823 -04:00 [INF] Image analysis completed in 954ms, confidence: 0.81628096
+2025-05-14 16:40:23.830 -04:00 [INF] Computer Vision analysis completed. Description: 33 characters, Tags: 13
+2025-05-14 16:40:23.830 -04:00 [INF] Step 2: Enhancing description with OpenAI
+2025-05-14 16:40:23.833 -04:00 [INF] Enhancing description with Azure OpenAI. Target length: 350 words
+2025-05-14 16:40:23.905 -04:00 [ERR] Error enhancing description with Azure OpenAI after 72ms
+Azure.RequestFailedException: Unavailable model: gpt-4o
+Status: 400 (Bad Request)
+ErrorCode: unavailable_model
+
+Content:
+{"error":{"code":"unavailable_model","message":"Unavailable model: gpt-4o","details":"Unavailable model: gpt-4o"}}
+
+Headers:
+Transfer-Encoding: chunked
+apim-request-id: REDACTED
+request-context: REDACTED
+Strict-Transport-Security: REDACTED
+X-Content-Type-Options: REDACTED
+x-ms-region: REDACTED
+Date: Wed, 14 May 2025 20:40:20 GMT
+Content-Type: application/json; charset=utf-8
+
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.OpenAI.OpenAIClient.GetChatCompletionsAsync(ChatCompletionsOptions chatCompletionsOptions, CancellationToken cancellationToken)
+   at Server.Services.OpenAIService.EnhanceDescriptionAsync(String basicDescription, List`1 tags, Int32 targetLength) in C:\Users\punko\Downloads\PoRedoImage\ImageGc\Server\Services\OpenAIService.cs:line 103
+2025-05-14 16:40:23.953 -04:00 [ERR] Error during description enhancement
+Azure.RequestFailedException: Unavailable model: gpt-4o
+Status: 400 (Bad Request)
+ErrorCode: unavailable_model
+
+Content:
+{"error":{"code":"unavailable_model","message":"Unavailable model: gpt-4o","details":"Unavailable model: gpt-4o"}}
+
+Headers:
+Transfer-Encoding: chunked
+apim-request-id: REDACTED
+request-context: REDACTED
+Strict-Transport-Security: REDACTED
+X-Content-Type-Options: REDACTED
+x-ms-region: REDACTED
+Date: Wed, 14 May 2025 20:40:20 GMT
+Content-Type: application/json; charset=utf-8
+
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.OpenAI.OpenAIClient.GetChatCompletionsAsync(ChatCompletionsOptions chatCompletionsOptions, CancellationToken cancellationToken)
+   at Server.Services.OpenAIService.EnhanceDescriptionAsync(String basicDescription, List`1 tags, Int32 targetLength) in C:\Users\punko\Downloads\PoRedoImage\ImageGc\Server\Services\OpenAIService.cs:line 103
+   at Server.Controllers.ImageAnalysisController.AnalyzeImage(ImageAnalysisRequest request) in C:\Users\punko\Downloads\PoRedoImage\ImageGc\Server\Controllers\ImageAnalysisController.cs:line 133
+2025-05-14 16:40:23.956 -04:00 [INF] Step 3: Generating image with DALL-E
+2025-05-14 16:40:23.957 -04:00 [INF] Generating image with DALL-E based on description
+2025-05-14 16:40:29.385 -04:00 [ERR] Error generating image with DALL-E after 5427ms
+Azure.RequestFailedException: Internal server error
+Status: 500 (Internal Server Error)
+
+Content:
+{ "statusCode": 500, "message": "Internal server error", "activityId": "88bfa8ab-617b-4397-8bd4-3a1f3f2190ca" }
+
+Headers:
+apim-request-id: REDACTED
+Strict-Transport-Security: REDACTED
+X-Content-Type-Options: REDACTED
+x-ms-region: REDACTED
+Date: Wed, 14 May 2025 20:40:25 GMT
+Content-Length: 111
+Content-Type: application/json
+
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.OpenAI.OpenAIClient.GetImageGenerationsAsync(ImageGenerationOptions imageGenerationOptions, CancellationToken cancellationToken)
+   at Server.Services.OpenAIService.GenerateImageAsync(String description) in C:\Users\punko\Downloads\PoRedoImage\ImageGc\Server\Services\OpenAIService.cs:line 159
+2025-05-14 16:40:29.401 -04:00 [ERR] Error during image generation
+Azure.RequestFailedException: Internal server error
+Status: 500 (Internal Server Error)
+
+Content:
+{ "statusCode": 500, "message": "Internal server error", "activityId": "88bfa8ab-617b-4397-8bd4-3a1f3f2190ca" }
+
+Headers:
+apim-request-id: REDACTED
+Strict-Transport-Security: REDACTED
+X-Content-Type-Options: REDACTED
+x-ms-region: REDACTED
+Date: Wed, 14 May 2025 20:40:25 GMT
+Content-Length: 111
+Content-Type: application/json
+
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.OpenAI.OpenAIClient.GetImageGenerationsAsync(ImageGenerationOptions imageGenerationOptions, CancellationToken cancellationToken)
+   at Server.Services.OpenAIService.GenerateImageAsync(String description) in C:\Users\punko\Downloads\PoRedoImage\ImageGc\Server\Services\OpenAIService.cs:line 159
+   at Server.Controllers.ImageAnalysisController.AnalyzeImage(ImageAnalysisRequest request) in C:\Users\punko\Downloads\PoRedoImage\ImageGc\Server\Controllers\ImageAnalysisController.cs:line 155
+2025-05-14 16:40:29.415 -04:00 [INF] Image analysis completed in 6553ms for user unknown
+2025-05-15 14:49:22.424 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-05-15 14:51:40.829 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-05-15 14:53:04.269 -04:00 [INF] Computer Vision Service initialized with endpoint: https://example-vision.cognitiveservices.azure.com/, API version: 2023-10-01
+2025-05-15 14:53:04.274 -04:00 [INF] OpenAI Service initialized with chat model: gpt-35-turbo, image model: dall-e-3, fallback model: gpt-35-turbo
+2025-05-15 14:53:04.372 -04:00 [INF] Image analysis request received from user anonymous (unknown). File: 2016_TEETH.jpg, Description Length: 350 words
+2025-05-15 14:53:04.411 -04:00 [INF] Successfully converted image data: 2517901 bytes
+2025-05-15 14:53:04.413 -04:00 [INF] Step 1: Analyzing image with Computer Vision
+2025-05-15 14:53:04.417 -04:00 [INF] Starting image analysis with Azure Computer Vision
+2025-05-15 14:53:10.644 -04:00 [ERR] Error analyzing image with Azure Computer Vision after 6227ms
+System.AggregateException: Retry failed after 4 tries. Retry settings can be adjusted in ClientOptions.Retry or by configuring a custom retry policy in ClientOptions.RetryPolicy. (No such host is known. (example-vision.cognitiveservices.azure.com:443)) (No such host is known. (example-vision.cognitiveservices.azure.com:443)) (No such host is known. (example-vision.cognitiveservices.azure.com:443)) (No such host is known. (example-vision.cognitiveservices.azure.com:443))
+ ---> Azure.RequestFailedException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Http.HttpRequestException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Sockets.SocketException (11001): No such host is known.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   --- End of inner exception stack trace ---
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   at Azure.Core.Pipeline.HttpPipelineTransportPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline)
+   at Azure.Core.Pipeline.ResponseBodyPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RedirectPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RetryPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   --- End of inner exception stack trace ---
+   at Azure.Core.Pipeline.RetryPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.Vision.ImageAnalysis.ImageAnalysisClient.AnalyzeFromBufferAsync(IEnumerable`1 visualFeatures, RequestContent content, String language, Nullable`1 genderNeutralCaption, IEnumerable`1 smartCropsAspectRatios, String modelVersion, RequestContext context)
+   at Azure.AI.Vision.ImageAnalysis.ImageAnalysisClient.AnalyzeFromBufferAsync(IEnumerable`1 visualFeatures, BinaryData imageContent, String language, Nullable`1 genderNeutralCaption, IEnumerable`1 smartCropsAspectRatios, String modelVersion, CancellationToken cancellationToken)
+   at Server.Services.ComputerVisionService.AnalyzeImageAsync(Byte[] imageData) in C:\Users\punko\Downloads\PoRedoImage\Server\Services\ComputerVisionService.cs:line 69
+ ---> (Inner Exception #1) Azure.RequestFailedException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Http.HttpRequestException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Sockets.SocketException (11001): No such host is known.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   --- End of inner exception stack trace ---
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   at Azure.Core.Pipeline.HttpPipelineTransportPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline)
+   at Azure.Core.Pipeline.ResponseBodyPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RedirectPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RetryPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)<---
+
+ ---> (Inner Exception #2) Azure.RequestFailedException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Http.HttpRequestException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Sockets.SocketException (11001): No such host is known.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   --- End of inner exception stack trace ---
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   at Azure.Core.Pipeline.HttpPipelineTransportPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline)
+   at Azure.Core.Pipeline.ResponseBodyPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RedirectPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RetryPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)<---
+
+ ---> (Inner Exception #3) Azure.RequestFailedException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Http.HttpRequestException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Sockets.SocketException (11001): No such host is known.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   --- End of inner exception stack trace ---
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   at Azure.Core.Pipeline.HttpPipelineTransportPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline)
+   at Azure.Core.Pipeline.ResponseBodyPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RedirectPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RetryPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)<---
+
+2025-05-15 14:53:10.741 -04:00 [ERR] Error during Computer Vision analysis
+System.AggregateException: Retry failed after 4 tries. Retry settings can be adjusted in ClientOptions.Retry or by configuring a custom retry policy in ClientOptions.RetryPolicy. (No such host is known. (example-vision.cognitiveservices.azure.com:443)) (No such host is known. (example-vision.cognitiveservices.azure.com:443)) (No such host is known. (example-vision.cognitiveservices.azure.com:443)) (No such host is known. (example-vision.cognitiveservices.azure.com:443))
+ ---> Azure.RequestFailedException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Http.HttpRequestException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Sockets.SocketException (11001): No such host is known.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   --- End of inner exception stack trace ---
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   at Azure.Core.Pipeline.HttpPipelineTransportPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline)
+   at Azure.Core.Pipeline.ResponseBodyPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RedirectPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RetryPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   --- End of inner exception stack trace ---
+   at Azure.Core.Pipeline.RetryPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.Vision.ImageAnalysis.ImageAnalysisClient.AnalyzeFromBufferAsync(IEnumerable`1 visualFeatures, RequestContent content, String language, Nullable`1 genderNeutralCaption, IEnumerable`1 smartCropsAspectRatios, String modelVersion, RequestContext context)
+   at Azure.AI.Vision.ImageAnalysis.ImageAnalysisClient.AnalyzeFromBufferAsync(IEnumerable`1 visualFeatures, BinaryData imageContent, String language, Nullable`1 genderNeutralCaption, IEnumerable`1 smartCropsAspectRatios, String modelVersion, CancellationToken cancellationToken)
+   at Server.Services.ComputerVisionService.AnalyzeImageAsync(Byte[] imageData) in C:\Users\punko\Downloads\PoRedoImage\Server\Services\ComputerVisionService.cs:line 69
+   at Server.Controllers.ImageAnalysisController.AnalyzeImage(ImageAnalysisRequest request) in C:\Users\punko\Downloads\PoRedoImage\Server\Controllers\ImageAnalysisController.cs:line 110
+ ---> (Inner Exception #1) Azure.RequestFailedException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Http.HttpRequestException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Sockets.SocketException (11001): No such host is known.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   --- End of inner exception stack trace ---
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   at Azure.Core.Pipeline.HttpPipelineTransportPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline)
+   at Azure.Core.Pipeline.ResponseBodyPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RedirectPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RetryPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)<---
+
+ ---> (Inner Exception #2) Azure.RequestFailedException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Http.HttpRequestException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Sockets.SocketException (11001): No such host is known.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   --- End of inner exception stack trace ---
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   at Azure.Core.Pipeline.HttpPipelineTransportPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline)
+   at Azure.Core.Pipeline.ResponseBodyPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RedirectPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RetryPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)<---
+
+ ---> (Inner Exception #3) Azure.RequestFailedException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Http.HttpRequestException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Sockets.SocketException (11001): No such host is known.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   --- End of inner exception stack trace ---
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   at Azure.Core.Pipeline.HttpPipelineTransportPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline)
+   at Azure.Core.Pipeline.ResponseBodyPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RedirectPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RetryPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)<---
+
+2025-05-15 14:53:14.793 -04:00 [INF] Computer Vision Service initialized with endpoint: https://example-vision.cognitiveservices.azure.com/, API version: 2023-10-01
+2025-05-15 14:53:14.794 -04:00 [INF] OpenAI Service initialized with chat model: gpt-35-turbo, image model: dall-e-3, fallback model: gpt-35-turbo
+2025-05-15 14:53:14.838 -04:00 [INF] Image analysis request received from user anonymous (unknown). File: 2016_TEETH.jpg, Description Length: 350 words
+2025-05-15 14:53:14.846 -04:00 [INF] Successfully converted image data: 2517901 bytes
+2025-05-15 14:53:14.847 -04:00 [INF] Step 1: Analyzing image with Computer Vision
+2025-05-15 14:53:14.848 -04:00 [INF] Starting image analysis with Azure Computer Vision
+2025-05-15 14:53:20.442 -04:00 [ERR] Error analyzing image with Azure Computer Vision after 5593ms
+System.AggregateException: Retry failed after 4 tries. Retry settings can be adjusted in ClientOptions.Retry or by configuring a custom retry policy in ClientOptions.RetryPolicy. (No such host is known. (example-vision.cognitiveservices.azure.com:443)) (No such host is known. (example-vision.cognitiveservices.azure.com:443)) (No such host is known. (example-vision.cognitiveservices.azure.com:443)) (No such host is known. (example-vision.cognitiveservices.azure.com:443))
+ ---> Azure.RequestFailedException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Http.HttpRequestException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Sockets.SocketException (11001): No such host is known.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   --- End of inner exception stack trace ---
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   at Azure.Core.Pipeline.HttpPipelineTransportPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline)
+   at Azure.Core.Pipeline.ResponseBodyPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RedirectPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RetryPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   --- End of inner exception stack trace ---
+   at Azure.Core.Pipeline.RetryPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.Vision.ImageAnalysis.ImageAnalysisClient.AnalyzeFromBufferAsync(IEnumerable`1 visualFeatures, RequestContent content, String language, Nullable`1 genderNeutralCaption, IEnumerable`1 smartCropsAspectRatios, String modelVersion, RequestContext context)
+   at Azure.AI.Vision.ImageAnalysis.ImageAnalysisClient.AnalyzeFromBufferAsync(IEnumerable`1 visualFeatures, BinaryData imageContent, String language, Nullable`1 genderNeutralCaption, IEnumerable`1 smartCropsAspectRatios, String modelVersion, CancellationToken cancellationToken)
+   at Server.Services.ComputerVisionService.AnalyzeImageAsync(Byte[] imageData) in C:\Users\punko\Downloads\PoRedoImage\Server\Services\ComputerVisionService.cs:line 69
+ ---> (Inner Exception #1) Azure.RequestFailedException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Http.HttpRequestException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Sockets.SocketException (11001): No such host is known.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   --- End of inner exception stack trace ---
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   at Azure.Core.Pipeline.HttpPipelineTransportPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline)
+   at Azure.Core.Pipeline.ResponseBodyPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RedirectPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RetryPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)<---
+
+ ---> (Inner Exception #2) Azure.RequestFailedException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Http.HttpRequestException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Sockets.SocketException (11001): No such host is known.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   --- End of inner exception stack trace ---
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   at Azure.Core.Pipeline.HttpPipelineTransportPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline)
+   at Azure.Core.Pipeline.ResponseBodyPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RedirectPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RetryPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)<---
+
+ ---> (Inner Exception #3) Azure.RequestFailedException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Http.HttpRequestException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Sockets.SocketException (11001): No such host is known.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   --- End of inner exception stack trace ---
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   at Azure.Core.Pipeline.HttpPipelineTransportPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline)
+   at Azure.Core.Pipeline.ResponseBodyPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RedirectPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RetryPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)<---
+
+2025-05-15 14:53:20.506 -04:00 [ERR] Error during Computer Vision analysis
+System.AggregateException: Retry failed after 4 tries. Retry settings can be adjusted in ClientOptions.Retry or by configuring a custom retry policy in ClientOptions.RetryPolicy. (No such host is known. (example-vision.cognitiveservices.azure.com:443)) (No such host is known. (example-vision.cognitiveservices.azure.com:443)) (No such host is known. (example-vision.cognitiveservices.azure.com:443)) (No such host is known. (example-vision.cognitiveservices.azure.com:443))
+ ---> Azure.RequestFailedException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Http.HttpRequestException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Sockets.SocketException (11001): No such host is known.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   --- End of inner exception stack trace ---
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   at Azure.Core.Pipeline.HttpPipelineTransportPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline)
+   at Azure.Core.Pipeline.ResponseBodyPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RedirectPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RetryPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   --- End of inner exception stack trace ---
+   at Azure.Core.Pipeline.RetryPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.Vision.ImageAnalysis.ImageAnalysisClient.AnalyzeFromBufferAsync(IEnumerable`1 visualFeatures, RequestContent content, String language, Nullable`1 genderNeutralCaption, IEnumerable`1 smartCropsAspectRatios, String modelVersion, RequestContext context)
+   at Azure.AI.Vision.ImageAnalysis.ImageAnalysisClient.AnalyzeFromBufferAsync(IEnumerable`1 visualFeatures, BinaryData imageContent, String language, Nullable`1 genderNeutralCaption, IEnumerable`1 smartCropsAspectRatios, String modelVersion, CancellationToken cancellationToken)
+   at Server.Services.ComputerVisionService.AnalyzeImageAsync(Byte[] imageData) in C:\Users\punko\Downloads\PoRedoImage\Server\Services\ComputerVisionService.cs:line 69
+   at Server.Controllers.ImageAnalysisController.AnalyzeImage(ImageAnalysisRequest request) in C:\Users\punko\Downloads\PoRedoImage\Server\Controllers\ImageAnalysisController.cs:line 110
+ ---> (Inner Exception #1) Azure.RequestFailedException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Http.HttpRequestException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Sockets.SocketException (11001): No such host is known.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   --- End of inner exception stack trace ---
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   at Azure.Core.Pipeline.HttpPipelineTransportPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline)
+   at Azure.Core.Pipeline.ResponseBodyPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RedirectPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RetryPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)<---
+
+ ---> (Inner Exception #2) Azure.RequestFailedException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Http.HttpRequestException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Sockets.SocketException (11001): No such host is known.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   --- End of inner exception stack trace ---
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   at Azure.Core.Pipeline.HttpPipelineTransportPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline)
+   at Azure.Core.Pipeline.ResponseBodyPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RedirectPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RetryPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)<---
+
+ ---> (Inner Exception #3) Azure.RequestFailedException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Http.HttpRequestException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Sockets.SocketException (11001): No such host is known.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   --- End of inner exception stack trace ---
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   at Azure.Core.Pipeline.HttpPipelineTransportPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline)
+   at Azure.Core.Pipeline.ResponseBodyPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RedirectPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RetryPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)<---
+
+2025-05-15 14:53:26.634 -04:00 [INF] Computer Vision Service initialized with endpoint: https://example-vision.cognitiveservices.azure.com/, API version: 2023-10-01
+2025-05-15 14:53:26.637 -04:00 [INF] OpenAI Service initialized with chat model: gpt-35-turbo, image model: dall-e-3, fallback model: gpt-35-turbo
+2025-05-15 14:53:26.683 -04:00 [INF] Image analysis request received from user anonymous (unknown). File: 2016_TEETH.jpg, Description Length: 350 words
+2025-05-15 14:53:26.694 -04:00 [INF] Successfully converted image data: 2517901 bytes
+2025-05-15 14:53:26.708 -04:00 [INF] Step 1: Analyzing image with Computer Vision
+2025-05-15 14:53:26.709 -04:00 [INF] Starting image analysis with Azure Computer Vision
+2025-05-15 14:53:31.595 -04:00 [ERR] Error analyzing image with Azure Computer Vision after 4885ms
+System.AggregateException: Retry failed after 4 tries. Retry settings can be adjusted in ClientOptions.Retry or by configuring a custom retry policy in ClientOptions.RetryPolicy. (No such host is known. (example-vision.cognitiveservices.azure.com:443)) (No such host is known. (example-vision.cognitiveservices.azure.com:443)) (No such host is known. (example-vision.cognitiveservices.azure.com:443)) (No such host is known. (example-vision.cognitiveservices.azure.com:443))
+ ---> Azure.RequestFailedException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Http.HttpRequestException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Sockets.SocketException (11001): No such host is known.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   --- End of inner exception stack trace ---
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   at Azure.Core.Pipeline.HttpPipelineTransportPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline)
+   at Azure.Core.Pipeline.ResponseBodyPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RedirectPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RetryPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   --- End of inner exception stack trace ---
+   at Azure.Core.Pipeline.RetryPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.Vision.ImageAnalysis.ImageAnalysisClient.AnalyzeFromBufferAsync(IEnumerable`1 visualFeatures, RequestContent content, String language, Nullable`1 genderNeutralCaption, IEnumerable`1 smartCropsAspectRatios, String modelVersion, RequestContext context)
+   at Azure.AI.Vision.ImageAnalysis.ImageAnalysisClient.AnalyzeFromBufferAsync(IEnumerable`1 visualFeatures, BinaryData imageContent, String language, Nullable`1 genderNeutralCaption, IEnumerable`1 smartCropsAspectRatios, String modelVersion, CancellationToken cancellationToken)
+   at Server.Services.ComputerVisionService.AnalyzeImageAsync(Byte[] imageData) in C:\Users\punko\Downloads\PoRedoImage\Server\Services\ComputerVisionService.cs:line 69
+ ---> (Inner Exception #1) Azure.RequestFailedException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Http.HttpRequestException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Sockets.SocketException (11001): No such host is known.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   --- End of inner exception stack trace ---
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   at Azure.Core.Pipeline.HttpPipelineTransportPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline)
+   at Azure.Core.Pipeline.ResponseBodyPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RedirectPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RetryPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)<---
+
+ ---> (Inner Exception #2) Azure.RequestFailedException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Http.HttpRequestException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Sockets.SocketException (11001): No such host is known.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   --- End of inner exception stack trace ---
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   at Azure.Core.Pipeline.HttpPipelineTransportPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline)
+   at Azure.Core.Pipeline.ResponseBodyPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RedirectPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RetryPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)<---
+
+ ---> (Inner Exception #3) Azure.RequestFailedException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Http.HttpRequestException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Sockets.SocketException (11001): No such host is known.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   --- End of inner exception stack trace ---
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   at Azure.Core.Pipeline.HttpPipelineTransportPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline)
+   at Azure.Core.Pipeline.ResponseBodyPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RedirectPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RetryPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)<---
+
+2025-05-15 14:53:31.652 -04:00 [ERR] Error during Computer Vision analysis
+System.AggregateException: Retry failed after 4 tries. Retry settings can be adjusted in ClientOptions.Retry or by configuring a custom retry policy in ClientOptions.RetryPolicy. (No such host is known. (example-vision.cognitiveservices.azure.com:443)) (No such host is known. (example-vision.cognitiveservices.azure.com:443)) (No such host is known. (example-vision.cognitiveservices.azure.com:443)) (No such host is known. (example-vision.cognitiveservices.azure.com:443))
+ ---> Azure.RequestFailedException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Http.HttpRequestException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Sockets.SocketException (11001): No such host is known.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   --- End of inner exception stack trace ---
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   at Azure.Core.Pipeline.HttpPipelineTransportPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline)
+   at Azure.Core.Pipeline.ResponseBodyPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RedirectPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RetryPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   --- End of inner exception stack trace ---
+   at Azure.Core.Pipeline.RetryPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.Vision.ImageAnalysis.ImageAnalysisClient.AnalyzeFromBufferAsync(IEnumerable`1 visualFeatures, RequestContent content, String language, Nullable`1 genderNeutralCaption, IEnumerable`1 smartCropsAspectRatios, String modelVersion, RequestContext context)
+   at Azure.AI.Vision.ImageAnalysis.ImageAnalysisClient.AnalyzeFromBufferAsync(IEnumerable`1 visualFeatures, BinaryData imageContent, String language, Nullable`1 genderNeutralCaption, IEnumerable`1 smartCropsAspectRatios, String modelVersion, CancellationToken cancellationToken)
+   at Server.Services.ComputerVisionService.AnalyzeImageAsync(Byte[] imageData) in C:\Users\punko\Downloads\PoRedoImage\Server\Services\ComputerVisionService.cs:line 69
+   at Server.Controllers.ImageAnalysisController.AnalyzeImage(ImageAnalysisRequest request) in C:\Users\punko\Downloads\PoRedoImage\Server\Controllers\ImageAnalysisController.cs:line 110
+ ---> (Inner Exception #1) Azure.RequestFailedException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Http.HttpRequestException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Sockets.SocketException (11001): No such host is known.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   --- End of inner exception stack trace ---
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   at Azure.Core.Pipeline.HttpPipelineTransportPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline)
+   at Azure.Core.Pipeline.ResponseBodyPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RedirectPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RetryPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)<---
+
+ ---> (Inner Exception #2) Azure.RequestFailedException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Http.HttpRequestException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Sockets.SocketException (11001): No such host is known.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   --- End of inner exception stack trace ---
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   at Azure.Core.Pipeline.HttpPipelineTransportPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline)
+   at Azure.Core.Pipeline.ResponseBodyPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RedirectPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RetryPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)<---
+
+ ---> (Inner Exception #3) Azure.RequestFailedException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Http.HttpRequestException: No such host is known. (example-vision.cognitiveservices.azure.com:443)
+ ---> System.Net.Sockets.SocketException (11001): No such host is known.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|285_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.InjectNewHttp11ConnectionAsync(QueueItem queueItem)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   --- End of inner exception stack trace ---
+   at Azure.Core.Pipeline.HttpClientTransport.ProcessAsync(HttpMessage message, Boolean async)
+   at Azure.Core.Pipeline.HttpPipelineTransportPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline)
+   at Azure.Core.Pipeline.ResponseBodyPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RedirectPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)
+   at Azure.Core.Pipeline.RetryPolicy.ProcessAsync(HttpMessage message, ReadOnlyMemory`1 pipeline, Boolean async)<---
+
+2025-05-15 14:57:55.177 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-05-15 14:58:19.126 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-05-15 14:58:19.133 -04:00 [INF] OpenAI Service initialized with chat model: gpt-35-turbo, image model: dall-e-3, fallback model: gpt-35-turbo
+2025-05-15 14:58:19.134 -04:00 [INF] Executing CheckHealth action.
+2025-05-15 14:58:19.135 -04:00 [INF] API health check requested by anonymous, authenticated: false
+2025-05-15 14:58:19.192 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-05-15 14:58:19.192 -04:00 [INF] OpenAI Service initialized with chat model: gpt-35-turbo, image model: dall-e-3, fallback model: gpt-35-turbo
+2025-05-15 14:58:19.194 -04:00 [INF] Executing CheckAzureServices action.
+2025-05-15 14:58:19.194 -04:00 [INF] Azure services health check requested
+2025-05-15 14:58:19.223 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-05-15 14:58:19.225 -04:00 [INF] OpenAI Service initialized with chat model: gpt-35-turbo, image model: dall-e-3, fallback model: gpt-35-turbo
+2025-05-15 14:58:19.234 -04:00 [INF] Checking individual service: Computer Vision
+2025-05-15 14:58:19.249 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-05-15 14:58:19.249 -04:00 [INF] OpenAI Service initialized with chat model: gpt-35-turbo, image model: dall-e-3, fallback model: gpt-35-turbo
+2025-05-15 14:58:19.250 -04:00 [INF] Checking individual service: Azure OpenAI
+2025-05-15 14:59:53.751 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-05-15 15:00:00.886 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-05-15 15:00:00.891 -04:00 [INF] OpenAI Service initialized with chat model: gpt-35-turbo, image model: dall-e-3, fallback model: gpt-35-turbo
+2025-05-15 15:00:00.893 -04:00 [INF] Executing CheckHealth action.
+2025-05-15 15:00:00.894 -04:00 [INF] API health check requested by anonymous, authenticated: false
+2025-05-15 15:00:00.958 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-05-15 15:00:00.961 -04:00 [INF] OpenAI Service initialized with chat model: gpt-35-turbo, image model: dall-e-3, fallback model: gpt-35-turbo
+2025-05-15 15:00:00.964 -04:00 [INF] Executing CheckAzureServices action.
+2025-05-15 15:00:00.966 -04:00 [INF] Azure services health check requested
+2025-05-15 15:00:00.994 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-05-15 15:00:00.996 -04:00 [INF] OpenAI Service initialized with chat model: gpt-35-turbo, image model: dall-e-3, fallback model: gpt-35-turbo
+2025-05-15 15:00:01.005 -04:00 [INF] Checking individual service: Computer Vision
+2025-05-15 15:00:01.020 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-05-15 15:00:01.021 -04:00 [INF] OpenAI Service initialized with chat model: gpt-35-turbo, image model: dall-e-3, fallback model: gpt-35-turbo
+2025-05-15 15:00:01.022 -04:00 [INF] Checking individual service: Azure OpenAI
+2025-05-15 15:02:08.159 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-05-15 15:02:08.161 -04:00 [INF] OpenAI Service initialized with chat model: gpt-35-turbo, image model: dall-e-3, fallback model: gpt-35-turbo
+2025-05-15 15:02:08.488 -04:00 [INF] Image analysis request received from user anonymous (unknown). File: 2023_EYES.png, Description Length: 350 words
+2025-05-15 15:02:08.535 -04:00 [INF] Successfully converted image data: 7037303 bytes
+2025-05-15 15:02:08.536 -04:00 [INF] Step 1: Analyzing image with Computer Vision
+2025-05-15 15:02:08.539 -04:00 [INF] Starting image analysis with Azure Computer Vision
+2025-05-15 15:02:14.083 -04:00 [INF] Image analysis completed in 5543ms, confidence: 0.64635324
+2025-05-15 15:02:14.110 -04:00 [INF] Computer Vision analysis completed. Description: 29 characters, Tags: 0
+2025-05-15 15:02:14.121 -04:00 [INF] Step 2: Enhancing description with OpenAI
+2025-05-15 15:02:14.125 -04:00 [INF] Enhancing description with Azure OpenAI. Target length: 350 words
+2025-05-15 15:02:14.319 -04:00 [ERR] Error enhancing description with Azure OpenAI after 192ms. Attempted models: gpt-35-turbo
+Azure.RequestFailedException: Unknown model: gpt-35-turbo
+Status: 400 (Bad Request)
+ErrorCode: unknown_model
+
+Content:
+{"error":{"code":"unknown_model","message":"Unknown model: gpt-35-turbo","details":"Unknown model: gpt-35-turbo"}}
+
+Headers:
+Transfer-Encoding: chunked
+apim-request-id: REDACTED
+request-context: REDACTED
+Strict-Transport-Security: REDACTED
+X-Content-Type-Options: REDACTED
+x-ms-region: REDACTED
+Date: Thu, 15 May 2025 19:02:16 GMT
+Content-Type: application/json; charset=utf-8
+
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.OpenAI.OpenAIClient.GetChatCompletionsAsync(ChatCompletionsOptions chatCompletionsOptions, CancellationToken cancellationToken)
+   at Server.Services.OpenAIService.EnhanceDescriptionAsync(String basicDescription, List`1 tags, Int32 targetLength) in C:\Users\punko\Downloads\PoRedoImage\Server\Services\OpenAIService.cs:line 112
+2025-05-15 15:02:14.471 -04:00 [ERR] Error during description enhancement
+Azure.RequestFailedException: Unknown model: gpt-35-turbo
+Status: 400 (Bad Request)
+ErrorCode: unknown_model
+
+Content:
+{"error":{"code":"unknown_model","message":"Unknown model: gpt-35-turbo","details":"Unknown model: gpt-35-turbo"}}
+
+Headers:
+Transfer-Encoding: chunked
+apim-request-id: REDACTED
+request-context: REDACTED
+Strict-Transport-Security: REDACTED
+X-Content-Type-Options: REDACTED
+x-ms-region: REDACTED
+Date: Thu, 15 May 2025 19:02:16 GMT
+Content-Type: application/json; charset=utf-8
+
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.OpenAI.OpenAIClient.GetChatCompletionsAsync(ChatCompletionsOptions chatCompletionsOptions, CancellationToken cancellationToken)
+   at Server.Services.OpenAIService.EnhanceDescriptionAsync(String basicDescription, List`1 tags, Int32 targetLength) in C:\Users\punko\Downloads\PoRedoImage\Server\Services\OpenAIService.cs:line 112
+   at Server.Controllers.ImageAnalysisController.AnalyzeImage(ImageAnalysisRequest request) in C:\Users\punko\Downloads\PoRedoImage\Server\Controllers\ImageAnalysisController.cs:line 133
+2025-05-15 15:02:14.532 -04:00 [INF] Step 3: Generating image with DALL-E
+2025-05-15 15:02:14.540 -04:00 [INF] Generating image with DALL-E based on description
+2025-05-15 15:02:20.136 -04:00 [ERR] DALL-E internal server error after 5579ms - The service may be temporarily unavailable
+Azure.RequestFailedException: Internal server error
+Status: 500 (Internal Server Error)
+
+Content:
+{ "statusCode": 500, "message": "Internal server error", "activityId": "e86889a7-c854-4dbd-978f-4b22e1f340bf" }
+
+Headers:
+apim-request-id: REDACTED
+Strict-Transport-Security: REDACTED
+X-Content-Type-Options: REDACTED
+x-ms-region: REDACTED
+Date: Thu, 15 May 2025 19:02:21 GMT
+Content-Length: 111
+Content-Type: application/json
+
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.OpenAI.OpenAIClient.GetImageGenerationsAsync(ImageGenerationOptions imageGenerationOptions, CancellationToken cancellationToken)
+   at Server.Services.OpenAIService.GenerateImageAsync(String description) in C:\Users\punko\Downloads\PoRedoImage\Server\Services\OpenAIService.cs:line 189
+2025-05-15 15:02:20.159 -04:00 [ERR] Error during image generation
+System.InvalidOperationException: The image generation service is temporarily unavailable. Please try again later.
+ ---> Azure.RequestFailedException: Internal server error
+Status: 500 (Internal Server Error)
+
+Content:
+{ "statusCode": 500, "message": "Internal server error", "activityId": "e86889a7-c854-4dbd-978f-4b22e1f340bf" }
+
+Headers:
+apim-request-id: REDACTED
+Strict-Transport-Security: REDACTED
+X-Content-Type-Options: REDACTED
+x-ms-region: REDACTED
+Date: Thu, 15 May 2025 19:02:21 GMT
+Content-Length: 111
+Content-Type: application/json
+
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.OpenAI.OpenAIClient.GetImageGenerationsAsync(ImageGenerationOptions imageGenerationOptions, CancellationToken cancellationToken)
+   at Server.Services.OpenAIService.GenerateImageAsync(String description) in C:\Users\punko\Downloads\PoRedoImage\Server\Services\OpenAIService.cs:line 189
+   --- End of inner exception stack trace ---
+   at Server.Services.OpenAIService.GenerateImageAsync(String description) in C:\Users\punko\Downloads\PoRedoImage\Server\Services\OpenAIService.cs:line 244
+   at Server.Controllers.ImageAnalysisController.AnalyzeImage(ImageAnalysisRequest request) in C:\Users\punko\Downloads\PoRedoImage\Server\Controllers\ImageAnalysisController.cs:line 155
+2025-05-15 15:02:20.168 -04:00 [INF] Image analysis completed in 11676ms for user unknown

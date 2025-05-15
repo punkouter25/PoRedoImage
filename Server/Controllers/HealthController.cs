@@ -87,8 +87,8 @@ public class HealthController : ControllerBase
                 details = appInsightsConfigured ? "Configuration found" : "Missing or using development key"
             });
               // Check Computer Vision API
-            var cvEndpoint = _configuration["AzureComputerVision:Endpoint"] ?? "";
-            var cvKey = _configuration["AzureComputerVision:Key"] ?? "";
+            var cvEndpoint = _configuration["ComputerVision:Endpoint"] ?? "";
+            var cvKey = _configuration["ComputerVision:Key"] ?? "";
             bool cvConfigured = !string.IsNullOrEmpty(cvEndpoint) && !string.IsNullOrEmpty(cvKey) && 
                                 !cvEndpoint.Contains("your-vision-service") && cvKey != "development-key";
             services.Add(new { 
@@ -99,11 +99,12 @@ public class HealthController : ControllerBase
                     : "Endpoint or key not properly configured"
             });
               // Check OpenAI API
-            var openaiEndpoint = _configuration["AzureOpenAI:Endpoint"] ?? "";
-            var openaiKey = _configuration["AzureOpenAI:Key"] ?? "";
-            var openaiDeployment = _configuration["AzureOpenAI:DeploymentName"] ?? "";
+            var openaiEndpoint = _configuration["OpenAI:Endpoint"] ?? "";
+            var openaiKey = _configuration["OpenAI:Key"] ?? "";
+            var openaiChatDeployment = _configuration["OpenAI:ChatCompletionsDeployment"] ?? "";
+            var openaiImageDeployment = _configuration["OpenAI:ImageGenerationDeployment"] ?? "";
             bool openaiConfigured = !string.IsNullOrEmpty(openaiEndpoint) && !string.IsNullOrEmpty(openaiKey) && 
-                                   !string.IsNullOrEmpty(openaiDeployment) && 
+                                   !string.IsNullOrEmpty(openaiChatDeployment) && !string.IsNullOrEmpty(openaiImageDeployment) &&
                                    !openaiEndpoint.Contains("your-openai-service") && openaiKey != "development-key";
             services.Add(new { 
                 name = "Azure OpenAI", 
@@ -156,11 +157,12 @@ public class HealthController : ControllerBase
             
             if (normalizedName.Contains("openai"))
             {
-                var openaiEndpoint = _configuration["AzureOpenAI:Endpoint"] ?? "";
-                var openaiKey = _configuration["AzureOpenAI:Key"] ?? "";
-                var openaiDeployment = _configuration["AzureOpenAI:DeploymentName"] ?? "";
+                var openaiEndpoint = _configuration["OpenAI:Endpoint"] ?? "";
+                var openaiKey = _configuration["OpenAI:Key"] ?? "";
+                var openaiChatDeployment = _configuration["OpenAI:ChatCompletionsDeployment"] ?? "";
+                var openaiImageDeployment = _configuration["OpenAI:ImageGenerationDeployment"] ?? "";
                 bool isConfigured = !string.IsNullOrEmpty(openaiEndpoint) && !string.IsNullOrEmpty(openaiKey) && 
-                                   !string.IsNullOrEmpty(openaiDeployment);
+                                   !string.IsNullOrEmpty(openaiChatDeployment) && !string.IsNullOrEmpty(openaiImageDeployment);
                 
                 // Check if OpenAI service is available by making a simple API call
                 bool isAvailable = false;
@@ -189,8 +191,8 @@ public class HealthController : ControllerBase
             }
             else if (normalizedName.Contains("computer vision") || normalizedName.Contains("vision"))
             {
-                var cvEndpoint = _configuration["AzureComputerVision:Endpoint"] ?? "";
-                var cvKey = _configuration["AzureComputerVision:Key"] ?? "";
+                var cvEndpoint = _configuration["ComputerVision:Endpoint"] ?? "";
+                var cvKey = _configuration["ComputerVision:Key"] ?? "";
                 bool cvConfigured = !string.IsNullOrEmpty(cvEndpoint) && !string.IsNullOrEmpty(cvKey);
                 
                 bool cvAvailable = false;

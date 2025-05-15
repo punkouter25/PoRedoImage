@@ -84,7 +84,7 @@ else
     app.UseHsts();
 }
 
-app.UseHttpsRedirection(); // Uncommented
+// app.UseHttpsRedirection(); // Uncommented
 app.UseBlazorFrameworkFiles(); // Serve Blazor WebAssembly static files
 app.UseStaticFiles();
 

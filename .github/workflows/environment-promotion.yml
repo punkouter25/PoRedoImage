@@ -1,184 +1,77 @@
-name: Environment Promotion
+name: Build and Deploy to Azure Staging
 
 on:
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Target environment to promote to'
-        required: true
-        default: 'staging'
-        type: choice
-        options:
-          - staging
-          - production
-      source_environment:
-        description: 'Source environment to promote from'
-        required: true
-        default: 'development'
-        type: choice
-        options:
-          - development
-          - staging
-      include_database:
-        description: 'Include database schema changes'
-        required: false
-        default: false
-        type: boolean
+  push:
+    branches:
+      - main
 
 jobs:
-  prepare-promotion:
+  build-and-deploy:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+    environment: staging
 
-      - name: Set environment variables
-        run: |
-          echo "SOURCE_ENV=${{ github.event.inputs.source_environment }}" >> $GITHUB_ENV
-          echo "TARGET_ENV=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
-          echo "INCLUDE_DB=${{ github.event.inputs.include_database }}" >> $GITHUB_ENV
-          echo "TIMESTAMP=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
-
-      - name: Validate promotion path
-        run: |
-          if [ "${{ env.SOURCE_ENV }}" == "production" ] && [ "${{ env.TARGET_ENV }}" != "production" ]; then
-            echo "::error::Cannot promote from production to any other environment"
-            exit 1
-          fi
-          
-          if [ "${{ env.SOURCE_ENV }}" == "${{ env.TARGET_ENV }}" ]; then
-            echo "::error::Source and target environments cannot be the same"
-            exit 1
-          fi
-          
-          if [ "${{ env.SOURCE_ENV }}" == "development" ] && [ "${{ env.TARGET_ENV }}" == "production" ]; then
-            echo "::error::Cannot promote directly from development to production. Use staging first."
-            exit 1
-          fi
-          
-          echo "Valid promotion path: ${{ env.SOURCE_ENV }} → ${{ env.TARGET_ENV }}"
-      
-      - name: Create promotion tag
-        run: |
-          # Format: promote-v{timestamp}-{source}-to-{target}
-          PROMOTION_TAG="promote-v${{ env.TIMESTAMP }}-${{ env.SOURCE_ENV }}-to-${{ env.TARGET_ENV }}"
-          git tag $PROMOTION_TAG
-          git push origin $PROMOTION_TAG
-          echo "PROMOTION_TAG=$PROMOTION_TAG" >> $GITHUB_ENV
-          
-      - name: Generate changelog
-        run: |
-          echo "## Promotion Summary" > changelog.md
-          echo "**From:** ${{ env.SOURCE_ENV }}" >> changelog.md
-          echo "**To:** ${{ env.TARGET_ENV }}" >> changelog.md
-          echo "**Tag:** ${{ env.PROMOTION_TAG }}" >> changelog.md
-          echo "**Timestamp:** $(date)" >> changelog.md
-          echo "**Includes DB Changes:** ${{ env.INCLUDE_DB }}" >> changelog.md
-          echo "" >> changelog.md
-          echo "## Changes Since Last Promotion" >> changelog.md
-          
-          # Get the last promotion tag to this environment
-          LAST_TAG=$(git tag -l "promote-v*-*-to-${{ env.TARGET_ENV }}" | sort -V | tail -n 1 || echo "")
-          
-          if [ -z "$LAST_TAG" ]; then
-            echo "This is the first promotion to ${{ env.TARGET_ENV }}" >> changelog.md
-            git log --pretty=format:"- %h %s (%an)" -n 10 >> changelog.md
-          else
-            echo "Changes since $LAST_TAG:" >> changelog.md
-            git log $LAST_TAG..HEAD --pretty=format:"- %h %s (%an)" >> changelog.md
-          fi
-          
-          cat changelog.md
-          
-      - name: Upload changelog
-        uses: actions/upload-artifact@v4
-        with:
-          name: promotion-changelog
-          path: changelog.md
-          
-  deploy:
-    needs: prepare-promotion
-    runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.environment }}
-    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          
+
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: 9.0.x
-          
+
       - name: Restore dependencies
         run: dotnet restore ImageGc.sln
         working-directory: ./ImageGc
-        
+
       - name: Build
         run: dotnet build ImageGc.sln --configuration Release --no-restore
         working-directory: ./ImageGc
-        
+
       - name: Test
         run: dotnet test ImageGc.sln --configuration Release --no-build --verbosity normal
         working-directory: ./ImageGc
-        
+
       - name: Publish
         run: dotnet publish Server/Server.csproj --configuration Release --no-build --output ../publish
         working-directory: ./ImageGc
-        
+
       - name: Login to Azure
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-          
-      - name: Deploy to target environment
+
+      - name: Deploy to Azure Staging
         uses: azure/webapps-deploy@v2
         with:
-          app-name: ${{ secrets.AZURE_WEBAPP_NAME }}-${{ github.event.inputs.environment }}
+          app-name: ${{ secrets.AZURE_WEBAPP_NAME }}-staging
           package: ./publish
-          
-      - name: Apply database changes
-        if: ${{ github.event.inputs.include_database == 'true' }}
-        run: |
-          echo "Applying database migrations to ${{ github.event.inputs.environment }} environment"
-          # This would be where you run database migrations
-          # echo "No actual DB migrations are configured in this workflow"
-          
+
       - name: Post-deployment health check
         run: |
           echo "Checking health of deployed application"
-          APP_URL="${{ secrets.APP_URL_PREFIX }}-${{ github.event.inputs.environment }}${{ secrets.APP_URL_SUFFIX }}"
+          APP_URL="${{ secrets.APP_URL_PREFIX }}-staging${{ secrets.APP_URL_SUFFIX }}/health"
           RETRY_COUNT=0
           MAX_RETRIES=10
-          
-          until curl -s -f "$APP_URL/health" || [ $RETRY_COUNT -eq $MAX_RETRIES ]
+
+          until curl -s -f "$APP_URL" || [ $RETRY_COUNT -eq $MAX_RETRIES ]
           do
             echo "Waiting for application to become available... ($((RETRY_COUNT+1))/$MAX_RETRIES)"
             sleep 10
             RETRY_COUNT=$((RETRY_COUNT+1))
           done
-          
+
           if [ $RETRY_COUNT -eq $MAX_RETRIES ]; then
             echo "::error::Application failed to become healthy after deployment"
             exit 1
           else
             echo "Application is healthy!"
           fi
-          
+
       - name: Create deployment summary
         run: |
           echo "## Deployment Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "✅ Successfully deployed to **${{ github.event.inputs.environment }}** environment" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Successfully deployed to **staging** environment" >> $GITHUB_STEP_SUMMARY
           echo "📅 Deployment completed at: $(date)" >> $GITHUB_STEP_SUMMARY
-          echo "🏷️ Promotion tag: ${{ needs.prepare-promotion.outputs.promotion_tag || 'N/A' }}" >> $GITHUB_STEP_SUMMARY
-          
-          if [ "${{ github.event.inputs.include_database }}" == "true" ]; then
-            echo "💾 Database schema changes were applied" >> $GITHUB_STEP_SUMMARY
-          else
-            echo "💾 No database schema changes were applied" >> $GITHUB_STEP_SUMMARY
-          fi

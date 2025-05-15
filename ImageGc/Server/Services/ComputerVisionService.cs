@@ -22,11 +22,11 @@ public interface IComputerVisionService
 /// Implementation of Computer Vision service using Azure AI Vision
 /// </summary>
 public class ComputerVisionService : IComputerVisionService
-{
-    private readonly ILogger<ComputerVisionService> _logger;
+{    private readonly ILogger<ComputerVisionService> _logger;
     private readonly TelemetryClient _telemetryClient;
     private readonly string _endpoint;
     private readonly string _key;
+    private readonly string _apiVersion;
     
     public ComputerVisionService(
         IConfiguration configuration,
@@ -36,10 +36,14 @@ public class ComputerVisionService : IComputerVisionService
         _logger = logger;
         _telemetryClient = telemetryClient;
         
-        _endpoint = configuration["AzureComputerVision:Endpoint"] ?? 
-            throw new ArgumentNullException("Computer Vision Endpoint is not configured");
-        _key = configuration["AzureComputerVision:Key"] ?? 
-            throw new ArgumentNullException("Computer Vision Key is not configured");
+        _endpoint = configuration["ComputerVision:Endpoint"] ?? 
+            throw new ArgumentNullException("ComputerVision:Endpoint is not configured");
+        _key = configuration["ComputerVision:Key"] ?? 
+            throw new ArgumentNullException("ComputerVision:Key is not configured");
+        _apiVersion = configuration["ComputerVision:ApiVersion"] ?? "2023-10-01";
+            
+        _logger.LogInformation("Computer Vision Service initialized with endpoint: {Endpoint}, API version: {ApiVersion}",
+            _endpoint, _apiVersion);
     }
     
     /// <summary>

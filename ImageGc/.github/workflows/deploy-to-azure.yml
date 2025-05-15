@@ -7,30 +7,48 @@ on:
     paths-ignore:
       - '**/*.md'
       - '.github/workflows/build-and-test.yml'
+  workflow_run:
+    workflows: ["Build and Test"]
+    branches: [main]
+    types:
+      - completed
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     
     steps:
     - uses: actions/checkout@v4
+      if: github.event_name != 'workflow_run'
     
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 9.0.x
+      if: github.event_name != 'workflow_run'
+    
+    - name: Download build artifacts
+      uses: actions/download-artifact@v3
+      with:
+        name: webapp
+        path: ./publish
+      if: github.event_name == 'workflow_run'
     
     - name: Restore dependencies
-      run: dotnet restore ImageGc.sln # Restore the solution
+      run: dotnet restore ImageGc.sln
       working-directory: ./ImageGc
+      if: github.event_name != 'workflow_run'
     
     - name: Build
-      run: dotnet build Server/Server.csproj --configuration Release --no-restore # Build the Server project
+      run: dotnet build Server/Server.csproj --configuration Release --no-restore
       working-directory: ./ImageGc
+      if: github.event_name != 'workflow_run'
     
     - name: Publish
-      run: dotnet publish Server/Server.csproj --configuration Release --no-build --output ../publish # Publish Server project to root publish dir
+      run: dotnet publish Server/Server.csproj --configuration Release --no-build --output ../publish
       working-directory: ./ImageGc
+      if: github.event_name != 'workflow_run'
     
     - name: Login to Azure
       uses: azure/login@v1
@@ -41,4 +59,4 @@ jobs:
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
-        package: ./publish # The output path is relative to the root now
+        package: ./publish

@@ -91,7 +91,7 @@ jobs:
           cat changelog.md
           
       - name: Upload changelog
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: promotion-changelog
           path: changelog.md

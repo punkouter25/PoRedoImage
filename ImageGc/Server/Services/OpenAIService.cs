@@ -136,7 +136,11 @@ Enhanced description:";
             // Track metrics in Application Insights
             _telemetryClient.TrackMetric("OpenAIEnhancementTime", processingTime);
             _telemetryClient.TrackMetric("OpenAIEnhancementTokens", tokensUsed);
-            _telemetryClient.TrackProperty("OpenAIEnhancementModel", chatCompletionsOptions.DeploymentName);
+            
+            // Track model name as a custom property
+            var enhancementTelemetry = new Microsoft.ApplicationInsights.DataContracts.TraceTelemetry("OpenAI Description Enhancement Completed");
+            enhancementTelemetry.Properties["Model"] = chatCompletionsOptions.DeploymentName;
+            _telemetryClient.TrackTrace(enhancementTelemetry);
             
             return (enhancedDescription, tokensUsed, processingTime);
         }
@@ -216,7 +220,11 @@ Enhanced description:";
             // Track metrics in Application Insights
             _telemetryClient.TrackMetric("DALLEGenerationTime", processingTime);
             _telemetryClient.TrackMetric("DALLEEstimatedTokens", estimatedTokens);
-            _telemetryClient.TrackProperty("DALLEModel", _imageGenerationDeployment);
+            
+            // Track model name as a custom property
+            var imageTelemetry = new Microsoft.ApplicationInsights.DataContracts.TraceTelemetry("DALL-E Image Generation Completed");
+            imageTelemetry.Properties["Model"] = _imageGenerationDeployment;
+            _telemetryClient.TrackTrace(imageTelemetry);
             
             return (imageData, contentType, estimatedTokens, processingTime);
         }

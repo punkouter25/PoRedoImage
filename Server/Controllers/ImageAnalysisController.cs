@@ -1,12 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.ApplicationInsights;
-using Microsoft.AspNetCore.Authorization;
 using ImageGc.Shared.Models;
 using Server.Services;
 using System.Diagnostics;
 using System.Security.Claims;
-using Microsoft.AspNetCore.SignalR; // Add using directive for IHubContext
-using Server.Hubs; // Add using directive for ProgressHub
 
 namespace Server.Controllers;
 
@@ -15,30 +11,17 @@ namespace Server.Controllers;
 public class ImageAnalysisController : ControllerBase
 {
     private readonly ILogger<ImageAnalysisController> _logger;
-    private readonly TelemetryClient _telemetryClient;
     private readonly IComputerVisionService _computerVisionService;
     private readonly IOpenAIService _openAIService;
-    private readonly IHubContext<ProgressHub> _hubContext; // Inject SignalR hub context
     
     public ImageAnalysisController(
         ILogger<ImageAnalysisController> logger, 
-        TelemetryClient telemetryClient,
         IComputerVisionService computerVisionService,
-        IOpenAIService openAIService,
-        IHubContext<ProgressHub> hubContext) // Inject SignalR hub context
+        IOpenAIService openAIService)
     {
         _logger = logger;
-        _telemetryClient = telemetryClient;
         _computerVisionService = computerVisionService;
         _openAIService = openAIService;
-        _hubContext = hubContext; // Assign injected hub context
-    }
-
-    // Helper method to send progress updates via SignalR
-    private async Task SendProgressUpdate(string userId, int percentage, string message)
-    {
-        await _hubContext.Clients.User(userId).SendAsync("ReceiveProgressUpdate", percentage, message);
-        _logger.LogInformation("Sent progress update to user {UserId}: {Percentage}% - {Message}", userId, percentage, message);
     }
 
     [HttpPost("analyze")]
@@ -53,20 +36,11 @@ public class ImageAnalysisController : ControllerBase
             _logger.LogInformation("Image analysis request received from user {UserId} ({UserName}). File: {FileName}, Description Length: {Length} words", 
                 userId, userName, request.FileName, request.DescriptionLength);
             
-            // Track request with Application Insights
-            var stopwatch = Stopwatch.StartNew();
-            _telemetryClient.TrackEvent("ImageAnalysisRequested", new Dictionary<string, string>
-            {
-                { "UserId", userId },
-                { "UserName", userName },
-                { "FileType", request.ContentType },
-                { "DescriptionLength", request.DescriptionLength.ToString() }
-            });
-            
             // Prepare the result object
             var result = new ImageAnalysisResult();
             
             // Convert base64 image data to bytes
+            var stopwatch = Stopwatch.StartNew();
             byte[] imageBytes;
             try
             {
@@ -179,15 +153,11 @@ public class ImageAnalysisController : ControllerBase
             var totalTime = stopwatch.ElapsedMilliseconds;
             _logger.LogInformation("Image analysis completed in {TotalTime}ms for user {UserName}", totalTime, userName);
             
-            // Track metrics
-            _telemetryClient.TrackMetric("TotalProcessingTime", totalTime);
-            
             return Ok(result);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Unhandled error processing image analysis request");
-            _telemetryClient.TrackException(ex);
             
             return StatusCode(500, new ImageAnalysisResult
             {

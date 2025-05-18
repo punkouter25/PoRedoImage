@@ -7,7 +7,6 @@
 @using Microsoft.AspNetCore.Authorization
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Components.Authorization
-@using Microsoft.AspNetCore.SignalR.Client
 @inject ApiService Api
 @inject HttpClient Http
 @inject IJSRuntime JSRuntime
@@ -24,20 +23,6 @@
             <p class="lead text-center">Upload an image to our advanced AI analysis engine, which will generate a comprehensive and detailed description of the visual elements present in your photograph. Then watch as our AI regenerates a new interpretation of your image based on that description, showcasing the fascinating capabilities of computer vision and generative AI working in tandem. This process demonstrates how machines understand and recreate visual content through textual descriptions, highlighting both the strengths and creative interpretations that emerge in AI-powered image processing workflows.</p>
         </div>
     </div>
-
-    <AuthorizeView>
-        <Authorized>
-            <div class="alert alert-success mb-4">
-                <i class="bi bi-person-check me-2"></i>Welcome, @context.User.Identity?.Name! You're signed in and have full access to all features.
-            </div>
-        </Authorized>
-        <NotAuthorized>
-            <div class="alert alert-info mb-4">
-                <i class="bi bi-info-circle me-2"></i>You're using the app anonymously. 
-                <a href="authentication/login" class="alert-link">Sign in</a> for additional features and to save your history.
-            </div>
-        </NotAuthorized>
-    </AuthorizeView>
 
     @if (!isProcessing && !isComplete)
     {
@@ -174,20 +159,6 @@
                         <p class="description-text">@((MarkupString)(string.IsNullOrEmpty(imageDescription) ? "" : System.Net.WebUtility.HtmlEncode(imageDescription).Replace("\n", "<br />")))</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <span class="text-muted">@(string.IsNullOrEmpty(imageDescription) ? 0 : imageDescription.Split(' ').Length) words</span>
-                            <div>
-                                @if (analysisResult?.Tags != null && analysisResult.Tags.Any())
-                                {
-                                    <div class="mb-2">
-                                        @foreach (var tag in analysisResult.Tags.Take(8))
-                                        {
-                                            <span class="badge bg-secondary me-1 mb-1">@tag</span>
-                                        }
-                                    </div>
-                                }
-                                <button class="btn btn-outline-secondary btn-sm" @onclick="() => CopyToClipboard(imageDescription)">
-                                    <i class="bi bi-clipboard me-1"></i>Copy
-                                </button>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -220,43 +191,12 @@
     private int descriptionLength = 350; // Default to 350 words for better image generation results
     private const int MaxFileSize = 20 * 1024 * 1024; // 20MB
     private ImageAnalysisResult? analysisResult;
-    private HubConnection? hubConnection;
     private string? userId;
 
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         userId = authState.User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "anonymous";
-
-        hubConnection = new HubConnectionBuilder()
-            .WithUrl(NavigationManager.ToAbsoluteUri("/progresshub"))
-            .Build();
-
-        hubConnection.On<int, string>("ReceiveProgressUpdate", (percentage, message) =>
-        {
-            progressPercentage = percentage;
-            progressMessage = message;
-            StateHasChanged(); // Notify Blazor that the state has changed
-        });
-
-        try
-        {
-            await hubConnection.StartAsync();
-            Logger.LogInformation("SignalR connection started successfully.");
-        }
-        catch (Exception ex)
-        {
-            Logger.LogError(ex, "Error starting SignalR connection.");
-            // Handle connection error, maybe display a message to the user
-        }
-    }
-
-    public async ValueTask DisposeAsync()
-    {
-        if (hubConnection is not null)
-        {
-            await hubConnection.DisposeAsync();
-        }
     }
     
     private async Task LoadFile(InputFileChangeEventArgs e)
@@ -311,23 +251,6 @@
             isProcessing = true;
             errorMessage = null;
             
-            // Ensure SignalR connection is started before processing
-            if (hubConnection?.State != HubConnectionState.Connected)
-            {
-                try
-                {
-                    await hubConnection!.StartAsync();
-                    Logger.LogInformation("SignalR connection started successfully before processing.");
-                }
-                catch (Exception ex)
-                {
-                    Logger.LogError(ex, "Error starting SignalR connection before processing.");
-                    errorMessage = $"Could not connect to the progress service: {ex.Message}";
-                    isProcessing = false;
-                    return;
-                }
-            }
-
             // Step 1: Prepare the request (progress update sent from server)
             // await UpdateProgress(10, "Preparing image for analysis..."); // Progress now sent from server
             

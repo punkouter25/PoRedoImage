@@ -10,8 +10,8 @@ $appServiceName = "PoRedoImage"
 $location = "eastus"  # Change to your preferred region
 $publishFolder = "./Server/publish"
 $zipFilePath = "./deploy.zip"
-$appServicePlanName = "PoRedoImagePlan"
-$appServicePlanSku = "B1"  # Budget-friendly tier (adjust as needed)
+$appServicePlanResourceGroup = "PoShared"  # Resource group containing the existing App Service Plan
+$appServicePlanName = "PoSharedPlan"  # Name of your existing App Service Plan
 
 # Step 1: Build and publish the application
 Write-Host "Step 1: Building and publishing the application..." -ForegroundColor Cyan
@@ -42,23 +42,22 @@ if (-not $rgExists) {
     Write-Host "Resource group '$resourceGroupName' already exists." -ForegroundColor Green
 }
 
-# Step 4: Check if App Service Plan exists, create if not
-Write-Host "Step 4: Checking App Service Plan..." -ForegroundColor Cyan
-$appServicePlanExists = az appservice plan list --resource-group $resourceGroupName --query "[?name=='$appServicePlanName']" | ConvertFrom-Json
+# Step 4: Verify the existing App Service Plan in PoShared resource group
+Write-Host "Step 4: Verifying the existing App Service Plan in PoShared resource group..." -ForegroundColor Cyan
+$appServicePlanExists = az appservice plan list --resource-group $appServicePlanResourceGroup --query "[?name=='$appServicePlanName']" | ConvertFrom-Json
 if (-not $appServicePlanExists -or $appServicePlanExists.Length -eq 0) {
-    Write-Host "App Service Plan '$appServicePlanName' does not exist. Creating..." -ForegroundColor Yellow
-    az appservice plan create --name $appServicePlanName --resource-group $resourceGroupName --sku $appServicePlanSku --is-linux
-    Write-Host "App Service Plan created." -ForegroundColor Green
+    Write-Error "App Service Plan '$appServicePlanName' does not exist in resource group '$appServicePlanResourceGroup'. Please check the name and resource group."
+    exit 1
 } else {
-    Write-Host "App Service Plan '$appServicePlanName' already exists." -ForegroundColor Green
+    Write-Host "App Service Plan '$appServicePlanName' found in resource group '$appServicePlanResourceGroup'." -ForegroundColor Green
 }
 
 # Step 5: Check if App Service exists, create if not
 Write-Host "Step 5: Checking App Service..." -ForegroundColor Cyan
 $appServiceExists = az webapp list --resource-group $resourceGroupName --query "[?name=='$appServiceName']" | ConvertFrom-Json
 if (-not $appServiceExists -or $appServiceExists.Length -eq 0) {
-    Write-Host "App Service '$appServiceName' does not exist. Creating..." -ForegroundColor Yellow
-    az webapp create --name $appServiceName --resource-group $resourceGroupName --plan $appServicePlanName --runtime "DOTNET:8" 
+    Write-Host "App Service '$appServiceName' does not exist. Creating using plan from '$appServicePlanResourceGroup' resource group..." -ForegroundColor Yellow
+    az webapp create --name $appServiceName --resource-group $resourceGroupName --plan $appServicePlanName --resource-group-plan $appServicePlanResourceGroup --runtime "DOTNET:8" 
     Write-Host "App Service created." -ForegroundColor Green
 } else {
     Write-Host "App Service '$appServiceName' already exists." -ForegroundColor Green

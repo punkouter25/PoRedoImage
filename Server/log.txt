@@ -876,3 +876,287 @@ Content-Type: application/json
    at Server.Services.OpenAIService.GenerateImageAsync(String description) in C:\Users\punko\Downloads\PoRedoImage\Server\Services\OpenAIService.cs:line 244
    at Server.Controllers.ImageAnalysisController.AnalyzeImage(ImageAnalysisRequest request) in C:\Users\punko\Downloads\PoRedoImage\Server\Controllers\ImageAnalysisController.cs:line 155
 2025-05-15 15:02:20.168 -04:00 [INF] Image analysis completed in 11676ms for user unknown
+2025-05-18 01:16:52.297 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-05-18 01:20:29.263 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-05-18 01:20:29.431 -04:00 [ERR] Hosting failed to start
+System.IO.IOException: Failed to bind to address http://127.0.0.1:5257: address already in use.
+ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Only one usage of each socket address (protocol/network address/port) is normally permitted.
+ ---> System.Net.Sockets.SocketException (10048): Only one usage of each socket address (protocol/network address/port) is normally permitted.
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, Boolean disconnectOnFailure, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__14_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+2025-05-18 01:20:29.448 -04:00 [FTL] Application terminated unexpectedly
+System.IO.IOException: Failed to bind to address http://127.0.0.1:5257: address already in use.
+ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Only one usage of each socket address (protocol/network address/port) is normally permitted.
+ ---> System.Net.Sockets.SocketException (10048): Only one usage of each socket address (protocol/network address/port) is normally permitted.
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, Boolean disconnectOnFailure, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__14_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+   at Microsoft.Extensions.Hosting.Internal.Host.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+   at Program.<Main>$(String[] args) in C:\Users\punko\Downloads\PoRedoImage\Server\Program.cs:line 130
+2025-05-18 01:23:21.683 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-05-18 01:23:50.804 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-05-18 01:23:50.807 -04:00 [INF] OpenAI Service initialized with chat model: gpt-35-turbo, image model: dall-e-3, fallback model: gpt-35-turbo
+2025-05-18 01:23:50.808 -04:00 [INF] Executing CheckHealth action.
+2025-05-18 01:23:50.809 -04:00 [INF] API health check requested by anonymous, authenticated: false
+2025-05-18 01:23:50.862 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-05-18 01:23:50.863 -04:00 [INF] OpenAI Service initialized with chat model: gpt-35-turbo, image model: dall-e-3, fallback model: gpt-35-turbo
+2025-05-18 01:23:50.865 -04:00 [INF] Executing CheckAzureServices action.
+2025-05-18 01:23:50.865 -04:00 [INF] Azure services health check requested
+2025-05-18 01:23:50.892 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-05-18 01:23:50.894 -04:00 [INF] OpenAI Service initialized with chat model: gpt-35-turbo, image model: dall-e-3, fallback model: gpt-35-turbo
+2025-05-18 01:23:50.903 -04:00 [INF] Checking individual service: Computer Vision
+2025-05-18 01:23:50.917 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-05-18 01:23:50.918 -04:00 [INF] OpenAI Service initialized with chat model: gpt-35-turbo, image model: dall-e-3, fallback model: gpt-35-turbo
+2025-05-18 01:23:50.920 -04:00 [INF] Checking individual service: Azure OpenAI
+2025-05-18 01:24:18.369 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-05-18 01:24:18.369 -04:00 [INF] OpenAI Service initialized with chat model: gpt-35-turbo, image model: dall-e-3, fallback model: gpt-35-turbo
+2025-05-18 01:24:18.370 -04:00 [INF] Executing CheckHealth action.
+2025-05-18 01:24:18.370 -04:00 [INF] API health check requested by anonymous, authenticated: false
+2025-05-18 01:24:18.436 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-05-18 01:24:18.437 -04:00 [INF] OpenAI Service initialized with chat model: gpt-35-turbo, image model: dall-e-3, fallback model: gpt-35-turbo
+2025-05-18 01:24:18.437 -04:00 [INF] Executing CheckAzureServices action.
+2025-05-18 01:24:18.438 -04:00 [INF] Azure services health check requested
+2025-05-18 01:24:18.454 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-05-18 01:24:18.455 -04:00 [INF] OpenAI Service initialized with chat model: gpt-35-turbo, image model: dall-e-3, fallback model: gpt-35-turbo
+2025-05-18 01:24:18.456 -04:00 [INF] Checking individual service: Computer Vision
+2025-05-18 01:24:18.477 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-05-18 01:24:18.483 -04:00 [INF] OpenAI Service initialized with chat model: gpt-35-turbo, image model: dall-e-3, fallback model: gpt-35-turbo
+2025-05-18 01:24:18.489 -04:00 [INF] Checking individual service: Azure OpenAI
+2025-05-18 01:24:38.477 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-05-18 01:24:38.478 -04:00 [INF] OpenAI Service initialized with chat model: gpt-35-turbo, image model: dall-e-3, fallback model: gpt-35-turbo
+2025-05-18 01:24:38.554 -04:00 [INF] Image analysis request received from user anonymous (unknown). File: IMG_20250426_165620.jpg, Description Length: 350 words
+2025-05-18 01:24:38.563 -04:00 [INF] Successfully converted image data: 2388113 bytes
+2025-05-18 01:24:38.566 -04:00 [INF] Step 1: Analyzing image with Computer Vision
+2025-05-18 01:24:38.571 -04:00 [INF] Starting image analysis with Azure Computer Vision
+2025-05-18 01:24:41.548 -04:00 [INF] Image analysis completed in 2976ms, confidence: 0.8693042
+2025-05-18 01:24:41.580 -04:00 [INF] Computer Vision analysis completed. Description: 48 characters, Tags: 17
+2025-05-18 01:24:41.582 -04:00 [INF] Step 2: Enhancing description with OpenAI
+2025-05-18 01:24:41.587 -04:00 [INF] Enhancing description with Azure OpenAI. Target length: 350 words
+2025-05-18 01:24:41.914 -04:00 [ERR] Error enhancing description with Azure OpenAI after 326ms. Attempted models: gpt-35-turbo
+Azure.RequestFailedException: Unknown model: gpt-35-turbo
+Status: 400 (Bad Request)
+ErrorCode: unknown_model
+
+Content:
+{"error":{"code":"unknown_model","message":"Unknown model: gpt-35-turbo","details":"Unknown model: gpt-35-turbo"}}
+
+Headers:
+Transfer-Encoding: chunked
+apim-request-id: REDACTED
+request-context: REDACTED
+Strict-Transport-Security: REDACTED
+X-Content-Type-Options: REDACTED
+x-ms-region: REDACTED
+Date: Sun, 18 May 2025 05:24:43 GMT
+Content-Type: application/json; charset=utf-8
+
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.OpenAI.OpenAIClient.GetChatCompletionsAsync(ChatCompletionsOptions chatCompletionsOptions, CancellationToken cancellationToken)
+   at Server.Services.OpenAIService.EnhanceDescriptionAsync(String basicDescription, List`1 tags, Int32 targetLength) in C:\Users\punko\Downloads\PoRedoImage\Server\Services\OpenAIService.cs:line 112
+2025-05-18 01:24:41.967 -04:00 [ERR] Error during description enhancement
+Azure.RequestFailedException: Unknown model: gpt-35-turbo
+Status: 400 (Bad Request)
+ErrorCode: unknown_model
+
+Content:
+{"error":{"code":"unknown_model","message":"Unknown model: gpt-35-turbo","details":"Unknown model: gpt-35-turbo"}}
+
+Headers:
+Transfer-Encoding: chunked
+apim-request-id: REDACTED
+request-context: REDACTED
+Strict-Transport-Security: REDACTED
+X-Content-Type-Options: REDACTED
+x-ms-region: REDACTED
+Date: Sun, 18 May 2025 05:24:43 GMT
+Content-Type: application/json; charset=utf-8
+
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.OpenAI.OpenAIClient.GetChatCompletionsAsync(ChatCompletionsOptions chatCompletionsOptions, CancellationToken cancellationToken)
+   at Server.Services.OpenAIService.EnhanceDescriptionAsync(String basicDescription, List`1 tags, Int32 targetLength) in C:\Users\punko\Downloads\PoRedoImage\Server\Services\OpenAIService.cs:line 112
+   at Server.Controllers.ImageAnalysisController.AnalyzeImage(ImageAnalysisRequest request) in C:\Users\punko\Downloads\PoRedoImage\Server\Controllers\ImageAnalysisController.cs:line 133
+2025-05-18 01:24:41.973 -04:00 [INF] Step 3: Generating image with DALL-E
+2025-05-18 01:24:41.976 -04:00 [INF] Generating image with DALL-E based on description
+2025-05-18 01:24:48.867 -04:00 [ERR] DALL-E internal server error after 6888ms - The service may be temporarily unavailable
+Azure.RequestFailedException: Internal server error
+Status: 500 (Internal Server Error)
+
+Content:
+{ "statusCode": 500, "message": "Internal server error", "activityId": "0c19ef1a-f90d-4670-8346-6538a59415d8" }
+
+Headers:
+apim-request-id: REDACTED
+Strict-Transport-Security: REDACTED
+X-Content-Type-Options: REDACTED
+x-ms-region: REDACTED
+Date: Sun, 18 May 2025 05:24:50 GMT
+Content-Length: 111
+Content-Type: application/json
+
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.OpenAI.OpenAIClient.GetImageGenerationsAsync(ImageGenerationOptions imageGenerationOptions, CancellationToken cancellationToken)
+   at Server.Services.OpenAIService.GenerateImageAsync(String description) in C:\Users\punko\Downloads\PoRedoImage\Server\Services\OpenAIService.cs:line 189
+2025-05-18 01:24:48.891 -04:00 [ERR] Error during image generation
+System.InvalidOperationException: The image generation service is temporarily unavailable. Please try again later.
+ ---> Azure.RequestFailedException: Internal server error
+Status: 500 (Internal Server Error)
+
+Content:
+{ "statusCode": 500, "message": "Internal server error", "activityId": "0c19ef1a-f90d-4670-8346-6538a59415d8" }
+
+Headers:
+apim-request-id: REDACTED
+Strict-Transport-Security: REDACTED
+X-Content-Type-Options: REDACTED
+x-ms-region: REDACTED
+Date: Sun, 18 May 2025 05:24:50 GMT
+Content-Length: 111
+Content-Type: application/json
+
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.OpenAI.OpenAIClient.GetImageGenerationsAsync(ImageGenerationOptions imageGenerationOptions, CancellationToken cancellationToken)
+   at Server.Services.OpenAIService.GenerateImageAsync(String description) in C:\Users\punko\Downloads\PoRedoImage\Server\Services\OpenAIService.cs:line 189
+   --- End of inner exception stack trace ---
+   at Server.Services.OpenAIService.GenerateImageAsync(String description) in C:\Users\punko\Downloads\PoRedoImage\Server\Services\OpenAIService.cs:line 244
+   at Server.Controllers.ImageAnalysisController.AnalyzeImage(ImageAnalysisRequest request) in C:\Users\punko\Downloads\PoRedoImage\Server\Controllers\ImageAnalysisController.cs:line 155
+2025-05-18 01:24:48.900 -04:00 [INF] Image analysis completed in 10344ms for user unknown
+2025-05-18 01:27:57.861 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-05-18 01:30:32.269 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-05-18 01:30:32.275 -04:00 [INF] OpenAI Service initialized with chat model: gpt-4, image model: dall-e-3, fallback model: gpt-35
+2025-05-18 01:30:32.368 -04:00 [INF] Image analysis request received from user anonymous (unknown). File: PXL_20250511_171020042 (1).MP~2.jpg, Description Length: 350 words
+2025-05-18 01:30:32.389 -04:00 [INF] Successfully converted image data: 601788 bytes
+2025-05-18 01:30:32.390 -04:00 [INF] Step 1: Analyzing image with Computer Vision
+2025-05-18 01:30:32.395 -04:00 [INF] Starting image analysis with Azure Computer Vision
+2025-05-18 01:30:34.947 -04:00 [INF] Image analysis completed in 2551ms, confidence: 0.858872
+2025-05-18 01:30:34.966 -04:00 [INF] Computer Vision analysis completed. Description: 34 characters, Tags: 18
+2025-05-18 01:30:34.968 -04:00 [INF] Step 2: Enhancing description with OpenAI
+2025-05-18 01:30:34.973 -04:00 [INF] Enhancing description with Azure OpenAI. Target length: 350 words
+2025-05-18 01:30:35.272 -04:00 [ERR] Error enhancing description with Azure OpenAI after 296ms. Attempted models: gpt-4
+Azure.RequestFailedException: Unknown model: gpt-4
+Status: 400 (Bad Request)
+ErrorCode: unknown_model
+
+Content:
+{"error":{"code":"unknown_model","message":"Unknown model: gpt-4","details":"Unknown model: gpt-4"}}
+
+Headers:
+Transfer-Encoding: chunked
+apim-request-id: REDACTED
+request-context: REDACTED
+Strict-Transport-Security: REDACTED
+X-Content-Type-Options: REDACTED
+x-ms-region: REDACTED
+Date: Sun, 18 May 2025 05:30:37 GMT
+Content-Type: application/json; charset=utf-8
+
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.OpenAI.OpenAIClient.GetChatCompletionsAsync(ChatCompletionsOptions chatCompletionsOptions, CancellationToken cancellationToken)
+   at Server.Services.OpenAIService.EnhanceDescriptionAsync(String basicDescription, List`1 tags, Int32 targetLength) in C:\Users\punko\Downloads\PoRedoImage\Server\Services\OpenAIService.cs:line 112
+2025-05-18 01:30:35.320 -04:00 [ERR] Error during description enhancement
+Azure.RequestFailedException: Unknown model: gpt-4
+Status: 400 (Bad Request)
+ErrorCode: unknown_model
+
+Content:
+{"error":{"code":"unknown_model","message":"Unknown model: gpt-4","details":"Unknown model: gpt-4"}}
+
+Headers:
+Transfer-Encoding: chunked
+apim-request-id: REDACTED
+request-context: REDACTED
+Strict-Transport-Security: REDACTED
+X-Content-Type-Options: REDACTED
+x-ms-region: REDACTED
+Date: Sun, 18 May 2025 05:30:37 GMT
+Content-Type: application/json; charset=utf-8
+
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.OpenAI.OpenAIClient.GetChatCompletionsAsync(ChatCompletionsOptions chatCompletionsOptions, CancellationToken cancellationToken)
+   at Server.Services.OpenAIService.EnhanceDescriptionAsync(String basicDescription, List`1 tags, Int32 targetLength) in C:\Users\punko\Downloads\PoRedoImage\Server\Services\OpenAIService.cs:line 112
+   at Server.Controllers.ImageAnalysisController.AnalyzeImage(ImageAnalysisRequest request) in C:\Users\punko\Downloads\PoRedoImage\Server\Controllers\ImageAnalysisController.cs:line 133
+2025-05-18 01:30:35.325 -04:00 [INF] Step 3: Generating image with DALL-E
+2025-05-18 01:30:35.331 -04:00 [INF] Generating image with DALL-E based on description
+2025-05-18 01:30:42.603 -04:00 [ERR] DALL-E internal server error after 7269ms - The service may be temporarily unavailable
+Azure.RequestFailedException: Internal server error
+Status: 500 (Internal Server Error)
+
+Content:
+{ "statusCode": 500, "message": "Internal server error", "activityId": "f8e11bf3-b5d6-40c1-b7dc-4561329d5c74" }
+
+Headers:
+apim-request-id: REDACTED
+Strict-Transport-Security: REDACTED
+X-Content-Type-Options: REDACTED
+x-ms-region: REDACTED
+Date: Sun, 18 May 2025 05:30:44 GMT
+Content-Length: 111
+Content-Type: application/json
+
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.OpenAI.OpenAIClient.GetImageGenerationsAsync(ImageGenerationOptions imageGenerationOptions, CancellationToken cancellationToken)
+   at Server.Services.OpenAIService.GenerateImageAsync(String description) in C:\Users\punko\Downloads\PoRedoImage\Server\Services\OpenAIService.cs:line 189
+2025-05-18 01:30:42.632 -04:00 [ERR] Error during image generation
+System.InvalidOperationException: The image generation service is temporarily unavailable. Please try again later.
+ ---> Azure.RequestFailedException: Internal server error
+Status: 500 (Internal Server Error)
+
+Content:
+{ "statusCode": 500, "message": "Internal server error", "activityId": "f8e11bf3-b5d6-40c1-b7dc-4561329d5c74" }
+
+Headers:
+apim-request-id: REDACTED
+Strict-Transport-Security: REDACTED
+X-Content-Type-Options: REDACTED
+x-ms-region: REDACTED
+Date: Sun, 18 May 2025 05:30:44 GMT
+Content-Length: 111
+Content-Type: application/json
+
+   at Azure.Core.HttpPipelineExtensions.ProcessMessageAsync(HttpPipeline pipeline, HttpMessage message, RequestContext requestContext, CancellationToken cancellationToken)
+   at Azure.AI.OpenAI.OpenAIClient.GetImageGenerationsAsync(ImageGenerationOptions imageGenerationOptions, CancellationToken cancellationToken)
+   at Server.Services.OpenAIService.GenerateImageAsync(String description) in C:\Users\punko\Downloads\PoRedoImage\Server\Services\OpenAIService.cs:line 189
+   --- End of inner exception stack trace ---
+   at Server.Services.OpenAIService.GenerateImageAsync(String description) in C:\Users\punko\Downloads\PoRedoImage\Server\Services\OpenAIService.cs:line 244
+   at Server.Controllers.ImageAnalysisController.AnalyzeImage(ImageAnalysisRequest request) in C:\Users\punko\Downloads\PoRedoImage\Server\Controllers\ImageAnalysisController.cs:line 155
+2025-05-18 01:30:42.647 -04:00 [INF] Image analysis completed in 10273ms for user unknown
+2025-05-18 01:37:12.091 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-05-18 02:10:45.083 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client

@@ -59,7 +59,7 @@ jobs:
         package: ./publish
     
     - name: Configure App Settings
-      uses: azure/CLI@v1
+      uses: azure/CLI@v2
       with:
         inlineScript: |
           az webapp config appsettings set --resource-group "PoRedoImage" --name "PoRedoImage" --settings \

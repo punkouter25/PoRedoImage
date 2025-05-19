@@ -23,7 +23,7 @@ jobs:
       if: github.event_name != 'workflow_run'
     
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 9.0.x
       if: github.event_name != 'workflow_run'

@@ -1372,3 +1372,20 @@ Content-Type: application/json
 2025-05-18 05:26:07.786 -04:00 [INF] Image generation completed. Size: 3163230 bytes, Tokens: 469
 2025-05-18 05:26:07.787 -04:00 [INF] Image analysis completed in 27867ms for user unknown
 2025-05-20 03:20:07.374 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-05-20 03:23:04.297 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-05-20 03:23:04.300 -04:00 [INF] OpenAI Service initialized with chat model: gpt-35-turbo, image model: dall-e-3, fallback model: gpt-35-turbo
+2025-05-20 03:23:04.342 -04:00 [INF] Image analysis request received from user anonymous (unknown). File: 44-year-old-sokol-failing-to-understand-teen-slang-v0-222jpfp3voye1.png, Description Length: 350 words
+2025-05-20 03:23:04.361 -04:00 [INF] Successfully converted image data: 330414 bytes
+2025-05-20 03:23:04.362 -04:00 [INF] Step 1: Analyzing image with Computer Vision
+2025-05-20 03:23:04.369 -04:00 [INF] Starting image analysis with Azure Computer Vision
+2025-05-20 03:23:06.782 -04:00 [INF] Image analysis completed in 2412ms, confidence: 0.8063859
+2025-05-20 03:23:06.824 -04:00 [INF] Computer Vision analysis completed. Description: 50 characters, Tags: 13
+2025-05-20 03:23:06.825 -04:00 [INF] Step 2: Enhancing description with OpenAI
+2025-05-20 03:23:06.830 -04:00 [INF] Enhancing description with Azure OpenAI. Target length: 350 words
+2025-05-20 03:23:11.256 -04:00 [INF] Description enhancement completed in 4424ms, tokens used: 530, model: gpt-35-turbo
+2025-05-20 03:23:11.266 -04:00 [INF] Description enhancement completed. Length: 1875 characters, Tokens: 530
+2025-05-20 03:23:11.266 -04:00 [INF] Step 3: Generating image with DALL-E
+2025-05-20 03:23:11.271 -04:00 [INF] Generating image with DALL-E based on description
+2025-05-20 03:23:38.876 -04:00 [INF] Image generation completed in 27604ms, estimated tokens: 468, model: dall-e-3
+2025-05-20 03:23:38.892 -04:00 [INF] Image generation completed. Size: 3163230 bytes, Tokens: 468
+2025-05-20 03:23:38.895 -04:00 [INF] Image analysis completed in 34550ms for user unknown

@@ -1371,3 +1371,4 @@ Content-Type: application/json
 2025-05-18 05:26:07.776 -04:00 [INF] Image generation completed in 18165ms, estimated tokens: 469, model: dall-e-3
 2025-05-18 05:26:07.786 -04:00 [INF] Image generation completed. Size: 3163230 bytes, Tokens: 469
 2025-05-18 05:26:07.787 -04:00 [INF] Image analysis completed in 27867ms for user unknown
+2025-05-20 03:20:07.374 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client

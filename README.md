@@ -34,17 +34,22 @@ An intelligent image analysis application that uses Azure AI services to analyze
 The project uses GitHub Actions for continuous integration and deployment:
 
 1. **Build and Test**: Builds the solution and runs tests
-2. **Deploy to Azure**: Deploys the application to Azure App Service
+2. **Deploy to Azure**: Deploys the Server application to Azure App Service
 3. **Docker Build**: Builds and pushes Docker images to GitHub Container Registry
 4. **Security Scan**: Performs security scanning and vulnerability checks
+
+To deploy the application to your Azure resources, see the [GitHub Actions Deployment Guide](./docs/github-actions-deployment-guide.md) for setup instructions.
 
 ## Getting Started
 
 1. Clone the repository
 2. Install .NET 9.0 SDK
 3. Configure Azure services (use `azure-environment-setup.yml` workflow)
-4. Update `appsettings.json` with your Azure service credentials
-5. Run the application locally
+4. Set up GitHub Actions deployment:
+   - Run `setup-github-secrets.ps1` to configure GitHub secrets using Azure CLI and GitHub CLI
+   - Or follow the manual setup in [GitHub Actions Deployment Guide](./docs/github-actions-deployment-guide.md)
+5. Update `appsettings.json` with your Azure service credentials
+6. Run the application locally
 
 ## Local Development
 

@@ -11,7 +11,7 @@ $location = "eastus"  # Change to your preferred region
 $publishFolder = "./Server/publish"
 $zipFilePath = "./deploy.zip"
 $appServicePlanResourceGroup = "PoShared"  # Resource group containing the existing App Service Plan
-$appServicePlanName = "PoSharedPlan"  # Name of your existing App Service Plan
+$appServicePlanName = "PoSharedFree"  # Name of your existing App Service Plan
 
 # Step 1: Build and publish the application
 Write-Host "Step 1: Building and publishing the application..." -ForegroundColor Cyan

@@ -1,0 +1,77 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch Server (Chrome - HTTPS)",
+            "type": "blazorwasm",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/Server",
+            "browser": "chrome",
+            "url": "https://localhost:5001",
+            "webRoot": "${workspaceFolder}/Client/wwwroot",
+            "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
+            "hosted": true,
+            "program": "${workspaceFolder}/Server/bin/Debug/net9.0/Server.dll",
+            "args": [],
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "preLaunchTask": "build",
+            "timeout": 120000
+        },
+        {
+            "name": "Launch Server (Chrome - HTTP)",
+            "type": "blazorwasm",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/Server",
+            "browser": "chrome",
+            "url": "http://localhost:5000",
+            "webRoot": "${workspaceFolder}/Client/wwwroot",
+            "inspectUri": "{wsProtocol}://{url.hostname}:{url.port}/_framework/debug/ws-proxy?browser={browserInspectUri}",
+            "hosted": true,
+            "program": "${workspaceFolder}/Server/bin/Debug/net9.0/Server.dll",
+            "args": [],
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "preLaunchTask": "build",
+            "timeout": 120000
+        },
+        {
+            "name": "Launch Server Only",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/Server/bin/Debug/net9.0/Server.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Server",
+            "console": "internalConsole",
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            }
+        },
+        {
+            "name": "Launch Server (No Browser)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/Server/bin/Debug/net9.0/Server.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Server",
+            "console": "integratedTerminal",
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "launchBrowser": {
+                "enabled": false
+            }
+        },
+        {
+            "name": "Attach to .NET Core",
+            "type": "coreclr",
+            "request": "attach"
+        }
+    ]
+}

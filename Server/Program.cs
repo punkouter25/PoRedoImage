@@ -38,8 +38,19 @@ builder.Host.UseSerilog(); // Uncommented Serilog host integration
 builder.Services.AddApplicationInsightsTelemetry();
 
 // Add authentication
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+var hasValidAzureAdConfig = !string.IsNullOrEmpty(builder.Configuration["AzureAd:ClientId"]) && 
+    builder.Configuration["AzureAd:ClientId"] != "11111111-1111-1111-11111111111111111";
+
+if (hasValidAzureAdConfig)
+{
+    Log.Information("Configuring Azure AD authentication");
+    builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddMicrosoftIdentityWebApi(builder.Configuration.GetSection("AzureAd"));
+}
+else
+{
+    Log.Warning("Azure AD configuration not found or using placeholder values. Authentication disabled.");
+}
 
 // Make authentication optional by default
 builder.Services.AddAuthorization(options =>
@@ -64,7 +75,7 @@ builder.Services.AddCors(options =>
 // Register Azure services
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<IComputerVisionService, ComputerVisionService>(); // Uncommented
-builder.Services.AddScoped<IOpenAIService, OpenAIService>(); // Uncommented
+builder.Services.AddScoped<IOpenAIService, OpenAIService>(); // Re-enabled
 
 var app = builder.Build();
 
@@ -72,7 +83,6 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseWebAssemblyDebugging();
-    // app.UseCors("AllowAll"); // Temporarily commented out
 }
 else
 {
@@ -80,13 +90,20 @@ else
     app.UseHsts();
 }
 
-// app.UseHttpsRedirection(); // Uncommented
+// Enable CORS for all environments (required for Azure hosting)
+app.UseCors("AllowAll");
+
+app.UseHttpsRedirection(); // Enabled for proper HTTPS handling
 app.UseBlazorFrameworkFiles(); // Serve Blazor WebAssembly static files
 app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication();
+// Only use authentication if it was configured
+if (hasValidAzureAdConfig)
+{
+    app.UseAuthentication();
+}
 app.UseAuthorization();
 
 app.MapRazorPages();
@@ -132,3 +149,6 @@ finally
 {
     Log.CloseAndFlush(); // Uncommented Serilog log
 }
+
+// Make Program class public for testing
+public partial class Program { }

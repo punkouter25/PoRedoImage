@@ -38,8 +38,8 @@ public class ComputerVisionService : IComputerVisionService
         
         _endpoint = configuration["ComputerVision:Endpoint"] ?? 
             throw new ArgumentNullException("ComputerVision:Endpoint is not configured");
-        _key = configuration["ComputerVision:Key"] ?? 
-            throw new ArgumentNullException("ComputerVision:Key is not configured");
+        _key = configuration["ComputerVision:ApiKey"] ?? 
+            throw new ArgumentNullException("ComputerVision:ApiKey is not configured");
         _apiVersion = configuration["ComputerVision:ApiVersion"] ?? "2023-10-01";
             
         _logger.LogInformation("Computer Vision Service initialized with endpoint: {Endpoint}, API version: {ApiVersion}",
@@ -52,6 +52,12 @@ public class ComputerVisionService : IComputerVisionService
     public async Task<(string Description, List<string> Tags, double ConfidenceScore, long ProcessingTimeMs)> AnalyzeImageAsync(
         byte[] imageData)
     {
+        // Validate inputs
+        if (imageData == null)
+            throw new ArgumentNullException(nameof(imageData));
+        if (imageData.Length == 0)
+            throw new ArgumentException("Image data cannot be empty", nameof(imageData));
+
         _logger.LogInformation("Starting image analysis with Azure Computer Vision");
         var startTime = DateTime.UtcNow;
         

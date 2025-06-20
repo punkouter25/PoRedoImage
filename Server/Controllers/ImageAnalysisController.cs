@@ -3,14 +3,14 @@ using ImageGc.Shared.Models;
 using Server.Services;
 using System.Diagnostics;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Server.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 public class ImageAnalysisController : ControllerBase
-{
-    private readonly ILogger<ImageAnalysisController> _logger;
+{    private readonly ILogger<ImageAnalysisController> _logger;
     private readonly IComputerVisionService _computerVisionService;
     private readonly IOpenAIService _openAIService;
     
@@ -22,16 +22,15 @@ public class ImageAnalysisController : ControllerBase
         _logger = logger;
         _computerVisionService = computerVisionService;
         _openAIService = openAIService;
-    }
-
-    [HttpPost("analyze")]
+    }    [HttpPost("analyze")]
+    [AllowAnonymous] // Allow anonymous access for debugging
     public async Task<ActionResult<ImageAnalysisResult>> AnalyzeImage([FromBody] ImageAnalysisRequest request)
     {
         try
         {
-            // Get the authenticated user
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "anonymous";
-            var userName = User.FindFirst(ClaimTypes.Name)?.Value ?? "unknown";
+            // Get the authenticated user (allow anonymous for now)
+            var userId = User?.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "anonymous";
+            var userName = User?.FindFirst(ClaimTypes.Name)?.Value ?? "anonymous";
             
             _logger.LogInformation("Image analysis request received from user {UserId} ({UserName}). File: {FileName}, Description Length: {Length} words", 
                 userId, userName, request.FileName, request.DescriptionLength);
@@ -97,9 +96,7 @@ public class ImageAnalysisController : ControllerBase
                 _logger.LogError(ex, "Error during Computer Vision analysis");
                 result.Metrics.ErrorInfo = $"Computer Vision analysis failed: {ex.Message}";
                 return StatusCode(500, result);
-            }
-            
-            // Step 2: Enhance description with OpenAI
+            }            // Step 2: Enhance description with OpenAI
             _logger.LogInformation("Step 2: Enhancing description with OpenAI");
             string enhancedDescription;
             try
@@ -120,9 +117,7 @@ public class ImageAnalysisController : ControllerBase
                 // Fall back to the basic description
                 enhancedDescription = basicDescription;
                 result.Metrics.ErrorInfo = $"Description enhancement failed: {ex.Message}";
-            }
-            
-            // Step 3: Generate new image with DALL-E
+            }            // Step 3: Generate new image with DALL-E
             _logger.LogInformation("Step 3: Generating image with DALL-E");
             try
             {
@@ -167,5 +162,38 @@ public class ImageAnalysisController : ControllerBase
                 }
             });
         }
+    }
+
+    [HttpGet("test")]
+    public ActionResult<object> TestConnection()
+    {
+        _logger.LogInformation("Test endpoint called");
+        return Ok(new { 
+            message = "ImageAnalysis API is working", 
+            timestamp = DateTime.UtcNow,
+            environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Unknown"
+        });
+    }
+
+    [HttpGet("debug")]
+    [AllowAnonymous]
+    public ActionResult<object> DebugInfo()
+    {
+        _logger.LogInformation("Debug endpoint called");
+        
+        var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Unknown";
+        var isAuthenticated = User?.Identity?.IsAuthenticated ?? false;
+        var claims = User?.Claims?.Select(c => new { c.Type, c.Value })?.ToArray() ?? Array.Empty<object>();
+        
+        return Ok(new { 
+            message = "Debug info for ImageAnalysis API", 
+            timestamp = DateTime.UtcNow,
+            environment = environment,
+            isAuthenticated = isAuthenticated,
+            userClaims = claims,
+            requestHeaders = Request.Headers.ToDictionary(h => h.Key, h => h.Value.ToString()),
+            baseUrl = $"{Request.Scheme}://{Request.Host}",
+            path = Request.Path
+        });
     }
 }

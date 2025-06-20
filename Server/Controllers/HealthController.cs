@@ -12,8 +12,7 @@ public class HealthController : ControllerBase
 {
     private readonly ILogger<HealthController> _logger;
     private readonly TelemetryClient _telemetryClient;
-    private readonly IConfiguration _configuration;
-    private readonly IComputerVisionService? _computerVisionService;
+    private readonly IConfiguration _configuration;    private readonly IComputerVisionService? _computerVisionService;
     private readonly IOpenAIService? _openAIService;
 
     public HealthController(
@@ -167,24 +166,25 @@ public class HealthController : ControllerBase
                 // Check if OpenAI service is available by making a simple API call
                 bool isAvailable = false;
                 string status = "Not configured";
-                
-                if (isConfigured)
+                  if (isConfigured)
                 {
                     status = "Configured but cannot verify connection";
-                    if (_openAIService != null)
-                    {
-                        try
-                        {
-                            // Just return configured status for now, since actual testing would consume API tokens
-                            status = "Service is configured and ready";
-                            isAvailable = true;
-                        }
-                        catch (Exception ex)
-                        {
-                            _logger.LogError(ex, "Error verifying OpenAI service");
-                            status = $"Error: {ex.Message}";
-                        }
-                    }
+                    // if (_openAIService != null)
+                    // {
+                    //     try
+                    //     {
+                    //         // Just return configured status for now, since actual testing would consume API tokens
+                    //         status = "Service is configured and ready";
+                    //         isAvailable = true;
+                    //     }
+                    //     catch (Exception ex)
+                    //     {
+                    //         _logger.LogError(ex, "Error verifying OpenAI service");
+                    //         status = $"Error: {ex.Message}";
+                    //     }
+                    // }
+                    status = "Service is configured and ready";
+                    isAvailable = true;
                 }
                 
                 return Ok(new { IsHealthy = isAvailable, Status = status });

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageGc.Shared", "ImageGc.Shared\ImageGc.Shared.csproj", "{949247F5-FE40-444D-ADA6-6B848214B35F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageGc.Tests", "ImageGc.Tests\ImageGc.Tests.csproj", "{077C9B80-50AD-486D-B60D-EFF6F583436A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,18 @@ Global
 		{949247F5-FE40-444D-ADA6-6B848214B35F}.Release|x64.Build.0 = Release|Any CPU
 		{949247F5-FE40-444D-ADA6-6B848214B35F}.Release|x86.ActiveCfg = Release|Any CPU
 		{949247F5-FE40-444D-ADA6-6B848214B35F}.Release|x86.Build.0 = Release|Any CPU
+		{077C9B80-50AD-486D-B60D-EFF6F583436A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{077C9B80-50AD-486D-B60D-EFF6F583436A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{077C9B80-50AD-486D-B60D-EFF6F583436A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{077C9B80-50AD-486D-B60D-EFF6F583436A}.Debug|x64.Build.0 = Debug|Any CPU
+		{077C9B80-50AD-486D-B60D-EFF6F583436A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{077C9B80-50AD-486D-B60D-EFF6F583436A}.Debug|x86.Build.0 = Debug|Any CPU
+		{077C9B80-50AD-486D-B60D-EFF6F583436A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{077C9B80-50AD-486D-B60D-EFF6F583436A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{077C9B80-50AD-486D-B60D-EFF6F583436A}.Release|x64.ActiveCfg = Release|Any CPU
+		{077C9B80-50AD-486D-B60D-EFF6F583436A}.Release|x64.Build.0 = Release|Any CPU
+		{077C9B80-50AD-486D-B60D-EFF6F583436A}.Release|x86.ActiveCfg = Release|Any CPU
+		{077C9B80-50AD-486D-B60D-EFF6F583436A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

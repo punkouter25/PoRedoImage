@@ -1,11 +1,14 @@
-using Azure;
 using Azure.AI.OpenAI;
+using OpenAI.Chat;
+using OpenAI.Images;
 using Microsoft.ApplicationInsights;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Server.Services;
 
 /// <summary>
-/// Interface for Azure OpenAI service operations
+/// Interface for OpenAI service operations
 /// </summary>
 public interface IOpenAIService
 {
@@ -29,53 +32,57 @@ public interface IOpenAIService
 }
 
 /// <summary>
-/// Implementation of OpenAI service using Azure OpenAI SDK
+/// Implementation of OpenAI service using OpenAI SDK
 /// </summary>
 public class OpenAIService : IOpenAIService
 {    private readonly ILogger<OpenAIService> _logger;
     private readonly TelemetryClient _telemetryClient;
     private readonly string _endpoint;
-    private readonly string _key;
-    private readonly string _chatCompletionsDeployment;
-    private readonly string _imageGenerationDeployment;
+    private readonly string _apiKey;
+    private readonly string _chatModel;
+    private readonly string _imageModel;
     private readonly string _fallbackChatModel;
     
     public OpenAIService(
         IConfiguration configuration,
         ILogger<OpenAIService> logger,
         TelemetryClient telemetryClient)
-    {
-        _logger = logger;
+    {        _logger = logger;
         _telemetryClient = telemetryClient;
         
         _endpoint = configuration["OpenAI:Endpoint"] ?? 
             throw new ArgumentNullException("OpenAI:Endpoint is not configured");
-        _key = configuration["OpenAI:Key"] ??
-            throw new ArgumentNullException("OpenAI:Key is not configured");
-        _chatCompletionsDeployment = configuration["OpenAI:ChatCompletionsDeployment"] ?? 
-            "gpt-35-turbo";
-        _imageGenerationDeployment = configuration["OpenAI:ImageGenerationDeployment"] ?? 
-            "dall-e-3";
-        _fallbackChatModel = configuration["OpenAI:FallbackChatModel"] ?? 
-            "gpt-35-turbo";
+        _apiKey = configuration["OpenAI:ApiKey"] ?? 
+            throw new ArgumentNullException("OpenAI:ApiKey is not configured");
+        _chatModel = configuration["OpenAI:ChatModel"] ?? "gpt-4o-mini";
+        _imageModel = configuration["OpenAI:ImageModel"] ?? "dall-e-3";
+        _fallbackChatModel = configuration["OpenAI:FallbackChatModel"] ?? "gpt-4o-mini";
             
         _logger.LogInformation("OpenAI Service initialized with chat model: {ChatModel}, image model: {ImageModel}, fallback model: {FallbackModel}",
-            _chatCompletionsDeployment, _imageGenerationDeployment, _fallbackChatModel);
-    }    /// <summary>
+            _chatModel, _imageModel, _fallbackChatModel);
+    }
+
+    /// <summary>
     /// Enhances a basic image description to be more detailed using OpenAI
     /// </summary>
     public async Task<(string EnhancedDescription, int TokensUsed, long ProcessingTimeMs)> EnhanceDescriptionAsync(
         string basicDescription, List<string> tags, int targetLength)
     {
-        _logger.LogInformation("Enhancing description with Azure OpenAI. Target length: {TargetLength} words", targetLength);
+        // Validate inputs
+        if (basicDescription == null)
+            throw new ArgumentNullException(nameof(basicDescription));
+        if (tags == null)
+            throw new ArgumentNullException(nameof(tags));
+        if (targetLength <= 0)
+            throw new ArgumentException("Target length must be greater than 0", nameof(targetLength));
+
+        _logger.LogInformation("Enhancing description with OpenAI. Target length: {TargetLength} words", targetLength);
         var startTime = DateTime.UtcNow;
         var attemptedModels = new List<string>();
-        
-        try
-        {
-            // Create the OpenAI client
-            var credential = new AzureKeyCredential(_key);
-            var client = new OpenAIClient(new Uri(_endpoint), credential);
+          try
+        {            // Create the Azure OpenAI client
+            var client = new AzureOpenAIClient(new Uri(_endpoint), new Azure.AzureKeyCredential(_apiKey));
+            var chatClient = client.GetChatClient(_chatModel);
             
             // Build the prompt
             var prompt = $@"I have an image with the following basic description:
@@ -90,48 +97,48 @@ The description should be factual based on the information provided and not add 
 Enhanced description:";
             
             // Configure the chat completion options
-            var chatCompletionsOptions = new ChatCompletionsOptions
+            var messages = new List<ChatMessage>
             {
-                DeploymentName = _chatCompletionsDeployment,
-                Messages =
-                {
-                    new ChatRequestSystemMessage(@"You are an expert image description enhancer. Your task is to take basic image descriptions and tags and expand them into detailed, vivid descriptions suitable for image generation."),
-                    new ChatRequestUserMessage(prompt)
-                },
-                MaxTokens = 800,
-                Temperature = 0.7f,
-                NucleusSamplingFactor = 0.95f
+                new SystemChatMessage(@"You are an expert image description enhancer. Your task is to take basic image descriptions and tags and expand them into detailed, vivid descriptions suitable for image generation."),
+                new UserChatMessage(prompt)
             };
             
-            attemptedModels.Add(_chatCompletionsDeployment);
-            Response<ChatCompletions> response;
+            var chatOptions = new ChatCompletionOptions
+            {
+                MaxOutputTokenCount = 800,
+                Temperature = 0.7f,
+                TopP = 0.95f
+            };
+            
+            attemptedModels.Add(_chatModel);
+            ChatCompletion response;
             
             try
             {
                 // Try with primary model
-                response = await client.GetChatCompletionsAsync(chatCompletionsOptions);
+                response = await chatClient.CompleteChatAsync(messages, chatOptions);
             }
-            catch (RequestFailedException ex) when (ex.ErrorCode == "unavailable_model" && _chatCompletionsDeployment != _fallbackChatModel)
+            catch (Exception ex) when (ex.Message.Contains("unavailable") && _chatModel != _fallbackChatModel)
             {
                 // If primary model unavailable, try fallback
                 _logger.LogWarning("Primary model {PrimaryModel} unavailable. Trying fallback model {FallbackModel}", 
-                    _chatCompletionsDeployment, _fallbackChatModel);
+                    _chatModel, _fallbackChatModel);
                 
-                chatCompletionsOptions.DeploymentName = _fallbackChatModel;
+                var fallbackChatClient = client.GetChatClient(_fallbackChatModel);
                 attemptedModels.Add(_fallbackChatModel);
                 
-                response = await client.GetChatCompletionsAsync(chatCompletionsOptions);
+                response = await fallbackChatClient.CompleteChatAsync(messages, chatOptions);
                 
                 _logger.LogInformation("Successfully used fallback model {FallbackModel}", _fallbackChatModel);
             }
             
-            var enhancedDescription = response.Value.Choices[0].Message.Content.Trim();
-            var tokensUsed = response.Value.Usage.TotalTokens;
+            var enhancedDescription = response.Content[0].Text.Trim();
+            var tokensUsed = response.Usage.TotalTokenCount;
             
             var processingTime = (long)(DateTime.UtcNow - startTime).TotalMilliseconds;
             
-            _logger.LogInformation("Description enhancement completed in {ProcessingTime}ms, tokens used: {TokensUsed}, model: {Model}", 
-                processingTime, tokensUsed, chatCompletionsOptions.DeploymentName);
+            _logger.LogInformation("Description enhancement completed in {ProcessingTime}ms, tokens used: {TokensUsed}", 
+                processingTime, tokensUsed);
             
             // Track metrics in Application Insights
             _telemetryClient.TrackMetric("OpenAIEnhancementTime", processingTime);
@@ -139,7 +146,7 @@ Enhanced description:";
             
             // Track model name as a custom property
             var enhancementTelemetry = new Microsoft.ApplicationInsights.DataContracts.TraceTelemetry("OpenAI Description Enhancement Completed");
-            enhancementTelemetry.Properties["Model"] = chatCompletionsOptions.DeploymentName;
+            enhancementTelemetry.Properties["Model"] = _chatModel;
             _telemetryClient.TrackTrace(enhancementTelemetry);
             
             return (enhancedDescription, tokensUsed, processingTime);
@@ -147,12 +154,12 @@ Enhanced description:";
         catch (Exception ex)
         {
             var processingTime = (long)(DateTime.UtcNow - startTime).TotalMilliseconds;
-            _logger.LogError(ex, "Error enhancing description with Azure OpenAI after {ProcessingTime}ms. Attempted models: {Models}", 
+            _logger.LogError(ex, "Error enhancing description with OpenAI after {ProcessingTime}ms. Attempted models: {Models}", 
                 processingTime, string.Join(", ", attemptedModels));
             
             _telemetryClient.TrackException(ex, new Dictionary<string, string>
             {
-                { "Service", "AzureOpenAIEnhancement" },
+                { "Service", "OpenAIEnhancement" },
                 { "ProcessingTime", processingTime.ToString() },
                 { "AttemptedModels", string.Join(", ", attemptedModels) }
             });
@@ -160,53 +167,41 @@ Enhanced description:";
             throw; // Rethrow to be handled by the controller
         }
     }
-      /// <summary>
-    /// Generates a new image based on a description using DALL-E through Azure OpenAI
+
+    /// <summary>
+    /// Generates a new image based on a description using DALL-E
     /// </summary>
     public async Task<(byte[] ImageData, string ContentType, int TokensUsed, long ProcessingTimeMs)> GenerateImageAsync(
         string description)
     {
+        // Validate inputs
+        if (description == null)
+            throw new ArgumentNullException(nameof(description));
+        if (string.IsNullOrWhiteSpace(description))
+            throw new ArgumentException("Description cannot be empty or whitespace", nameof(description));
+
         _logger.LogInformation("Generating image with DALL-E based on description");
         var startTime = DateTime.UtcNow;
-        
-        try
-        {
-            // Create the OpenAI client
-            var credential = new AzureKeyCredential(_key);
-            var client = new OpenAIClient(new Uri(_endpoint), credential);
+          try
+        {            // Create the Azure OpenAI client
+            var client = new AzureOpenAIClient(new Uri(_endpoint), new Azure.AzureKeyCredential(_apiKey));
+            var imageClient = client.GetImageClient(_imageModel);
             
             // Configure the image generation options
             var imageGenerationOptions = new ImageGenerationOptions
             {
-                DeploymentName = _imageGenerationDeployment,
-                Prompt = description,
-                Size = ImageSize.Size1024x1024,
-                Quality = ImageGenerationQuality.Standard,
-                Style = ImageGenerationStyle.Natural
+                Size = GeneratedImageSize.W1024xH1024,
+                Quality = GeneratedImageQuality.Standard,
+                Style = GeneratedImageStyle.Natural,
+                ResponseFormat = GeneratedImageFormat.Bytes
             };
             
             // Generate the image
-            var response = await client.GetImageGenerationsAsync(imageGenerationOptions);
-            var generatedImage = response.Value.Data[0];
+            var response = await imageClient.GenerateImageAsync(description, imageGenerationOptions);
+            var generatedImage = response.Value;
             
-            // Get binary data from the image URL or data
-            byte[] imageData;
-            if (!string.IsNullOrEmpty(generatedImage.Base64Data))
-            {
-                // If base64 data is available
-                imageData = Convert.FromBase64String(generatedImage.Base64Data);
-            }
-            else if (generatedImage.Url != null)
-            {
-                // If URL is provided, download the image
-                using var httpClient = new HttpClient();
-                imageData = await httpClient.GetByteArrayAsync(generatedImage.Url);
-            }
-            else
-            {
-                throw new InvalidOperationException("No image data or URL returned from DALL-E");
-            }
-            
+            // Get binary data from the image
+            byte[] imageData = generatedImage.ImageBytes.ToArray();
             var contentType = "image/png"; // DALL-E generates PNG images
             
             // Estimate token usage based on prompt length
@@ -215,7 +210,7 @@ Enhanced description:";
             var processingTime = (long)(DateTime.UtcNow - startTime).TotalMilliseconds;
             
             _logger.LogInformation("Image generation completed in {ProcessingTime}ms, estimated tokens: {Tokens}, model: {Model}", 
-                processingTime, estimatedTokens, _imageGenerationDeployment);
+                processingTime, estimatedTokens, _imageModel);
             
             // Track metrics in Application Insights
             _telemetryClient.TrackMetric("DALLEGenerationTime", processingTime);
@@ -223,25 +218,10 @@ Enhanced description:";
             
             // Track model name as a custom property
             var imageTelemetry = new Microsoft.ApplicationInsights.DataContracts.TraceTelemetry("DALL-E Image Generation Completed");
-            imageTelemetry.Properties["Model"] = _imageGenerationDeployment;
+            imageTelemetry.Properties["Model"] = _imageModel;
             _telemetryClient.TrackTrace(imageTelemetry);
             
             return (imageData, contentType, estimatedTokens, processingTime);
-        }
-        catch (RequestFailedException ex) when (ex.Status == 500 || ex.ErrorCode == "internal_server_error")
-        {
-            var processingTime = (long)(DateTime.UtcNow - startTime).TotalMilliseconds;
-            _logger.LogError(ex, "DALL-E internal server error after {ProcessingTime}ms - The service may be temporarily unavailable", processingTime);
-            
-            _telemetryClient.TrackException(ex, new Dictionary<string, string>
-            {
-                { "Service", "AzureOpenAIImageGeneration" },
-                { "ProcessingTime", processingTime.ToString() },
-                { "Model", _imageGenerationDeployment },
-                { "ErrorType", "InternalServerError" }
-            });
-            
-            throw new InvalidOperationException("The image generation service is temporarily unavailable. Please try again later.", ex);
         }
         catch (Exception ex)
         {
@@ -250,12 +230,12 @@ Enhanced description:";
             
             _telemetryClient.TrackException(ex, new Dictionary<string, string>
             {
-                { "Service", "AzureOpenAIImageGeneration" },
+                { "Service", "OpenAIImageGeneration" },
                 { "ProcessingTime", processingTime.ToString() },
-                { "Model", _imageGenerationDeployment }
+                { "Model", _imageModel }
             });
             
-            throw; // Rethrow to be handled by the controller
+            throw new InvalidOperationException("The image generation service is temporarily unavailable. Please try again later.", ex);
         }
     }
 }

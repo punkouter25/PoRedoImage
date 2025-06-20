@@ -1389,3 +1389,189 @@ Content-Type: application/json
 2025-05-20 03:23:38.876 -04:00 [INF] Image generation completed in 27604ms, estimated tokens: 468, model: dall-e-3
 2025-05-20 03:23:38.892 -04:00 [INF] Image generation completed. Size: 3163230 bytes, Tokens: 468
 2025-05-20 03:23:38.895 -04:00 [INF] Image analysis completed in 34550ms for user unknown
+2025-06-20 10:21:25.269 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-06-20 10:24:46.803 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-06-20 10:25:23.683 -04:00 [INF] Computer Vision Service initialized with endpoint: YOUR_COMPUTER_VISION_ENDPOINT, API version: 2023-10-01
+2025-06-20 10:25:23.686 -04:00 [INF] OpenAI Service initialized with chat model: gpt-3.5-turbo, image model: dall-e-3, fallback model: gpt-35-turbo
+2025-06-20 10:25:23.690 -04:00 [INF] Executing CheckHealth action.
+2025-06-20 10:25:23.691 -04:00 [INF] API health check requested by anonymous, authenticated: false
+2025-06-20 10:25:54.284 -04:00 [INF] Computer Vision Service initialized with endpoint: YOUR_COMPUTER_VISION_ENDPOINT, API version: 2023-10-01
+2025-06-20 10:25:54.286 -04:00 [INF] OpenAI Service initialized with chat model: gpt-3.5-turbo, image model: dall-e-3, fallback model: gpt-35-turbo
+2025-06-20 10:25:54.287 -04:00 [INF] Executing CheckHealth action.
+2025-06-20 10:25:54.287 -04:00 [INF] API health check requested by anonymous, authenticated: false
+2025-06-20 10:25:54.424 -04:00 [INF] Computer Vision Service initialized with endpoint: YOUR_COMPUTER_VISION_ENDPOINT, API version: 2023-10-01
+2025-06-20 10:25:54.426 -04:00 [INF] OpenAI Service initialized with chat model: gpt-3.5-turbo, image model: dall-e-3, fallback model: gpt-35-turbo
+2025-06-20 10:25:54.428 -04:00 [INF] Executing CheckAzureServices action.
+2025-06-20 10:25:54.429 -04:00 [INF] Azure services health check requested
+2025-06-20 10:25:54.480 -04:00 [INF] Computer Vision Service initialized with endpoint: YOUR_COMPUTER_VISION_ENDPOINT, API version: 2023-10-01
+2025-06-20 10:25:54.481 -04:00 [INF] OpenAI Service initialized with chat model: gpt-3.5-turbo, image model: dall-e-3, fallback model: gpt-35-turbo
+2025-06-20 10:25:54.490 -04:00 [INF] Checking individual service: Computer Vision
+2025-06-20 10:25:54.510 -04:00 [INF] Computer Vision Service initialized with endpoint: YOUR_COMPUTER_VISION_ENDPOINT, API version: 2023-10-01
+2025-06-20 10:25:54.511 -04:00 [INF] OpenAI Service initialized with chat model: gpt-3.5-turbo, image model: dall-e-3, fallback model: gpt-35-turbo
+2025-06-20 10:25:54.513 -04:00 [INF] Checking individual service: Azure OpenAI
+2025-06-20 10:40:33.584 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-06-20 13:04:19.434 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-06-20 13:04:21.432 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-06-20 13:04:21.556 -04:00 [ERR] Hosting failed to start
+System.IO.IOException: Failed to bind to address http://127.0.0.1:5000: address already in use.
+ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Only one usage of each socket address (protocol/network address/port) is normally permitted.
+ ---> System.Net.Sockets.SocketException (10048): Only one usage of each socket address (protocol/network address/port) is normally permitted.
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, Boolean disconnectOnFailure, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__14_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+2025-06-20 13:04:21.573 -04:00 [FTL] Application terminated unexpectedly
+System.IO.IOException: Failed to bind to address http://127.0.0.1:5000: address already in use.
+ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Only one usage of each socket address (protocol/network address/port) is normally permitted.
+ ---> System.Net.Sockets.SocketException (10048): Only one usage of each socket address (protocol/network address/port) is normally permitted.
+   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, Boolean disconnectOnFailure, String callerName)
+   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
+   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
+   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__14_1(IHostedService service, CancellationToken token)
+   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
+   at Microsoft.Extensions.Hosting.Internal.Host.StartAsync(CancellationToken cancellationToken)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
+   at Program.<Main>$(String[] args) in C:\Users\punko\Downloads\PoRedoImage\Server\Program.cs:line 124
+2025-06-20 14:04:44.857 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-06-20 14:07:49.598 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-06-20 14:07:49.601 -04:00 [INF] OpenAI Service initialized with chat model: gpt-4o-mini, image model: dall-e-3, fallback model: gpt-4o-mini
+2025-06-20 14:07:49.653 -04:00 [INF] Image analysis request received from user anonymous (unknown). File: OLD_MeAndBro2.jpg, Description Length: 350 words
+2025-06-20 14:07:49.657 -04:00 [INF] Successfully converted image data: 159610 bytes
+2025-06-20 14:07:49.657 -04:00 [INF] Step 1: Analyzing image with Computer Vision
+2025-06-20 14:07:49.659 -04:00 [INF] Starting image analysis with Azure Computer Vision
+2025-06-20 14:07:51.235 -04:00 [INF] Image analysis completed in 1574ms, confidence: 0.64953554
+2025-06-20 14:07:51.287 -04:00 [INF] Computer Vision analysis completed. Description: 36 characters, Tags: 9
+2025-06-20 14:07:51.289 -04:00 [INF] Step 2: Enhancing description with OpenAI
+2025-06-20 14:07:51.662 -04:00 [INF] Enhancing description with OpenAI. Target length: 350 words
+2025-06-20 14:08:00.297 -04:00 [INF] Description enhancement completed in 8632ms, tokens used: 516
+2025-06-20 14:08:00.328 -04:00 [INF] Description enhancement completed. Length: 1908 characters, Tokens: 516
+2025-06-20 14:08:00.330 -04:00 [INF] Step 3: Generating image with DALL-E
+2025-06-20 14:08:00.333 -04:00 [INF] Generating image with DALL-E based on description
+2025-06-20 14:08:12.781 -04:00 [INF] Image generation completed in 12446ms, estimated tokens: 477, model: dall-e-3
+2025-06-20 14:08:12.791 -04:00 [INF] Image generation completed. Size: 3163231 bytes, Tokens: 477
+2025-06-20 14:08:12.794 -04:00 [INF] Image analysis completed in 23137ms for user unknown
+2025-06-20 14:19:31.390 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-06-20 14:19:53.906 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-06-20 14:20:07.925 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-06-20 14:20:07.937 -04:00 [INF] OpenAI Service initialized with chat model: gpt-4o-mini, image model: dall-e-3, fallback model: gpt-4o-mini
+2025-06-20 14:20:08.106 -04:00 [INF] Image analysis request received from user anonymous (unknown). File: 2020_BaldMatt.jpg, Description Length: 350 words
+2025-06-20 14:20:08.127 -04:00 [INF] Successfully converted image data: 1737551 bytes
+2025-06-20 14:20:08.131 -04:00 [INF] Step 1: Analyzing image with Computer Vision
+2025-06-20 14:20:08.139 -04:00 [INF] Starting image analysis with Azure Computer Vision
+2025-06-20 14:20:10.054 -04:00 [INF] Image analysis completed in 1909ms, confidence: 0.91094327
+2025-06-20 14:20:10.085 -04:00 [INF] Computer Vision analysis completed. Description: 24 characters, Tags: 12
+2025-06-20 14:20:10.088 -04:00 [INF] Step 2: Enhancing description with OpenAI
+2025-06-20 14:20:10.106 -04:00 [INF] Enhancing description with OpenAI. Target length: 350 words
+2025-06-20 14:20:17.973 -04:00 [INF] Description enhancement completed in 7864ms, tokens used: 524
+2025-06-20 14:20:18.040 -04:00 [INF] Description enhancement completed. Length: 1990 characters, Tokens: 524
+2025-06-20 14:20:18.044 -04:00 [INF] Step 3: Generating image with DALL-E
+2025-06-20 14:20:18.049 -04:00 [INF] Generating image with DALL-E based on description
+2025-06-20 14:23:13.497 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-06-20 14:23:23.953 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-06-20 14:23:23.959 -04:00 [INF] OpenAI Service initialized with chat model: gpt-4o-mini, image model: dall-e-3, fallback model: gpt-4o-mini
+2025-06-20 14:23:24.047 -04:00 [INF] Image analysis request received from user anonymous (unknown). File: 2020_BaldMatt.jpg, Description Length: 350 words
+2025-06-20 14:23:24.076 -04:00 [INF] Successfully converted image data: 1737551 bytes
+2025-06-20 14:23:24.079 -04:00 [INF] Step 1: Analyzing image with Computer Vision
+2025-06-20 14:23:24.084 -04:00 [INF] Starting image analysis with Azure Computer Vision
+2025-06-20 14:23:25.451 -04:00 [INF] Image analysis completed in 1362ms, confidence: 0.91083246
+2025-06-20 14:23:25.503 -04:00 [INF] Computer Vision analysis completed. Description: 24 characters, Tags: 12
+2025-06-20 14:23:25.509 -04:00 [INF] Step 2: Enhancing description with OpenAI
+2025-06-20 14:23:25.880 -04:00 [INF] Enhancing description with OpenAI. Target length: 350 words
+2025-06-20 14:23:37.194 -04:00 [INF] Description enhancement completed in 11291ms, tokens used: 502
+2025-06-20 14:23:37.235 -04:00 [INF] Description enhancement completed. Length: 1816 characters, Tokens: 502
+2025-06-20 14:23:37.241 -04:00 [INF] Step 3: Generating image with DALL-E
+2025-06-20 14:23:37.244 -04:00 [INF] Generating image with DALL-E based on description
+2025-06-20 14:23:47.700 -04:00 [INF] Image generation completed in 10454ms, estimated tokens: 454, model: dall-e-3
+2025-06-20 14:23:47.732 -04:00 [INF] Image generation completed. Size: 3163230 bytes, Tokens: 454
+2025-06-20 14:23:47.736 -04:00 [INF] Image analysis completed in 23681ms for user unknown
+2025-06-20 14:43:13.442 -04:00 [WRN] Azure AD configuration not found or using placeholder values. Authentication disabled.
+2025-06-20 14:43:13.590 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-06-20 14:45:10.392 -04:00 [WRN] Failed to determine the https port for redirect.
+2025-06-20 14:45:10.458 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-06-20 14:45:10.460 -04:00 [INF] OpenAI Service initialized with chat model: gpt-4o-mini, image model: dall-e-3, fallback model: gpt-4o-mini
+2025-06-20 14:45:10.462 -04:00 [INF] Test endpoint called
+2025-06-20 14:45:30.447 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-06-20 14:45:30.449 -04:00 [INF] OpenAI Service initialized with chat model: gpt-4o-mini, image model: dall-e-3, fallback model: gpt-4o-mini
+2025-06-20 14:45:30.450 -04:00 [INF] Debug endpoint called
+2025-06-20 14:54:29.032 -04:00 [WRN] Azure AD configuration not found or using placeholder values. Authentication disabled.
+2025-06-20 14:54:29.149 -04:00 [INF] Starting application - Server hosting Blazor WebAssembly Client
+2025-06-20 14:55:12.693 -04:00 [WRN] Failed to determine the https port for redirect.
+2025-06-20 14:55:16.589 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-06-20 14:55:16.591 -04:00 [INF] OpenAI Service initialized with chat model: gpt-4o-mini, image model: dall-e-3, fallback model: gpt-4o-mini
+2025-06-20 14:55:16.592 -04:00 [INF] Executing CheckHealth action.
+2025-06-20 14:55:16.592 -04:00 [INF] API health check requested by anonymous, authenticated: false
+2025-06-20 14:55:16.750 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-06-20 14:55:16.751 -04:00 [INF] OpenAI Service initialized with chat model: gpt-4o-mini, image model: dall-e-3, fallback model: gpt-4o-mini
+2025-06-20 14:55:16.753 -04:00 [INF] Executing CheckAzureServices action.
+2025-06-20 14:55:16.754 -04:00 [INF] Azure services health check requested
+2025-06-20 14:55:16.834 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-06-20 14:55:16.836 -04:00 [INF] OpenAI Service initialized with chat model: gpt-4o-mini, image model: dall-e-3, fallback model: gpt-4o-mini
+2025-06-20 14:55:16.847 -04:00 [INF] Checking individual service: Computer Vision
+2025-06-20 14:55:16.883 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-06-20 14:55:16.884 -04:00 [INF] OpenAI Service initialized with chat model: gpt-4o-mini, image model: dall-e-3, fallback model: gpt-4o-mini
+2025-06-20 14:55:16.886 -04:00 [INF] Checking individual service: Azure OpenAI
+2025-06-20 14:55:20.730 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-06-20 14:55:20.731 -04:00 [INF] OpenAI Service initialized with chat model: gpt-4o-mini, image model: dall-e-3, fallback model: gpt-4o-mini
+2025-06-20 14:55:20.731 -04:00 [INF] Executing CheckHealth action.
+2025-06-20 14:55:20.732 -04:00 [INF] API health check requested by anonymous, authenticated: false
+2025-06-20 14:55:20.750 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-06-20 14:55:20.751 -04:00 [INF] OpenAI Service initialized with chat model: gpt-4o-mini, image model: dall-e-3, fallback model: gpt-4o-mini
+2025-06-20 14:55:20.751 -04:00 [INF] Executing CheckAzureServices action.
+2025-06-20 14:55:20.751 -04:00 [INF] Azure services health check requested
+2025-06-20 14:55:20.760 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-06-20 14:55:20.760 -04:00 [INF] OpenAI Service initialized with chat model: gpt-4o-mini, image model: dall-e-3, fallback model: gpt-4o-mini
+2025-06-20 14:55:20.762 -04:00 [INF] Checking individual service: Computer Vision
+2025-06-20 14:55:20.768 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-06-20 14:55:20.769 -04:00 [INF] OpenAI Service initialized with chat model: gpt-4o-mini, image model: dall-e-3, fallback model: gpt-4o-mini
+2025-06-20 14:55:20.770 -04:00 [INF] Checking individual service: Azure OpenAI
+2025-06-20 14:55:36.706 -04:00 [INF] Computer Vision Service initialized with endpoint: https://eastus.api.cognitive.microsoft.com/, API version: 2023-10-01
+2025-06-20 14:55:36.711 -04:00 [INF] OpenAI Service initialized with chat model: gpt-4o-mini, image model: dall-e-3, fallback model: gpt-4o-mini
+2025-06-20 14:55:36.756 -04:00 [INF] Image analysis request received from user anonymous (anonymous). File: OLD_BattleOfBandsPaper.jpg, Description Length: 350 words
+2025-06-20 14:55:36.760 -04:00 [INF] Successfully converted image data: 222057 bytes
+2025-06-20 14:55:36.764 -04:00 [INF] Step 1: Analyzing image with Computer Vision
+2025-06-20 14:55:36.767 -04:00 [INF] Starting image analysis with Azure Computer Vision
+2025-06-20 14:55:37.422 -04:00 [INF] Image analysis completed in 654ms, confidence: 0.73823416
+2025-06-20 14:55:37.432 -04:00 [INF] Computer Vision analysis completed. Description: 55 characters, Tags: 4
+2025-06-20 14:55:37.432 -04:00 [INF] Step 2: Enhancing description with OpenAI
+2025-06-20 14:55:37.439 -04:00 [INF] Enhancing description with OpenAI. Target length: 350 words
+2025-06-20 14:55:42.034 -04:00 [INF] Description enhancement completed in 4594ms, tokens used: 533
+2025-06-20 14:55:42.046 -04:00 [INF] Description enhancement completed. Length: 2005 characters, Tokens: 533
+2025-06-20 14:55:42.047 -04:00 [INF] Step 3: Generating image with DALL-E
+2025-06-20 14:55:42.055 -04:00 [INF] Generating image with DALL-E based on description
+2025-06-20 14:55:53.532 -04:00 [INF] Image generation completed in 11475ms, estimated tokens: 501, model: dall-e-3
+2025-06-20 14:55:53.543 -04:00 [INF] Image generation completed. Size: 3163231 bytes, Tokens: 501
+2025-06-20 14:55:53.545 -04:00 [INF] Image analysis completed in 16786ms for user anonymous
